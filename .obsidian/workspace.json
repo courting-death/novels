@@ -35,12 +35,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 to review/ch0223test.md",
+                "file": "chapters/ch0223.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0223test"
+              "title": "ch0223"
             }
           }
         ]
@@ -204,7 +204,7 @@
   },
   "active": "5758a8dc69f43772",
   "lastOpenFiles": [
-    "1 to review/ch0223test.md",
+    "chapters/ch0223.md",
     "chapters/ch0223.md",
     "1 to review/translated_test_chatper_215_with_hanzi.md",
     "1 to review/annotated_ch0215 1.md",
