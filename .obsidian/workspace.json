@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 to review/annotated_ch0215 1.md",
+                "file": "1 to review/ch0215test4.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "annotated_ch0215 1"
+              "title": "ch0215test4"
             }
           }
         ]
@@ -114,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "1 to review/annotated_ch0215 1.md",
+                "file": "1 to review/ch0215test4.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -124,7 +124,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for annotated_ch0215 1"
+              "title": "Backlinks for ch0215test4"
             }
           },
           {
@@ -162,13 +162,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "1 to review/annotated_ch0215 1.md",
+                "file": "1 to review/ch0215test4.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of annotated_ch0215 1"
+              "title": "Outline of ch0215test4"
             }
           },
           {
@@ -202,8 +202,9 @@
   },
   "active": "5758a8dc69f43772",
   "lastOpenFiles": [
-    "1 to review/annotated_ch0215.md",
     "1 to review/annotated_ch0215 1.md",
+    "1 to review/ch0215test4.md",
+    "1 to review/annotated_ch0215.md",
     "1 to review/ch0215test3.md",
     "chapters/ch0215.md",
     "1 to review/ch0215hanzitest2.md",
@@ -227,7 +228,6 @@
     "chapters/ch0086.md",
     "chapters/ch0083.md",
     "chapters/ch0082.md",
-    "chapters/ch0084.md",
     "Pasted image 20250801142118.png",
     "Martial Peak Full.epub",
     "1 to review",
