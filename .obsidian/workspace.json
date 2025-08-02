@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "204e4ac36daf4796",
+        "id": "7ac6cd7cc48f3457",
         "type": "tabs",
         "children": [
           {
-            "id": "00a7f74d27802f85",
+            "id": "6a0aaecd30d2f913",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -166,7 +166,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,7 +179,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "00a7f74d27802f85",
+  "active": "6a0aaecd30d2f913",
   "lastOpenFiles": [
     "chapters/ch0212.md",
     "chapters/ch0120.md",
