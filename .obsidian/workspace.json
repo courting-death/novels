@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0226.md",
+                "file": "chapters/ch0240.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0226"
+              "title": "ch0240"
             }
           }
         ]
@@ -54,7 +54,7 @@
               "type": "search",
               "state": {
                 "query": "",
-                "matchingCase": false,
+                "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": false,
                 "extraContext": false,
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "chapters/ch0226.md",
+                "file": "chapters/ch0240.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ch0226"
+              "title": "Backlinks for ch0240"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "chapters/ch0226.md",
+                "file": "chapters/ch0240.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0226"
+              "title": "Outline of ch0240"
             }
           },
           {
@@ -166,8 +166,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 242.5,
-    "collapsed": true
+    "width": 242.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -182,32 +181,32 @@
   },
   "active": "5758a8dc69f43772",
   "lastOpenFiles": [
-    "chapters/ch0227.md",
+    "chapters/ch0241.md",
+    "chapters/ch0239.md",
+    "chapters/ch0240.md",
+    "chapters/ch0238.md",
+    "chapters/ch0237.md",
+    "chapters/ch0233.md",
+    "chapters/ch0234.md",
+    "chapters/ch0235.md",
+    "chapters/ch0236.md",
+    "chapters/ch0232.md",
+    "chapters/ch0231.md",
+    "chapters/ch0230.md",
+    "chapters/ch0229.md",
+    "chapters/ch0194.md",
+    "chapters/ch0228.md",
     "chapters/ch0225.md",
+    "chapters/ch0196.md",
+    "chapters/ch0221.md",
+    "chapters/ch0220.md",
+    "chapters/ch0217.md",
+    "chapters/ch0090.md",
+    "chapters/ch0227.md",
     "chapters/ch0226.md",
     "chapters/ch0224.md",
     "chapters/ch0223.md",
     "1 to review/translated_test_chatper_215_with_hanzi.md",
-    "1 to review/annotated_ch0215 1.md",
-    "1 to review/ch0215test4.md",
-    "1 to review/annotated_ch0215.md",
-    "1 to review/ch0215test3.md",
-    "chapters/ch0215.md",
-    "1 to review/ch0215hanzitest2.md",
-    "chapters/ch0216.md",
-    "chapters/ch0217.md",
-    "chapters/ch0218.md",
-    "chapters/ch0219.md",
-    "chapters/ch0220.md",
-    "chapters/ch0221.md",
-    "chapters/ch0222.md",
-    "chapters/ch0167.md",
-    "chapters/ch0214.md",
-    "chapters/ch0213.md",
-    "chapters/ch0212.md",
-    "chapters/ch0120.md",
-    "chapters/ch0119.md",
-    "chapters/ch0080.md",
     "Pasted image 20250801142118.png",
     "Martial Peak Full.epub",
     "1 to review",
