@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 to review/ch0225.md",
+                "file": "chapters/ch0226.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0225"
+              "title": "ch0226"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "1 to review/ch0225.md",
+                "file": "chapters/ch0226.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ch0225"
+              "title": "Backlinks for ch0226"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "1 to review/ch0225.md",
+                "file": "chapters/ch0226.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0225"
+              "title": "Outline of ch0226"
             }
           },
           {
@@ -182,8 +182,9 @@
   },
   "active": "5758a8dc69f43772",
   "lastOpenFiles": [
+    "chapters/ch0225.md",
+    "chapters/ch0226.md",
     "chapters/ch0224.md",
-    "1 to review/ch0225.md",
     "chapters/ch0223.md",
     "1 to review/translated_test_chatper_215_with_hanzi.md",
     "1 to review/annotated_ch0215 1.md",

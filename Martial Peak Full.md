@@ -223,7 +223,7 @@
 ![[ch0222]]
 ![[xold/chapters_all/ch0223]]
 ![[chapters/ch0224]]
-![[ch0225]]
+![[chapters/ch0225]]
 ![[ch0226]]
 ![[ch0227]]
 ![[ch0228]]
