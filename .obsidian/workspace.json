@@ -13,6 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "1 to review/translated_test_chatper_215_with_hanzi.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "translated_test_chatper_215_with_hanzi"
+            }
+          }
+        ]
+      },
+      {
+        "id": "8c3cf6f99b450ec3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b3b16a11f78798af",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "chapters/ch0215.md",
                 "mode": "source",
                 "source": false
@@ -94,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "chapters/ch0215.md",
+                "file": "1 to review/translated_test_chatper_215_with_hanzi.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +124,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ch0215"
+              "title": "Backlinks for translated_test_chatper_215_with_hanzi"
             }
           },
           {
@@ -142,13 +162,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "chapters/ch0215.md",
+                "file": "1 to review/translated_test_chatper_215_with_hanzi.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0215"
+              "title": "Outline of translated_test_chatper_215_with_hanzi"
             }
           },
           {
@@ -166,7 +186,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 237.5
+    "width": 237.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -181,6 +202,8 @@
   },
   "active": "5758a8dc69f43772",
   "lastOpenFiles": [
+    "chapters/ch0215.md",
+    "1 to review/translated_test_chatper_215_with_hanzi.md",
     "chapters/ch0216.md",
     "chapters/ch0217.md",
     "chapters/ch0218.md",
@@ -190,7 +213,6 @@
     "chapters/ch0222.md",
     "chapters/ch0223.md",
     "1 to review/ch0224.md",
-    "chapters/ch0215.md",
     "chapters/ch0167.md",
     "chapters/ch0214.md",
     "chapters/ch0213.md",
@@ -206,7 +228,6 @@
     "chapters/ch0043.md",
     "chapters/ch0211.md",
     "chapters/ch0210.md",
-    "chapters/ch0165.md",
     "Pasted image 20250801142118.png",
     "Martial Peak Full.epub",
     "1 to review",
