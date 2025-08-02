@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0215.md",
+                "file": "chapters/ch0216.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0215"
+              "title": "ch0216"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "chapters/ch0215.md",
+                "file": "chapters/ch0216.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ch0215"
+              "title": "Backlinks for ch0216"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "chapters/ch0215.md",
+                "file": "chapters/ch0216.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0215"
+              "title": "Outline of ch0216"
             }
           },
           {
@@ -181,8 +181,9 @@
   },
   "active": "5758a8dc69f43772",
   "lastOpenFiles": [
-    "chapters/ch0216.md",
+    "chapters/ch0217.md",
     "chapters/ch0215.md",
+    "chapters/ch0216.md",
     "chapters/ch0167.md",
     "chapters/ch0214.md",
     "chapters/ch0213.md",
@@ -206,7 +207,6 @@
     "chapters/ch0206.md",
     "chapters/ch0205.md",
     "chapters/ch0204.md",
-    "chapters/ch0203.md",
     "Pasted image 20250801142118.png",
     "Martial Peak Full.epub",
     "1 to review",
