@@ -166,7 +166,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 237.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,8 +179,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "5758a8dc69f43772",
+  "active": "4c95ab39db7270e0",
   "lastOpenFiles": [
+    "chapters/ch0221.md",
     "chapters/ch0219.md",
     "chapters/ch0215.md",
     "chapters/ch0220.md",
@@ -206,7 +207,6 @@
     "chapters/ch0198.md",
     "chapters/ch0209.md",
     "chapters/ch0208.md",
-    "chapters/ch0207.md",
     "Pasted image 20250801142118.png",
     "Martial Peak Full.epub",
     "1 to review",
