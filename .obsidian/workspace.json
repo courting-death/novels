@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0212.md",
+                "file": "chapters/ch0213.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0212"
+              "title": "ch0213"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "chapters/ch0212.md",
+                "file": "chapters/ch0213.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ch0212"
+              "title": "Backlinks for ch0213"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "chapters/ch0212.md",
+                "file": "chapters/ch0213.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0212"
+              "title": "Outline of ch0213"
             }
           },
           {
@@ -179,7 +179,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "4c95ab39db7270e0",
+  "active": "5758a8dc69f43772",
   "lastOpenFiles": [
     "chapters/ch0212.md",
     "chapters/ch0120.md",
