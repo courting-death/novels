@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "006f46533e3e8be6",
+        "id": "204e4ac36daf4796",
         "type": "tabs",
         "children": [
           {
-            "id": "d87597d7044d0b59",
+            "id": "00a7f74d27802f85",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 286.5004348754883
+    "width": 200
   },
   "right": {
     "id": "cfb034a052cc7f9d",
@@ -150,13 +150,23 @@
               "icon": "lucide-list",
               "title": "Outline of ch0001_the_sweeper_boy"
             }
+          },
+          {
+            "id": "4c95ab39db7270e0",
+            "type": "leaf",
+            "state": {
+              "type": "git-history-view",
+              "state": {},
+              "icon": "history",
+              "title": "History"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -169,8 +179,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "d87597d7044d0b59",
+  "active": "00a7f74d27802f85",
   "lastOpenFiles": [
+    "chapters/ch0212.md",
     "chapters/ch0120.md",
     "chapters/ch0119.md",
     "chapters/ch0080.md",
@@ -180,7 +191,6 @@
     "chapters/ch0084.md",
     "chapters/ch0085.md",
     "chapters/ch0043.md",
-    "chapters/ch0212.md",
     "chapters/ch0213.md",
     "chapters/ch0211.md",
     "chapters/ch0210.md",
