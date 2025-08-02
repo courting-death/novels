@@ -4,22 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "7ac6cd7cc48f3457",
+        "id": "d2f6b6a6b29868e9",
         "type": "tabs",
         "children": [
           {
-            "id": "6a0aaecd30d2f913",
+            "id": "5758a8dc69f43772",
             "type": "leaf",
             "state": {
-              "type": "split-diff-view",
+              "type": "markdown",
               "state": {
-                "aFile": "chapters/ch0212.md",
-                "bFile": "chapters/ch0212.md",
-                "aRef": "59c30cabdcb92f892546122fa90db5cad9fbd49f^",
-                "bRef": "59c30cabdcb92f892546122fa90db5cad9fbd49f"
+                "file": "chapters/ch0212.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "diff",
-              "title": "Diff: ch0212"
+              "icon": "lucide-file",
+              "title": "ch0212"
             }
           }
         ]
@@ -95,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "chapters/ch0212.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for ch0212"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "chapters/ch0001_the_sweeper_boy.md",
+                "file": "chapters/ch0212.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0001_the_sweeper_boy"
+              "title": "Outline of ch0212"
             }
           },
           {
@@ -179,7 +179,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "6a0aaecd30d2f913",
+  "active": "4c95ab39db7270e0",
   "lastOpenFiles": [
     "chapters/ch0212.md",
     "chapters/ch0120.md",
