@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 to review/ch0215hanzitest2.md",
+                "file": "1 to review/ch0215test3.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0215hanzitest2"
+              "title": "ch0215test3"
             }
           }
         ]
@@ -114,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "1 to review/ch0215hanzitest2.md",
+                "file": "1 to review/ch0215test3.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -124,7 +124,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ch0215hanzitest2"
+              "title": "Backlinks for ch0215test3"
             }
           },
           {
@@ -162,13 +162,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "1 to review/ch0215hanzitest2.md",
+                "file": "1 to review/ch0215test3.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0215hanzitest2"
+              "title": "Outline of ch0215test3"
             }
           },
           {
@@ -203,6 +203,7 @@
   "active": "5758a8dc69f43772",
   "lastOpenFiles": [
     "chapters/ch0215.md",
+    "1 to review/ch0215test3.md",
     "1 to review/ch0215hanzitest2.md",
     "1 to review/translated_test_chatper_215_with_hanzi.md",
     "chapters/ch0216.md",
@@ -227,7 +228,6 @@
     "chapters/ch0084.md",
     "chapters/ch0085.md",
     "chapters/ch0043.md",
-    "chapters/ch0211.md",
     "Pasted image 20250801142118.png",
     "Martial Peak Full.epub",
     "1 to review",
