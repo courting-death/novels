@@ -4,21 +4,41 @@
     "type": "split",
     "children": [
       {
-        "id": "d2f6b6a6b29868e9",
+        "id": "9fd2d28a7aed240a",
         "type": "tabs",
         "children": [
           {
-            "id": "5758a8dc69f43772",
+            "id": "92bd5802fb5b04bd",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0246.md",
+                "file": "1 to review/ch0247 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0246"
+              "title": "ch0247 1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "5134d4be1fa4836b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3a76f01d3235278e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "1 to review/ch0247 1.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ch0247 1"
             }
           }
         ]
@@ -94,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "chapters/ch0246.md",
+                "file": "1 to review/ch0247 1.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +124,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ch0246"
+              "title": "Backlinks for ch0247 1"
             }
           },
           {
@@ -142,13 +162,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "chapters/ch0246.md",
+                "file": "1 to review/ch0247 1.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0246"
+              "title": "Outline of ch0247 1"
             }
           },
           {
@@ -166,7 +186,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 242.5
+    "width": 251.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,9 +200,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "58bc45b7fb1343f0",
+  "active": "3a76f01d3235278e",
   "lastOpenFiles": [
-    "chapters/ch0246.md",
+    "1 to review/ch0247 04mini.md",
+    "1 to review/ch0247 1.md",
+    "1 to review/ch0247.md",
+    "chapters/ch0248.md",
     "chapters/ch0246.md",
     "chapters/ch0245.md",
     "chapters/ch0244.md",
@@ -204,8 +228,6 @@
     "chapters/ch0232.md",
     "chapters/ch0231.md",
     "chapters/ch0230.md",
-    "chapters/ch0229.md",
-    "chapters/ch0194.md",
     "Pasted image 20250801142118.png",
     "Martial Peak Full.epub",
     "1 to review",
