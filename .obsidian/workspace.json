@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0240.md",
+                "file": "chapters/ch0245.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0240"
+              "title": "ch0245"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "\"The Sweeper Boy\"",
                 "matchingCase": true,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 212.50043487548828
+    "width": 222.50043487548828
   },
   "right": {
     "id": "cfb034a052cc7f9d",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "chapters/ch0240.md",
+                "file": "chapters/ch0245.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ch0240"
+              "title": "Backlinks for ch0245"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "chapters/ch0240.md",
+                "file": "chapters/ch0245.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0240"
+              "title": "Outline of ch0245"
             }
           },
           {
@@ -179,11 +179,21 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "5758a8dc69f43772",
+  "active": "58bc45b7fb1343f0",
   "lastOpenFiles": [
+    "1 to review/ch0246.md",
+    "chapters/ch0244.md",
+    "chapters/ch0243.md",
+    "chapters/ch0245.md",
+    "chapters/ch0242.md",
     "chapters/ch0241.md",
-    "chapters/ch0239.md",
+    "chapters/ch0012.md",
+    "chapters/ch0010.md",
+    "chapters/ch0007.md",
+    "chapters/ch0001.md",
+    "chapters/ch0208.md",
     "chapters/ch0240.md",
+    "chapters/ch0239.md",
     "chapters/ch0238.md",
     "chapters/ch0237.md",
     "chapters/ch0233.md",
@@ -197,16 +207,6 @@
     "chapters/ch0194.md",
     "chapters/ch0228.md",
     "chapters/ch0225.md",
-    "chapters/ch0196.md",
-    "chapters/ch0221.md",
-    "chapters/ch0220.md",
-    "chapters/ch0217.md",
-    "chapters/ch0090.md",
-    "chapters/ch0227.md",
-    "chapters/ch0226.md",
-    "chapters/ch0224.md",
-    "chapters/ch0223.md",
-    "1 to review/translated_test_chatper_215_with_hanzi.md",
     "Pasted image 20250801142118.png",
     "Martial Peak Full.epub",
     "1 to review",
