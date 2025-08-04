@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0258.md",
+                "file": "chapters/ch0265.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0258"
+              "title": "ch0265"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "chapters/ch0258.md",
+                "file": "chapters/ch0265.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for ch0258"
+              "title": "Backlinks for ch0265"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "chapters/ch0258.md",
+                "file": "chapters/ch0265.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of ch0258"
+              "title": "Outline of ch0265"
             }
           },
           {
@@ -182,9 +182,16 @@
   },
   "active": "f3926d91f0742859",
   "lastOpenFiles": [
-    "Untitled.md",
-    "chapters/ch0258.md",
+    "chapters/ch0266.md",
+    "chapters/ch0264.md",
+    "chapters/ch0263.md",
+    "chapters/ch0265.md",
+    "chapters/ch0262.md",
+    "chapters/ch0261.md",
+    "chapters/ch0260.md",
     "chapters/ch0259.md",
+    "chapters/ch0258.md",
+    "Untitled.md",
     "chapters/ch0257.md",
     "chapters/ch0256.md",
     "chapters/ch0255.md",
@@ -201,13 +208,6 @@
     "1 to review/ch0247 04mini.md",
     "chapters/ch0246.md",
     "chapters/ch0245.md",
-    "chapters/ch0244.md",
-    "chapters/ch0243.md",
-    "chapters/ch0242.md",
-    "chapters/ch0241.md",
-    "chapters/ch0012.md",
-    "chapters/ch0010.md",
-    "chapters/ch0007.md",
     "Pasted image 20250801142118.png",
     "Martial Peak Full.epub",
     "1 to review",
