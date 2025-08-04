@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0275.md",
+                "file": "chapters/ch0276.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0275"
+              "title": "ch0276"
             }
           }
         ]
@@ -182,10 +182,10 @@
   },
   "active": "f3926d91f0742859",
   "lastOpenFiles": [
+    "chapters/ch0275.md",
     "chapters/ch0277.md",
     "chapters/ch0274.md",
     "chapters/ch0276.md",
-    "chapters/ch0275.md",
     "chapters/ch0273.md",
     "chapters/ch0270.md",
     "chapters/ch0271.md",
