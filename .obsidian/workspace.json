@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 to review/ch0298.md",
+                "file": "chapters/ch0298.md",
                 "mode": "source",
                 "source": false
               },
@@ -180,10 +180,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f3926d91f0742859",
+  "active": "58bc45b7fb1343f0",
   "lastOpenFiles": [
     "chapters/ch0297.md",
-    "1 to review/ch0298.md",
+    "chapters/ch0298.md",
     "1 to review/ch0299.md",
     "chapters/ch0296.md",
     "chapters/ch0295.md",
