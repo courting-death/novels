@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0298.md",
+                "file": "1 to review/ch0299.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0298"
+              "title": "ch0299"
             }
           }
         ]
@@ -180,11 +180,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "58bc45b7fb1343f0",
+  "active": "f3926d91f0742859",
   "lastOpenFiles": [
-    "chapters/ch0297.md",
+    "chapters/ch0300.md",
     "chapters/ch0298.md",
     "1 to review/ch0299.md",
+    "chapters/ch0297.md",
     "chapters/ch0296.md",
     "chapters/ch0295.md",
     "chapters/ch0294.md",
@@ -208,7 +209,6 @@
     "chapters/ch0278.md",
     "chapters/ch0277.md",
     "chapters/ch0275.md",
-    "chapters/ch0276.md",
     "Pasted image 20250801142118.png",
     "1 to review",
     "xold",
