@@ -4,7 +4,7 @@ Bilo had once considered the Fenghuan Tower, but despite her persistent efforts 
 
 However, now an unknown man was actually going to stay in the Fenghuan Tower, instantly shocking Bilo's heart.
 
-Who is this kid? How could he attract such attention from the adult?
+Who is this kid? How could he attract such attention from the lady?
 
 In her surprise, her beautiful eyes continuously scrutinized Yang Kai, filled with jealousy and discontent.
 
@@ -36,9 +36,9 @@ Before long, they arrived at the Fenghuan Tower.
 
 It was an elegant building with three stories, neither too large nor too small. It had a unique charm, with many flowers and plants planted in front, blooming beautifully in the season. The fragrance was overwhelming.
 
-"Hey..." Bilo called out to Yang Kai while leading the way, "Be careful where you step, don’t trample on these flowers and plants. These were all personally planted by the adult. If you damage them, I won’t let you off!"
+"Hey..." Bilo called out to Yang Kai while leading the way, "Be careful where you step, don’t trample on these flowers and plants. These were all personally planted by the lady herself. If you damage them, I won’t let you off!"
 
-"Okay!" Yang Kai replied indifferently, knowing that this little girl had some grievances against him, but he didn’t bother to argue with her.
+"Mm." Yang Kai replied indifferently, knowing that this little girl had some grievances against him, but he didn’t bother to argue with her.
 
 What kind of person is this? Bilo secretly resented, thinking this kid didn’t seem like anyone important, and his attire and demeanor didn’t suggest a noble background. Why was the adult so concerned about him?
 
@@ -52,7 +52,7 @@ They ascended to the second floor. Bilo opened the door and rushed in first, her
 
 As she inhaled, a blissful expression appeared on her face.
 
-This was the bed where the adult had slept, the fragrant pillow the adult had used. It still carried the adult's scent...
+This was the bed where the lady had slept, the fragrant pillow the lady had used. It still carried the adult's scent...
 
 Bilo felt her spirit soaring, her cheeks turning rosy.
 
@@ -66,7 +66,7 @@ Bilo instantly snapped awake, scrambling up from the fragrant bed, her eyes wide
 
 Yang Kai nodded as if it were a matter of course. This was a woman's boudoir, and it felt inappropriate for him to stay there. Giving it a "not bad" evaluation was already quite generous.
 
-"Ha ha... it really is not bad!" Bilo bit her teeth, huffing angrily, "This is the place where the adult lived when she was a girl. I begged for a long time, and the adult wouldn’t let me move in. You, a nobody, can come in, and you’re not even satisfied, just saying it’s 'not bad'?"
+"Ha ha... it really is not bad!" Bilo bit her teeth, huffing angrily, "This is the place where the lady lived when she was a girl. I begged for a long time, and she wouldn’t let me move in. You, a nobody, can come in, and you’re not even satisfied, just saying it’s 'not bad'?"
 
 "Uh..." Yang Kai looked at her in astonishment, finally understanding why she harbored such hostility toward him.
 
@@ -76,7 +76,7 @@ Scratching his nose, he awkwardly said, "Bilo, do you have some misunderstanding
 
 "Why are you taking the pillow with you?" Yang Kai was speechless.
 
-"This is the adult's!" Bilo turned around angrily, then stormed back, grabbing the bedding as well, "This is also the adult's!"
+"This is the lady's!" Bilo turned around angrily, then stormed back, grabbing the bedding as well, "This is also the lady's!"
 
 She shot Yang Kai a fierce glare before strutting away.
 
@@ -114,7 +114,7 @@ While he was struggling, Yang Kai suddenly sensed a wisp of Divine Sense driftin
 
 "Sleeping!" Yang Kai rolled his eyes, cursing inwardly, realizing that the energy the enchantress had implanted in him was problematic. He hadn’t expected it to alert her.
 
-Shan Qingluo chuckled, "Don’t bother trying. That’s a Soul Pursuit Seal; unless I personally dissolve it, even a peak expert in the Divine Roaming Realm cannot remove it. With this seal, no matter how far you escape, they can always find you!"
+Shan Qingluo chuckled, "Don’t bother trying. That’s a Soul Pursuit Seal; unless I personally dissolve it, even a peak expert in the Divine Roaming Realm cannot remove it. With this seal, no matter how far you escape, I can always find you!"
 
 "Is it really necessary?" Yang Kai said with a bitter expression.
 
@@ -144,7 +144,7 @@ She smiled sweetly at Yang Kai, gently parting her lips to speak, "Did you rest 
 
 "Not bad!" Yang Kai nodded slightly.
 
-The beauty stepped forward, approaching the bedside and performing a graceful bow, her breath fragrant as she said, "Just so you know, I am here to serve you on behalf of the adult. You can call me Yunli."
+The beauty stepped forward, approaching the bedside and performing a graceful bow, her breath fragrant as she said, "Just so you know, I am here to serve you on behalf of the lady. You can call me Yunli."
 
 "And these two girls," the beauty introduced, waving her hand, and two young maidens with different temperaments stepped forward.
 
@@ -162,11 +162,11 @@ Not to mention the two maidens, Ruoyu and Ruoqing; even this beauty, Yunli, was 
 
 Was this meant to trap him in a world of softness? Yang Kai's heart raced.
 
-Yunli smiled, "The adult said that during your stay in Piaoxiang City, all your daily needs and various matters will be taken care of by us."
+Yunli smiled, "The lady said that during your stay in Piaoxiang City, all your daily needs and various matters will be taken care of by us."
 
 "Thank you for your trouble," Yang Kai replied coolly.
 
-"It’s our duty; you are the adult's esteemed guest," Yunli said with a smile, her face suddenly blushing slightly as she softly added, "The adult also said that any requests you have, we must fulfill!"
+"It’s our duty; you are the lady's esteemed guest," Yunli said with a smile, her face suddenly blushing slightly as she softly added, "The lady also said that any requests you have, we must fulfill!"
 
 "Any requests?" Yang Kai's heart stirred, sensing the implications behind her words.
 
