@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0325.md",
+                "file": "chapters/ch0326.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0325"
+              "title": "ch0326"
             }
           }
         ]
@@ -182,10 +182,10 @@
   },
   "active": "38808910c7e4fe69",
   "lastOpenFiles": [
+    "chapters/ch0325.md",
     "chapters/ch0327.md",
     "chapters/ch0326.md",
     "chapters/ch0324.md",
-    "chapters/ch0325.md",
     "chapters/ch0323.md",
     "chapters/ch0322.md",
     "chapters/ch0321.md",
