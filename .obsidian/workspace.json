@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 to review/ch0323.md",
+                "file": "chapters/ch0323.md",
                 "mode": "source",
                 "source": false
               },
@@ -180,10 +180,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "38808910c7e4fe69",
+  "active": "58bc45b7fb1343f0",
   "lastOpenFiles": [
+    "chapters/ch0324.md",
     "chapters/ch0322.md",
-    "1 to review/ch0323.md",
+    "chapters/ch0323.md",
     "chapters/ch0321.md",
     "chapters/ch0297.md",
     "chapters/ch0298.md",
@@ -207,7 +208,6 @@
     "chapters/ch0318.md",
     "chapters/ch0319.md",
     "chapters/ch0320.md",
-    "chapters/ch0314.md",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
     "1 to review",
