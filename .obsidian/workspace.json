@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0360.md",
+                "file": "chapters/ch0361.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0360"
+              "title": "ch0361"
             }
           }
         ]
@@ -182,9 +182,11 @@
   },
   "active": "38808910c7e4fe69",
   "lastOpenFiles": [
+    "chapters/ch0363.md",
+    "chapters/ch0360.md",
+    "chapters/ch0362.md",
     "chapters/ch0361.md",
     "chapters/ch0359.md",
-    "chapters/ch0360.md",
     "chapters/ch0358.md",
     "chapters/ch0357.md",
     "chapters/ch0349.md",
@@ -206,8 +208,6 @@
     "chapters/ch0340.md",
     "chapters/ch0339.md",
     "chapters/ch0338.md",
-    "chapters/ch0337.md",
-    "chapters/ch0336.md",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
     "1 to review",
