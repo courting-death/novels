@@ -4,26 +4,6 @@
     "type": "split",
     "children": [
       {
-        "id": "be753dc622e30e9d",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "83a48bc92445d08c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "1 to review/ch0408.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "ch0408"
-            }
-          }
-        ]
-      },
-      {
         "id": "a29788050e240bd5",
         "type": "tabs",
         "children": [
@@ -33,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0408.4.1.md",
+                "file": "chapters/ch0411.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0408.4.1"
+              "title": "ch0411"
             }
           }
         ]
@@ -202,9 +182,13 @@
   },
   "active": "38808910c7e4fe69",
   "lastOpenFiles": [
-    "1 to review/ch0408.md",
-    "chapters/ch0408.4.1.md",
+    "chapters/ch0410.md",
+    "chapters/ch0411.md",
+    "chapters/ch0412.md",
+    "chapters/ch0409.md",
+    "chapters/ch0408.md",
     "chapters/ch0407.md",
+    "1 to review/ch0408.md",
     "chapters/ch0406.md",
     "chapters/ch0396.md",
     "chapters/ch0401.md",
@@ -224,10 +208,6 @@
     "chapters/ch0206.md",
     "chapters/ch0211.md",
     "chapters/ch0212.md",
-    "chapters/ch0214.md",
-    "chapters/ch0287.md",
-    "chapters/ch0291.md",
-    "chapters/ch0364.md",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
     "1 to review",
