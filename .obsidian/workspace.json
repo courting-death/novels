@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0361.md",
+                "file": "chapters/ch0369.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0361"
+              "title": "ch0369"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "\"enter demonic state",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -180,12 +180,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "38808910c7e4fe69",
+  "active": "58bc45b7fb1343f0",
   "lastOpenFiles": [
+    "chapters/ch0371.md",
+    "chapters/ch0368.md",
+    "chapters/ch0370.md",
+    "chapters/ch0367.md",
+    "chapters/ch0369.md",
+    "chapters/ch0366.md",
+    "chapters/ch0365.md",
+    "chapters/ch0364.md",
     "chapters/ch0363.md",
-    "chapters/ch0360.md",
     "chapters/ch0362.md",
     "chapters/ch0361.md",
+    "chapters/ch0360.md",
     "chapters/ch0359.md",
     "chapters/ch0358.md",
     "chapters/ch0357.md",
@@ -200,14 +208,6 @@
     "chapters/ch0348.md",
     "chapters/ch0347.md",
     "chapters/ch0346.md",
-    "chapters/ch0345.md",
-    "chapters/ch0344.md",
-    "chapters/ch0343.md",
-    "chapters/ch0342.md",
-    "chapters/ch0341.md",
-    "chapters/ch0340.md",
-    "chapters/ch0339.md",
-    "chapters/ch0338.md",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
     "1 to review",
