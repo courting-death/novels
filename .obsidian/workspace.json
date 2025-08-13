@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "a29788050e240bd5",
+        "id": "0c1f51ba594420fa",
         "type": "tabs",
         "children": [
           {
-            "id": "38808910c7e4fe69",
+            "id": "c315baa5c144ce33",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0460.md",
+                "file": "1 to review/ch0469.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0460"
+              "title": "ch0469"
             }
           }
         ]
@@ -166,7 +166,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,35 +180,35 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "38808910c7e4fe69",
+  "active": "c315baa5c144ce33",
   "lastOpenFiles": [
+    "chapters/ch0480.md",
+    "chapters/ch0479.md",
+    "chapters/ch0478.md",
+    "chapters/ch0477.md",
+    "chapters/ch0476.md",
+    "chapters/ch0475.md",
+    "chapters/ch0474.md",
+    "chapters/ch0473.md",
+    "chapters/ch0472.md",
+    "chapters/ch0471.md",
+    "chapters/ch0468.md",
+    "1 to review/ch0470.md",
+    "1 to review/ch0469.md",
+    "chapters/ch0467.md",
+    "chapters/ch0466.md",
+    "chapters/ch0465.md",
+    "chapters/ch0464.md",
+    "chapters/ch0463.md",
+    "chapters/ch0462.md",
+    "chapters/ch0461.md",
+    "1 to review/ch0461.md",
+    "chapters/ch0460.md",
     "Martial Peak test.md",
     "chapters/ch0458.md",
     "1 to review/ch0458newer.md",
     "1 to review/ch0458old.md",
-    "chapters/ch0460.md",
-    "chapters/ch0456.md",
-    "chapters/ch0459.md",
-    "chapters/ch0457.md",
-    "chapters/ch0455.md",
-    "chapters/ch0453.md",
-    "chapters/ch0452.md",
-    "chapters/ch0450.md",
-    "chapters/ch0449.md",
-    "chapters/ch0448.md",
-    "chapters/ch0447.md",
-    "chapters/ch0446.md",
-    "chapters/ch0440.md",
-    "chapters/ch0445.md",
-    "chapters/ch0438.md",
-    "chapters/ch0444.md",
     "Martial Peak test.epub",
-    "chapters/ch0443.md",
-    "chapters/ch0454.md",
-    "chapters/ch0442.md",
-    "chapters/ch0441.md",
-    "chapters/ch0439.md",
-    "chapters/ch0437.md",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
     "1 to review",
