@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 to review/ch0473.md",
+                "file": "chapters/ch0477.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0473"
+              "title": "ch0477"
             }
           }
         ]
@@ -53,12 +53,12 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "\"Earth Demon",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
                 "extraContext": false,
-                "sortOrder": "alphabeticalReverse"
+                "sortOrder": "alphabetical"
               },
               "icon": "lucide-search",
               "title": "Search"
@@ -180,20 +180,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c315baa5c144ce33",
+  "active": "58bc45b7fb1343f0",
   "lastOpenFiles": [
+    "chapters/ch0476.md",
+    "1 to review/ch0480.md",
+    "chapters/ch0477.md",
+    "1 to review/ch0479.md",
+    "1 to review/ch0478.md",
+    "chapters/ch0475.md",
+    "chapters/ch0474.md",
+    "chapters/ch0473.md",
     "chapters/ch0472.md",
-    "1 to review/ch0473.md",
     "chapters/ch0471.md",
     "chapters/ch0470.md",
     "chapters/ch0469.md",
-    "1 to review/ch0480.md",
-    "1 to review/ch0479.md",
-    "1 to review/ch0478.md",
-    "1 to review/ch0477.md",
-    "1 to review/ch0476.md",
-    "1 to review/ch0475.md",
-    "1 to review/ch0474.md",
     "chapters/ch0468.md",
     "chapters/ch0467.md",
     "chapters/ch0466.md",
