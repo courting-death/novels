@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "Martial Peak test.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 222.50043487548828
+    "width": 256.5004348754883
   },
   "right": {
     "id": "cfb034a052cc7f9d",
@@ -183,31 +183,31 @@
   "active": "38808910c7e4fe69",
   "lastOpenFiles": [
     "Martial Peak test.epub",
-    "Martial Peak Full.md",
-    "Martial Peak test.md",
     "chapters/ch0443.md",
-    "chapters/ch0434.md",
+    "1 to review/ch0455.md",
+    "1 to review/ch0454.md",
     "chapters/ch0442.md",
     "chapters/ch0441.md",
     "chapters/ch0440.md",
-    "chapters/ch0433.md",
     "chapters/ch0439.md",
-    "chapters/ch0438.md",
     "chapters/ch0437.md",
-    "chapters/ch0432.md",
     "chapters/ch0436.md",
     "chapters/ch0435.md",
-    "chapters/ch0431.md",
-    "chapters/ch0430.md",
-    "chapters/ch0429.md",
-    "chapters/ch0428.md",
-    "chapters/ch0427.md",
-    "chapters/ch0426.md",
-    "chapters/ch0425.md",
-    "chapters/ch0424.md",
-    "chapters/ch0423.md",
-    "chapters/ch0422.md",
-    "chapters/ch0421.md",
+    "chapters/ch0434.md",
+    "1 to review/ch0460.md",
+    "1 to review/ch0459.md",
+    "1 to review/ch0458.md",
+    "1 to review/ch0457.md",
+    "1 to review/ch0456.md",
+    "1 to review/ch0446.md",
+    "1 to review/ch0449.md",
+    "1 to review/ch0451.md",
+    "1 to review/ch0453.md",
+    "1 to review/ch0452.md",
+    "1 to review/ch0450.md",
+    "1 to review/ch0448.md",
+    "1 to review/ch0447.md",
+    "1 to review/ch0445.md",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
     "1 to review",
@@ -218,7 +218,6 @@
     "untitled folder",
     "xold/chapters_all",
     "Martial Peak 2.epub",
-    "Martial Peak Cover.png",
-    "xold/chapters_all"
+    "Martial Peak Cover.png"
   ]
 }
