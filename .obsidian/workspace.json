@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0431.md",
+                "file": "chapters/ch0432.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch0431"
+              "title": "ch0432"
             }
           }
         ]
@@ -180,13 +180,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "38808910c7e4fe69",
+  "active": "58bc45b7fb1343f0",
   "lastOpenFiles": [
+    "chapters/ch0434.md",
+    "chapters/ch0431.md",
     "chapters/ch0433.md",
     "chapters/ch0430.md",
     "chapters/ch0432.md",
     "chapters/ch0429.md",
-    "chapters/ch0431.md",
     "chapters/ch0428.md",
     "chapters/ch0427.md",
     "chapters/ch0426.md",
@@ -207,7 +208,6 @@
     "chapters/ch0411.md",
     "chapters/ch0410.md",
     "chapters/ch0409.md",
-    "chapters/ch0408.md",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
     "1 to review",
