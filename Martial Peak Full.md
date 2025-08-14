@@ -477,7 +477,7 @@
 ![[chapters/ch0476]]
 ![[chapters/ch0476]]
 ![[chapters/ch0477]]
-![[1 to review/ch0478]]
+![[chapters/ch0478]]
 ![[1 to review/ch0479]]
 ![[ch0481]]
 ![[ch0482]]
