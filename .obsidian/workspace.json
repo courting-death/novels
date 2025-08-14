@@ -58,7 +58,7 @@
                 "explainSearch": true,
                 "collapseAll": false,
                 "extraContext": true,
-                "sortOrder": "alphabeticalReverse"
+                "sortOrder": "alphabetical"
               },
               "icon": "lucide-search",
               "title": "Search"
@@ -181,7 +181,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c315baa5c144ce33",
+  "active": "a1cc0001fdc9bb54",
   "lastOpenFiles": [
     "chapters/ch0357.md",
     "chapters/ch0219.md",
