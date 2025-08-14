@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 to review/ch0500.md",
+                "file": "chapters/ch0476.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "ch0500"
+              "title": "ch0476"
             }
           }
         ]
@@ -53,12 +53,12 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "\"Primordial Qi",
                 "matchingCase": false,
-                "explainSearch": false,
+                "explainSearch": true,
                 "collapseAll": false,
-                "extraContext": false,
-                "sortOrder": "alphabetical"
+                "extraContext": true,
+                "sortOrder": "alphabeticalReverse"
               },
               "icon": "lucide-search",
               "title": "Search"
@@ -74,7 +74,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -180,34 +181,34 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "58bc45b7fb1343f0",
+  "active": "c315baa5c144ce33",
   "lastOpenFiles": [
-    "chapters/ch0499.md",
-    "1 to review/ch0500.md",
-    "chapters/ch0498.md",
-    "chapters/ch0497.md",
-    "chapters/ch0495.md",
-    "chapters/ch0496.md",
-    "chapters/ch0493.md",
-    "chapters/ch0491.md",
-    "chapters/ch0487.md",
-    "chapters/ch0485.md",
-    "chapters/ch0366.md",
-    "chapters/ch0484.md",
-    "chapters/ch0483.md",
-    "chapters/ch0481.md",
-    "Martial Peak test.md",
-    "chapters/ch0480.md",
-    "chapters/ch0479.md",
-    "chapters/ch0494.md",
-    "chapters/ch0478.md",
-    "chapters/ch0482.md",
-    "chapters/ch0492.md",
-    "chapters/ch0490.md",
-    "chapters/ch0489.md",
-    "chapters/ch0488.md",
-    "chapters/ch0486.md",
     "chapters/ch0477.md",
+    "chapters/ch0478.md",
+    "chapters/ch0480.md",
+    "chapters/ch0482.md",
+    "chapters/ch0483.md",
+    "chapters/ch0485.md",
+    "chapters/ch0486.md",
+    "chapters/ch0487.md",
+    "chapters/ch0495.md",
+    "chapters/ch0498.md",
+    "chapters/ch0432.md",
+    "chapters/ch0465.md",
+    "chapters/ch0461.md",
+    "chapters/ch0463.md",
+    "chapters/ch0460.md",
+    "chapters/ch0459.md",
+    "chapters/ch0458.md",
+    "chapters/ch0449.md",
+    "chapters/ch0445.md",
+    "chapters/ch0424.md",
+    "chapters/ch0439.md",
+    "chapters/ch0435.md",
+    "chapters/ch0422.md",
+    "chapters/ch0425.md",
+    "chapters/ch0434.md",
+    "chapters/ch0443.md",
     "Martial Peak test.epub",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
