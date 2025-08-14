@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Martial Peak test.md",
+                "file": "chapters/ch0498.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "Martial Peak test"
+              "title": "ch0498"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "\"Earth Demon",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -182,32 +182,32 @@
   },
   "active": "c315baa5c144ce33",
   "lastOpenFiles": [
-    "chapters/ch0480.md",
-    "chapters/ch0498.md",
-    "chapters/ch0497.md",
-    "chapters/ch0496.md",
-    "chapters/ch0479.md",
     "chapters/ch0495.md",
+    "chapters/ch0498.md",
+    "chapters/ch0496.md",
+    "chapters/ch0493.md",
+    "chapters/ch0491.md",
+    "chapters/ch0487.md",
+    "chapters/ch0485.md",
+    "chapters/ch0366.md",
+    "chapters/ch0484.md",
+    "chapters/ch0483.md",
+    "chapters/ch0481.md",
+    "Martial Peak test.md",
+    "chapters/ch0480.md",
+    "chapters/ch0497.md",
+    "chapters/ch0479.md",
     "chapters/ch0494.md",
     "chapters/ch0478.md",
-    "chapters/ch0493.md",
-    "chapters/ch0481.md",
     "chapters/ch0482.md",
     "chapters/ch0492.md",
-    "chapters/ch0491.md",
     "chapters/ch0490.md",
     "chapters/ch0489.md",
     "chapters/ch0488.md",
-    "chapters/ch0487.md",
     "chapters/ch0486.md",
-    "chapters/ch0485.md",
-    "chapters/ch0484.md",
-    "chapters/ch0483.md",
     "chapters/ch0477.md",
     "chapters/ch0476.md",
     "chapters/ch0475.md",
-    "chapters/ch0474.md",
-    "chapters/ch0473.md",
     "Martial Peak test.epub",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
