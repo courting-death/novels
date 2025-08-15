@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0285.md",
+                "file": "chapters/ch0567.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "ch0285"
+              "title": "ch0567"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "\"li\"",
+                "query": "",
                 "matchingCase": true,
                 "explainSearch": true,
                 "collapseAll": false,
@@ -74,7 +74,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -180,13 +181,22 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c315baa5c144ce33",
+  "active": "a1cc0001fdc9bb54",
   "lastOpenFiles": [
+    "chapters/ch0568.md",
+    "chapters/ch0567.md",
+    "chapters/ch0566.md",
+    "chapters/ch0565.md",
+    "chapters/ch0564.md",
+    "chapters/ch0563.md",
+    "chapters/ch0562.md",
+    "chapters/ch0561.md",
+    "chapters/ch0560.md",
+    "chapters/ch0285.md",
     "chapters/ch0297.md",
     "chapters/ch0300.md",
     "chapters/ch0302.md",
     "chapters/ch0311.md",
-    "chapters/ch0560.md",
     "chapters/ch0009.md",
     "chapters/ch0021.md",
     "chapters/ch0043.md",
@@ -199,15 +209,6 @@
     "chapters/ch0148.md",
     "chapters/ch0149.md",
     "chapters/ch0159.md",
-    "chapters/ch0166.md",
-    "chapters/ch0167.md",
-    "chapters/ch0173.md",
-    "chapters/ch0179.md",
-    "chapters/ch0181.md",
-    "chapters/ch0183.md",
-    "chapters/ch0182.md",
-    "chapters/ch0184.md",
-    "chapters/ch0185.md",
     "Martial Peak test.epub",
     "Martial Peak Full.epub",
     "Pasted image 20250801142118.png",
