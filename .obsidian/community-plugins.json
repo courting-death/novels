@@ -1,5 +1,6 @@
 [
   "obsidian-pandoc",
   "global-search-and-replace",
-  "obsidian-git"
+  "obsidian-git",
+  "replace-all"
 ]
