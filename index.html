@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Martial Peak — Chapters</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root{--bg:#0b0b0c;--fg:#e9e9ea;--muted:#a4a4a8;--card:#151518;--accent:#7aa2f7}
+    @media (prefers-color-scheme: light){
+      :root{--bg:#ffffff;--fg:#111416;--muted:#5a5f66;--card:#f4f5f7;--accent:#2b5cff}
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, "Noto Sans", sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .app{display:grid;grid-template-columns:280px 1fr;min-height:100svh}
+    .sidebar{background:var(--card);border-right:1px solid #2a2a2d;display:flex;flex-direction:column}
+    .brand{padding:16px 16px 8px;font-weight:700}
+    .tools{padding:8px 16px;display:flex;gap:8px}
+    .tools input{flex:1;padding:8px;border:1px solid #2a2a2d;background:transparent;color:var(--fg);border-radius:8px}
+    .tools button{padding:8px 10px;border:1px solid #2a2a2d;background:transparent;color:var(--fg);border-radius:8px;cursor:pointer}
+    .chapters{overflow:auto;padding:8px}
+    .chapters a{display:block;padding:8px 12px;border-radius:8px;color:var(--fg)}
+    .chapters a.active{background:#2a2a2d}
+    .content{display:flex;flex-direction:column;min-width:0}
+    header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid #2a2a2d;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+    main{padding:24px;max-width:900px;margin:0 auto;width:100%}
+    .article{background:transparent}
+    .article h1,.article h2,.article h3{line-height:1.25}
+    .article p{margin:1em 0}
+    .nav{display:flex;justify-content:space-between;gap:12px;margin:24px 0 0}
+    .nav a,.nav button{border:1px solid #2a2a2d;background:var(--card);color:var(--fg);padding:10px 14px;border-radius:10px}
+    .status{font-size:13px;color:var(--muted)}
+    .hidden{display:none!important}
+    @media (max-width: 900px){
+      .app{grid-template-columns:1fr}
+      .sidebar{position:fixed;inset:0 30% 0 0;transform:translateX(-100%);transition:transform .2s ease}
+      .sidebar.open{transform:none}
+      .overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px)}
+      header .menu{display:inline-flex}
+    }
+    @media (min-width: 901px){ header .menu{display:none} }
+    .article img{max-width:100%;height:auto}
+    .article blockquote{margin:1em 0;padding:0 1em;border-left:3px solid #3a3a3f;color:var(--muted)}
+    .article code{background:#1c1c21;padding:.15em .4em;border-radius:6px}
+    .article pre{overflow:auto;padding:12px;border-radius:10px;background:#1c1c21}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">Martial Peak</div>
+      <div class="tools">
+        <input id="filter" type="search" placeholder="Filter chapters…" aria-label="Filter chapters" />
+        <button id="themeBtn" title="Toggle theme">🌓</button>
+      </div>
+      <nav class="chapters" id="chaptersList" aria-label="Chapters"></nav>
+    </aside>
+
+    <div class="content">
+      <header>
+        <button class="menu" id="menuBtn" aria-label="Toggle menu">☰</button>
+        <div id="title">Loading…</div>
+        <div class="status" id="status"></div>
+      </header>
+
+      <main>
+        <article id="article" class="article"> </article>
+        <div class="nav">
+          <a href="#" id="prevBtn" class="hidden">← Prev</a>
+          <a href="#" id="nextBtn" class="hidden">Next →</a>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="overlay hidden" id="overlay"></div>
+
+  <script>
+    const qs = (s, el=document) => el.querySelector(s);
+    const qsa = (s, el=document) => [...el.querySelectorAll(s)];
+    const getParam = (key) => new URLSearchParams(location.search).get(key);
+    const setParam = (key, val) => {
+      const u = new URL(location);
+      if (val) u.searchParams.set(key, val); else u.searchParams.delete(key);
+      history.pushState({}, "", u);
+    };
+    const normalizeId = (v) => {
+      if (!v) return v;
+      v = v.trim();
+      return v.endsWith(".md") ? v.slice(0, -3) : v;
+    };
+    const themeKey = "mp_theme";
+    const setTheme = (t) => {
+      document.documentElement.dataset.theme = t;
+      localStorage.setItem(themeKey, t);
+      document.body.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--bg');
+    };
+    const toggleTheme = () => setTheme((localStorage.getItem(themeKey) === "light") ? "dark" : "light");
+
+    if (!localStorage.getItem(themeKey)) {
+      setTheme(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    } else {
+      setTheme(localStorage.getItem(themeKey));
+    }
+
+    let CHAPTERS = [];
+    let currentIndex = -1;
+
+    const article = qs('#article');
+    const list = qs('#chaptersList');
+    const titleEl = qs('#title');
+    const statusEl = qs('#status');
+    const prevBtn = qs('#prevBtn');
+    const nextBtn = qs('#nextBtn');
+    const filterInput = qs('#filter');
+    const sidebar = qs('#sidebar');
+    const overlay = qs('#overlay');
+
+    const openSidebar = () => { sidebar.classList.add('open'); overlay.classList.remove('hidden'); };
+    const closeSidebar = () => { sidebar.classList.remove('open'); overlay.classList.add('hidden'); };
+    qs('#menuBtn').onclick = () => (sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+    overlay.onclick = closeSidebar;
+
+    async function loadIndex() {
+      try {
+        const res = await fetch('chapters/chapters.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error("chapters.json not found");
+        CHAPTERS = await res.json();
+        renderList();
+      } catch (e) {
+        article.innerHTML = `<p>Could not load chapters index. Make sure <code>/chapters/chapters.json</code> exists.</p>`;
+        console.error(e);
+      }
+    }
+
+    function renderList() {
+      list.innerHTML = "";
+      CHAPTERS.forEach((c, idx) => {
+        const a = document.createElement('a');
+        a.href = `?chapter=${c.id}`;
+        a.dataset.id = c.id;
+        a.textContent = c.title || c.id;
+        a.onclick = (ev) => {
+          ev.preventDefault();
+          loadChapter(c.id);
+          closeSidebar();
+        };
+        list.appendChild(a);
+      });
+      applyFilter(filterInput.value);
+      const param = normalizeId(getParam('chapter')) || (CHAPTERS[0] && CHAPTERS[0].id);
+      if (param) loadChapter(param);
+    }
+
+    function applyFilter(q) {
+      q = (q || "").toLowerCase().trim();
+      qsa('a', list).forEach(a => {
+        const match = a.textContent.toLowerCase().includes(q) || a.dataset.id.toLowerCase().includes(q);
+        a.style.display = match ? "" : "none";
+      });
+    }
+    filterInput.addEventListener('input', (e) => applyFilter(e.target.value));
+
+    async function loadChapter(id) {
+      id = normalizeId(id);
+      if (!id) return;
+
+      setParam('chapter', id);
+      currentIndex = CHAPTERS.findIndex(c => c.id === id);
+      qsa('a', list).forEach(a => a.classList.toggle('active', a.dataset.id === id));
+
+      const meta = CHAPTERS[currentIndex] || { id };
+      titleEl.textContent = meta.title || id;
+      statusEl.textContent = "Loading…";
+      article.innerHTML = "";
+
+      try {
+        const res = await fetch(`chapters/${id}.md`, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`Missing file: chapters/${id}.md`);
+
+        const md = await res.text();
+        const html = marked.parse(md, { mangle: false, headerIds: true });
+        article.innerHTML = html;
+        document.title = `${meta.title || id} — Martial Peak`;
+        statusEl.textContent = `Loaded ${id}`;
+      } catch (e) {
+        article.innerHTML = `<p>Chapter not found: <code>chapters/${id}.md</code></p>`;
+        statusEl.textContent = 'Error';
+        console.error(e);
+      }
+
+      prevBtn.classList.toggle('hidden', currentIndex <= 0);
+      nextBtn.classList.toggle('hidden', currentIndex >= CHAPTERS.length - 1);
+
+      if (currentIndex > 0) {
+        prevBtn.href = `?chapter=${CHAPTERS[currentIndex - 1].id}`;
+        prevBtn.onclick = (ev) => { ev.preventDefault(); loadChapter(CHAPTERS[currentIndex - 1].id); };
+      }
+      if (currentIndex < CHAPTERS.length - 1) {
+        nextBtn.href = `?chapter=${CHAPTERS[currentIndex + 1].id}`;
+        nextBtn.onclick = (ev) => { ev.preventDefault(); loadChapter(CHAPTERS[currentIndex + 1].id); };
+      }
+
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'k' || e.key === 'ArrowLeft') {
+        if (currentIndex > 0) loadChapter(CHAPTERS[currentIndex - 1].id);
+      } else if (e.key === 'j' || e.key === 'ArrowRight') {
+        if (currentIndex < CHAPTERS.length - 1) loadChapter(CHAPTERS[currentIndex + 1].id);
+      } else if (e.key === '/' && document.activeElement !== filterInput) {
+        e.preventDefault(); filterInput.focus();
+      }
+    });
+
+    qs('#themeBtn').onclick = toggleTheme;
+
+    window.addEventListener('popstate', () => {
+      const id = normalizeId(getParam('chapter')) || (CHAPTERS[0] && CHAPTERS[0].id);
+      if (id) loadChapter(id);
+    });
+
+    loadIndex();
+  </script>
+</body>
+</html>

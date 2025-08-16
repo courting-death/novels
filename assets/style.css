@@ -1,0 +1,6 @@
+/* You can extend styling here; index.html already includes critical styles. */
+:root{--bg:#0b0b0c;--fg:#e9e9ea;--muted:#a4a4a8;--card:#151518;--accent:#7aa2f7}
+@media (prefers-color-scheme: light){
+  :root{--bg:#ffffff;--fg:#111416;--muted:#5a5f66;--card:#f4f5f7;--accent:#2b5cff}
+}
+body{background:var(--bg);color:var(--fg)}
