@@ -418,6 +418,17 @@
       themeBtn.textContent = (mode === 'dark') ? '☀️' : '🌙';
     }
     setTheme(localStorage.getItem('mp_theme') || 'light');
+
+    // --- Fix mobile button pressed state ---
+    function removePressedState(e) {
+      // Only blur if it's a mouse or touch interaction
+      e.currentTarget.blur();
+    }
+    document.querySelectorAll('button, .icon-btn').forEach(btn => {
+      btn.addEventListener('touchend', removePressedState);
+      btn.addEventListener('mouseup', removePressedState);
+      btn.addEventListener('click', removePressedState);
+    });
     themeBtn.addEventListener('click', () => {
       setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
     });
