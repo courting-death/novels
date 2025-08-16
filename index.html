@@ -202,14 +202,16 @@
       font-size: 20px;          /* force same glyph size */
       line-height: 1;
       padding: 0;
-      /* Buttons will not stay pressed after click. Only temporary feedback below. */
+  /* Remove pressed/clicked state entirely. */
     }
 
     /* Temporary pressed state: only while mouse/touch is held */
     .icon-btn:active {
-      filter: brightness(0.92);
-      box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-      outline: none;
+  /* No visual feedback for pressed/clicked state. */
+  /* Remove all pressed/clicked state globally. */
+  filter: none !important;
+  box-shadow: none !important;
+  outline: none !important;
     }
     /* For accessibility: show focus ring when using keyboard navigation */
     .icon-btn:focus {
@@ -418,17 +420,6 @@
       themeBtn.textContent = (mode === 'dark') ? '☀️' : '🌙';
     }
     setTheme(localStorage.getItem('mp_theme') || 'light');
-
-    // --- Fix mobile button pressed state ---
-    function removePressedState(e) {
-      // Only blur if it's a mouse or touch interaction
-      e.currentTarget.blur();
-    }
-    document.querySelectorAll('button, .icon-btn').forEach(btn => {
-      btn.addEventListener('touchend', removePressedState);
-      btn.addEventListener('mouseup', removePressedState);
-      btn.addEventListener('click', removePressedState);
-    });
     themeBtn.addEventListener('click', () => {
       setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
     });
