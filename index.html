@@ -11,22 +11,22 @@
   <style>
     /* THEME TOKENS */
     :root[data-theme="light"] {
-      --bg: #fff;
-      --fg: #111;
-      --muted: #666;
-      --primary: #3b82f6;
-      --surface: #f6f6f6;
-      --border: #e5e7eb;
-      --link: #1d4ed8;
+  --bg: #f4ecd8;           /* sepia background */
+  --fg: #5b4636;           /* readable brown text */
+  --muted: #a58c6f;        /* muted brown */
+  --primary: #b5853e;      /* warm accent */
+  --surface: #f8f3e8;      /* lighter sepia for surfaces */
+  --border: #e0d6c3;       /* soft border */
+  --link: #a86b32;         /* brownish link */
     }
     :root[data-theme="dark"] {
-      --bg: #0b0b0c;
-      --fg: #eee;
-      --muted: #a1a1aa;
-      --primary: #60a5fa;
-      --surface: #16161a;
-      --border: #232329;
-      --link: #93c5fd;
+  --bg: #18222d;           /* deep blue-gray background */
+  --fg: #c7d4e6;           /* cool light blue text */
+  --muted: #6b7a8f;        /* muted blue-gray */
+  --primary: #4f8cc9;      /* blue accent */
+  --surface: #223042;      /* lighter blue-gray for surfaces */
+  --border: #2c3a4d;       /* soft blue border */
+  --link: #7ec3fa;         /* bright blue link */
     }
     
     :root { --header-h: 56px; }     /* adjust if you like */
@@ -162,23 +162,27 @@
     }
 
     header.site-header {
-      position: sticky;
-      top: 0;
-      z-index: 1002;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      height: var(--header-h);     /* ← explicit height */
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      transition: transform 0.25s cubic-bezier(.4,0,.2,1), opacity 0.2s;
+  position: sticky;
+  top: 0;
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  height: var(--header-h);     /* ← explicit height */
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.25s cubic-bezier(.4,0,.2,1), opacity 0.2s, position 0s;
     }
 
     .site-header.hide-on-scroll {
-      transform: translateY(-100%);
-      opacity: 0;
-      pointer-events: none;
+  position: absolute !important;
+  width: 100%;
+  top: 0;
+  left: 0;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
     }
 
     /* BUTTONS (theme + arrows share the same style) */
