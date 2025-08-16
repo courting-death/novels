@@ -172,6 +172,13 @@
       height: var(--header-h);     /* ← explicit height */
       background: var(--surface);
       border-bottom: 1px solid var(--border);
+      transition: transform 0.25s cubic-bezier(.4,0,.2,1), opacity 0.2s;
+    }
+
+    .site-header.hide-on-scroll {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
     }
 
     /* BUTTONS (theme + arrows share the same style) */
@@ -190,21 +197,15 @@
       font-size: 20px;          /* force same glyph size */
       line-height: 1;
       padding: 0;
-      /* Buttons will not stay pressed after click. Only temporary feedback below. */
+      outline: none !important; /* Prevent browser default outline */
+      box-shadow: none !important;
+      filter: none !important;
     }
-
-    /* Temporary pressed state: only while mouse/touch is held */
-    .icon-btn:active {
-      filter: brightness(0.92);
-      box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-      outline: none;
+    .icon-btn:active, .icon-btn:focus, .icon-btn:hover {
+      outline: none !important;
+      box-shadow: none !important;
+      filter: none !important;
     }
-    /* For accessibility: show focus ring when using keyboard navigation */
-    .icon-btn:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-    /* Future buttons: use .icon-btn for consistent behavior. Do not add persistent active/toggled styles unless needed for toggles. */
 
     @media (max-width: 900px) {
       .icon-btn {
@@ -258,7 +259,7 @@
       box-sizing: border-box;
       max-width: 72ch;                  /* your readable width */
       margin: 0 auto;
-      padding: 8px 16px 40px;           /* small top pad so text doesn’t kiss border */
+      padding: 0 16px 40px;             /* removed top padding for mobile */
     }
     @media (min-width: 901px){
       main.reader{ padding: 0 24px 56px; }
@@ -556,6 +557,22 @@
       const q = getParam('chapter');
       if (q) openChapterById(q);
     });
+    // --- Hide header on scroll down, show on scroll up ---
+    (function() {
+      const header = document.querySelector('.site-header');
+      const scroller = document.querySelector('.scroller');
+      if (!header || !scroller) return;
+      let lastScroll = 0;
+      scroller.addEventListener('scroll', function() {
+        const curr = scroller.scrollTop;
+        if (curr > lastScroll + 8) {
+          header.classList.add('hide-on-scroll');
+        } else if (curr < lastScroll - 8) {
+          header.classList.remove('hide-on-scroll');
+        }
+        lastScroll = curr;
+      });
+    })();
   </script>
 </body>
 </html>
