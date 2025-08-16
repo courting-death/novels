@@ -190,7 +190,21 @@
       font-size: 20px;          /* force same glyph size */
       line-height: 1;
       padding: 0;
+      /* Buttons will not stay pressed after click. Only temporary feedback below. */
     }
+
+    /* Temporary pressed state: only while mouse/touch is held */
+    .icon-btn:active {
+      filter: brightness(0.92);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+      outline: none;
+    }
+    /* For accessibility: show focus ring when using keyboard navigation */
+    .icon-btn:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    /* Future buttons: use .icon-btn for consistent behavior. Do not add persistent active/toggled styles unless needed for toggles. */
 
     @media (max-width: 900px) {
       .icon-btn {
