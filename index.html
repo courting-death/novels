@@ -34,6 +34,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      overflow-x: hidden; /* <-- no horizontal panning */
       background: var(--bg);
       color: var(--fg);
       font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
@@ -43,7 +44,11 @@
       display: grid;
       grid-template-columns: 280px 1fr;
       min-height: 100vh;
+      transition: grid-template-columns .2s ease;
     }
+    /* desktop collapse state */
+    body.sidebar-collapsed .app { grid-template-columns: 0 1fr; }
+    body.sidebar-collapsed .sidebar { width:0; border:0; overflow:hidden; }
 
     /* SIDEBAR */
     .sidebar {
@@ -101,6 +106,25 @@
       border-bottom: 1px solid var(--border);
     }
 
+    /* BUTTONS (theme + arrows share the same style) */
+    .icon-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 42px;
+      height: 38px;
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 0;
+    }
+    .icon-btn:hover { filter: brightness(1.05); }
+
     /* HAMBURGER */
     .menu {
       background: none;
@@ -125,14 +149,6 @@
       align-items: center;
       gap: 8px;
     }
-    .theme-btn {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 6px 10px;
-      cursor: pointer;
-      color: var(--fg);
-    }
 
     main.reader {
       width: min(900px, 100%);
@@ -147,16 +163,9 @@
       gap: 10px;
       margin: 10px 0 18px;
     }
-    .nav a {
-      text-decoration: none;
-      color: var(--link);
-      font-weight: 600;
-    }
     .nav a.hidden { visibility: hidden; }
 
-    article#article {
-      font-size: 1.05rem;
-    }
+    article#article { font-size: 1.05rem; }
     article#article h1, article#article h2, article#article h3 {
       line-height: 1.25;
       margin-top: 1.4em;
@@ -169,7 +178,7 @@
     }
     article#article a { color: var(--link); }
 
-    /* OVERLAY for mobile */
+    /* OVERLAY for mobile only */
     .overlay {
       position: fixed;
       inset: 0;
@@ -181,9 +190,7 @@
 
     /* MOBILE */
     @media (max-width: 900px) {
-      .app {
-        grid-template-columns: 1fr; /* hide sidebar by default */
-      }
+      .app { grid-template-columns: 1fr; } /* hide sidebar by default */
       .sidebar {
         position: fixed;
         left: 0; top: 0; bottom: 0;
@@ -209,21 +216,19 @@
         </button>
         <strong id="chapterTitle">Loading…</strong>
         <div class="tools">
-          <button id="themeBtn" class="theme-btn" title="Toggle theme">🌓</button>
+          <button id="themeBtn" class="icon-btn" title="Toggle theme">🌓</button>
+          <!-- top nav arrows -->
+          <a href="#" id="prevTop" class="icon-btn hidden" aria-label="Previous">←</a>
+          <a href="#" id="nextTop" class="icon-btn hidden" aria-label="Next">→</a>
         </div>
       </header>
 
       <main class="reader">
-        <nav class="nav" id="topNav">
-          <a href="#" id="prevTop" class="hidden">← Prev</a>
-          <a href="#" id="nextTop" class="hidden">Next →</a>
-        </nav>
-
+        <nav class="nav" id="topNav" style="display:none;"></nav> <!-- kept for structure -->
         <article id="article"></article>
-
         <nav class="nav" id="bottomNav">
-          <a href="#" id="prevBottom" class="hidden">← Prev</a>
-          <a href="#" id="nextBottom" class="hidden">Next →</a>
+          <a href="#" id="prevBottom" class="icon-btn hidden" aria-label="Previous">←</a>
+          <a href="#" id="nextBottom" class="icon-btn hidden" aria-label="Next">→</a>
         </nav>
       </main>
     </div>
@@ -244,17 +249,27 @@
       setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
     });
 
-    // --- Sidebar open/close (mobile) ---
+    // --- Sidebar open/close ---
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
-    document.getElementById('menuBtn').addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('show');
+    const menuBtn = document.getElementById('menuBtn');
+    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+
+    function openSidebarMobile(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
+    function closeSidebarMobile(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+
+    menuBtn.addEventListener('click', () => {
+      if (isMobile()) {
+        // mobile: slide drawer with overlay
+        sidebar.classList.contains('open') ? closeSidebarMobile() : openSidebarMobile();
+      } else {
+        // desktop: collapse/expand sidebar; NEVER show overlay on desktop
+        document.body.classList.toggle('sidebar-collapsed');
+        overlay.classList.remove('show');
+      }
     });
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('show');
-    });
+    overlay.addEventListener('click', closeSidebarMobile);
+    window.addEventListener('resize', () => { if (!isMobile()) overlay.classList.remove('show'); });
 
     // --- Helpers ---
     const qs = (sel) => document.querySelector(sel);
@@ -275,12 +290,13 @@
     }
     function setParam(name, value) {
       const url = new URL(window.location.href);
-      if (value == null) {
-        url.searchParams.delete(name);
-      } else {
-        url.searchParams.set(name, value);
-      }
+      if (value == null) url.searchParams.delete(name);
+      else url.searchParams.set(name, value);
       history.pushState({}, '', url);
+    }
+    function normalizeId(id) {
+      if (!id) return id;
+      return id.endsWith('.md') ? id.slice(0, -3) : id;
     }
 
     // --- Load chapters index ---
@@ -308,13 +324,11 @@
         a.addEventListener('click', (ev) => {
           ev.preventDefault();
           openChapterByIndex(i);
-          sidebar.classList.remove('open');
-          overlay.classList.remove('show');
+          if (isMobile()) closeSidebarMobile();
         });
         li.appendChild(a);
         chaptersListEl.appendChild(li);
       });
-      // highlight active later in openChapterByIndex()
     }
 
     function highlightActive() {
@@ -324,18 +338,10 @@
       });
     }
 
-    function normalizeId(id) {
-      if (!id) return id;
-      return id.endsWith('.md') ? id.slice(0, -3) : id;
-    }
-
     async function openChapterById(id) {
       const norm = normalizeId(id);
       const index = CHAPTERS.findIndex(c => c.id === norm);
-      if (index === -1 && CHAPTERS.length > 0) {
-        // fallback: first
-        return openChapterByIndex(0);
-      }
+      if (index === -1 && CHAPTERS.length > 0) return openChapterByIndex(0);
       return openChapterByIndex(index);
     }
 
@@ -346,7 +352,7 @@
       titleEl.textContent = title || id;
       document.title = (title || id) + ' — Martial Peak Reader';
 
-      // prev/next
+      // prev/next (top & bottom)
       updateNav(navEls.prevTop, i - 1);
       updateNav(navEls.nextTop, i + 1);
       updateNav(navEls.prevBottom, i - 1);
@@ -355,7 +361,6 @@
       setParam('chapter', id);
       highlightActive();
 
-      // fetch markdown and render
       try {
         const res = await fetch(`chapters/${id}.md`, { cache: 'no-cache' });
         if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
@@ -364,7 +369,7 @@
         window.scrollTo({ top: 0, behavior: 'instant' });
       } catch (e) {
         console.error('Failed to load chapter', id, e);
-        articleEl.innerHTML = ''; // silent fail per your request
+        articleEl.innerHTML = ''; // silent fail
       }
     }
 
@@ -372,10 +377,7 @@
       if (idx >= 0 && idx < CHAPTERS.length) {
         anchor.classList.remove('hidden');
         anchor.href = `?chapter=${CHAPTERS[idx].id}`;
-        anchor.onclick = (ev) => {
-          ev.preventDefault();
-          openChapterByIndex(idx);
-        };
+        anchor.onclick = (ev) => { ev.preventDefault(); openChapterByIndex(idx); };
       } else {
         anchor.classList.add('hidden');
         anchor.removeAttribute('href');
@@ -385,14 +387,10 @@
 
     // initial load
     (async function init() {
-      // restore theme icon state already done above
       await loadIndex();
       const q = getParam('chapter');
-      if (q) {
-        openChapterById(q);
-      } else if (CHAPTERS.length > 0) {
-        openChapterByIndex(0);
-      }
+      if (q) openChapterById(q);
+      else if (CHAPTERS.length > 0) openChapterByIndex(0);
     })();
 
     // handle browser back/forward
