@@ -32,6 +32,11 @@
     :root { --header-h: 56px; }     /* adjust if you like */
     header.site-header { min-height: var(--header-h); }
 
+    :root{
+    --content-w: 72ch; /* default comfortable width ~ 70–75 characters */
+    }
+
+
     /* LAYOUT */
     html, body {
       margin: 0;
@@ -74,10 +79,14 @@
       position: relative;
       z-index: 1001; /* above the overlay */
     }
-    .sidebar h1 {
-      font-size: 18px;
-      margin: 6px 0 10px;
+
+    .sidebar h1{
+    text-align:center;
+    margin: 6px 0 10px;
+    font-size: 18px;
+    font-weight: 700;
     }
+
     .chapter-list {
       list-style: none;
       padding: 0;
@@ -213,17 +222,19 @@
       gap: 8px;
     }
 
-    main.reader {
+    main.reader{
       flex: 1 1 auto;
-      overflow: auto;           /* you already have this */
-      height: auto;
-      box-sizing: border-box;   /* <-- ensures padding doesn't get clipped */
-      padding: 0 16px 40px;     /* <-- restore inner spacing */
+      overflow: auto;
+      box-sizing: border-box;
+      padding: 0 16px 40px;
+      /* NEW: centered, max width by variable */
+      max-width: var(--content-w);
+      margin: 18px auto;
+    }
+    @media (min-width: 901px){
+      main.reader{ padding: 0 24px 56px; }
     }
 
-    @media (min-width: 901px) {
-      main.reader { padding: 0 24px 56px; }
-    }
 
     .nav {
       display: flex;
