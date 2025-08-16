@@ -36,6 +36,8 @@
     --content-w: 72ch; /* default comfortable width ~ 70–75 characters */
     }
 
+    
+
 
     /* LAYOUT */
     html, body {
@@ -139,11 +141,15 @@
 
 
     /* CONTENT */
+    /* Let the whole right column scroll so the scrollbar is at the viewport edge */
     .content {
       display: flex;
       flex-direction: column;
       min-width: 0;
-      overflow: hidden;          /* stops the parent from growing the page */
+      min-height: 0;             /* allows the child to size properly */
+      overflow: auto;            /* ← content column is now the scroller */
+      scrollbar-gutter: stable;  /* keeps a gutter so text never jumps when the bar appears */
+      scroll-padding-top: var(--header-h);  /* ← prevents “covered first line/anchors” */
     }
 
     header.site-header {
@@ -154,6 +160,7 @@
       align-items: center;
       gap: 12px;
       padding: 10px 14px;
+      height: var(--header-h);     /* ← explicit height */
       background: var(--surface);
       border-bottom: 1px solid var(--border);
     }
@@ -222,14 +229,15 @@
       gap: 8px;
     }
 
-    main.reader{
-      flex: 1 1 auto;
-      overflow: auto;
+    main.reader {
+      flex: 0 0 auto;
+      overflow: visible;         /* ← no inner scrollbar */
+      height: auto;
       box-sizing: border-box;
       padding: 0 16px 40px;
-      /* NEW: centered, max width by variable */
-      max-width: var(--content-w);
-      margin: 18px auto;
+      max-width: 72ch;           /* your comfy page width */
+      margin: 0 auto;            /* center the page */
+      padding-top: 8px;
     }
     @media (min-width: 901px){
       main.reader{ padding: 0 24px 56px; }
