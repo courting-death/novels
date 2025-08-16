@@ -172,6 +172,17 @@
       }
     }
 
+    .icon-btn svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .icon-btn svg { width: 22px; height: 22px; }
+    }
+
+
     .icon-btn:hover { filter: brightness(1.05); }
 
     /* HAMBURGER */
@@ -272,8 +283,18 @@
         <div class="tools">
           <button id="themeBtn" class="icon-btn" title="Toggle theme">🌓</button>
           <!-- top nav arrows -->
-          <a href="#" id="prevTop" class="icon-btn hidden" aria-label="Previous">←</a>
-          <a href="#" id="nextTop" class="icon-btn hidden" aria-label="Next">→</a>
+          <a href="#" id="prevTop" class="icon-btn hidden" aria-label="Previous">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </a>
+          <a href="#" id="nextTop" class="icon-btn hidden" aria-label="Next">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </a>
         </div>
       </header>
 
