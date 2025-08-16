@@ -43,12 +43,21 @@
     .app {
       display: grid;
       grid-template-columns: 280px 1fr;
-      min-height: 100vh;
+      height: 100vh;
       transition: grid-template-columns .2s ease;
     }
     /* desktop collapse state */
     body.sidebar-collapsed .app { grid-template-columns: 0 1fr; }
-    body.sidebar-collapsed .sidebar { width:0; border:0; overflow:hidden; }
+    /* you already have: body.sidebar-collapsed .app { grid-template-columns: 0 1fr; } */
+    body.sidebar-collapsed .sidebar {
+      width: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: 0 !important;
+      overflow: hidden !important;
+    }
+    body.sidebar-collapsed .sidebar * { display: none !important; } /* hide children so nothing paints */
+
 
     /* SIDEBAR */
     .sidebar {
@@ -87,11 +96,39 @@
       font-weight: 600;
     }
 
+    /* keep the layout inside the viewport on every device */
+    html, body { overflow-x: hidden; }
+
+    /* prevent long titles from stretching the header */
+    #chapterTitle {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* keep chapter content within the screen */
+    article#article {
+      max-width: 100%;
+      overflow-wrap: anywhere;   /* handles super-long words/links */
+      word-break: break-word;
+    }
+
+    /* make wide content responsive */
+    article#article img,
+    article#article table,
+    article#article iframe {
+      max-width: 100%;
+      height: auto;
+    }
+
+
     /* CONTENT */
     .content {
       display: flex;
       flex-direction: column;
       min-width: 0;
+      overflow: hidden;          /* stops the parent from growing the page */
     }
 
     header.site-header {
@@ -151,9 +188,9 @@
     }
 
     main.reader {
-      width: min(900px, 100%);
-      margin: 18px auto;
-      padding: 0 16px 40px;
+      flex: 1 1 auto;
+      overflow: auto;            /* this is the scroller now */
+      height: auto;              /* allow flex to control height */
     }
 
     .nav {
