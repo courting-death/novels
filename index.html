@@ -189,41 +189,22 @@
     /* BUTTONS (theme + arrows share the same style) */
     /* shared style for theme + arrow buttons */
     .icon-btn {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      width: 42px;
-      height: 42px;             /* was 38px */
-      display: inline-grid;
-      place-items: center;
-      cursor: pointer;
-      color: var(--fg);
-      text-decoration: none;
-      font-size: 20px;          /* force same glyph size */
-      line-height: 1;
-      padding: 0;
-  /* Remove pressed/clicked state entirely. */
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0;
     }
 
-    /* Temporary pressed state: only while mouse/touch is held */
-    .icon-btn:active {
-  /* No visual feedback for pressed/clicked state. */
-  /* Remove all pressed/clicked state globally. */
-  filter: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-    }
-    /* For accessibility: show focus ring when using keyboard navigation */
-    .icon-btn:focus {
-      outline: none !important;
-      box-shadow: none !important;
-    }
-    /* Show outline only when navigating with keyboard */
-    body.user-is-tabbing .icon-btn:focus {
-      outline: 2px solid var(--primary) !important;
-      outline-offset: 2px;
-    }
-    /* Future buttons: use .icon-btn for consistent behavior. Do not add persistent active/toggled styles unless needed for toggles. */
+  /* Remove all button states: no :active, :focus, :hover, or toggled styles. */
 
     @media (max-width: 900px) {
       .icon-btn {
@@ -244,7 +225,7 @@
     }
 
 
-    .icon-btn:hover { filter: brightness(1.05); }
+  /* No hover effect. */
 
     /* HAMBURGER */
     .menu {
