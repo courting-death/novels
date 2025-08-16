@@ -213,7 +213,12 @@
     }
     /* For accessibility: show focus ring when using keyboard navigation */
     .icon-btn:focus {
-      outline: 2px solid var(--primary);
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    /* Show outline only when navigating with keyboard */
+    body.user-is-tabbing .icon-btn:focus {
+      outline: 2px solid var(--primary) !important;
       outline-offset: 2px;
     }
     /* Future buttons: use .icon-btn for consistent behavior. Do not add persistent active/toggled styles unless needed for toggles. */
@@ -568,6 +573,25 @@
       const q = getParam('chapter');
       if (q) openChapterById(q);
     });
+
+    // Show focus outline only for keyboard navigation
+    (function() {
+  function handleFirstTab(e) {
+    if (e.key === 'Tab') {
+      document.body.classList.add('user-is-tabbing');
+      window.removeEventListener('keydown', handleFirstTab);
+      window.addEventListener('mousedown', handleMouseDownOnce);
+      window.addEventListener('touchstart', handleMouseDownOnce);
+    }
+  }
+  function handleMouseDownOnce() {
+    document.body.classList.remove('user-is-tabbing');
+    window.removeEventListener('mousedown', handleMouseDownOnce);
+    window.removeEventListener('touchstart', handleMouseDownOnce);
+    window.addEventListener('keydown', handleFirstTab);
+  }
+  window.addEventListener('keydown', handleFirstTab);
+})();
   </script>
 </body>
 </html>
