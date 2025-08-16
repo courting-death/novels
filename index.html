@@ -142,14 +142,23 @@
 
     /* CONTENT */
     /* Let the whole right column scroll so the scrollbar is at the viewport edge */
+    /* Right column no longer scrolls itself */
     .content {
       display: flex;
       flex-direction: column;
       min-width: 0;
-      min-height: 0;             /* allows the child to size properly */
-      overflow: auto;            /* ← content column is now the scroller */
-      scrollbar-gutter: stable;  /* keeps a gutter so text never jumps when the bar appears */
-      scroll-padding-top: var(--header-h);  /* ← prevents “covered first line/anchors” */
+      min-height: 0;
+      overflow: hidden;                 /* ← was auto */
+    }
+
+        /* New: inner scroller so the track sits at far right,
+      and does NOT run behind the sticky header */
+    .scroller {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      scrollbar-gutter: stable;         /* keeps a gutter so layout doesn’t jump */
+      scroll-padding-top: var(--header-h);  /* anchors don’t hide under header */
     }
 
     header.site-header {
@@ -231,13 +240,11 @@
 
     main.reader {
       flex: 0 0 auto;
-      overflow: visible;         /* ← no inner scrollbar */
-      height: auto;
+      overflow: visible;
       box-sizing: border-box;
-      padding: 0 16px 40px;
-      max-width: 72ch;           /* your comfy page width */
-      margin: 0 auto;            /* center the page */
-      padding-top: 8px;
+      max-width: 72ch;                  /* your readable width */
+      margin: 0 auto;
+      padding: 8px 16px 40px;           /* small top pad so text doesn’t kiss border */
     }
     @media (min-width: 901px){
       main.reader{ padding: 0 24px 56px; }
@@ -346,25 +353,26 @@
         </div>
       </header>
 
-      <main class="reader">
-        <nav class="nav" id="topNav" style="display:none;"></nav> <!-- kept for structure -->
-        <article id="article"></article>
-        <nav class="nav" id="bottomNav">
-          <a href="#" id="prevBottom" class="icon-btn hidden" aria-label="Previous">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </a>
-          <a href="#" id="nextBottom" class="icon-btn hidden" aria-label="Next">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </a>
-
-        </nav>
-      </main>
+      <div class="scroller">
+        <main class="reader">
+          <nav class="nav" id="topNav" style="display:none;"></nav> <!-- kept for structure -->
+          <article id="article"></article>
+          <nav class="nav" id="bottomNav">
+            <a href="#" id="prevBottom" class="icon-btn hidden" aria-label="Previous">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </a>
+            <a href="#" id="nextBottom" class="icon-btn hidden" aria-label="Next">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </nav>
+        </main>
+      </div>
     </div>
   </div>
 
@@ -410,7 +418,7 @@
     const titleEl = qs('#chapterTitle');
     const chaptersListEl = qs('#chaptersList');
     const articleEl = qs('#article');
-    const mainEl = document.querySelector('main.reader');
+    const scrollerEl = document.querySelector('.scroller');
 
 
     const navEls = {
@@ -502,7 +510,7 @@
         if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
         const md = await res.text();
         articleEl.innerHTML = marked.parse(md);
-        if (mainEl) mainEl.scrollTo({ top: 0, behavior: 'auto' });
+        if (scrollerEl) scrollerEl.scrollTo({ top: 0, behavior: 'auto' }); // or 'smooth'
       } catch (e) {
         console.error('Failed to load chapter', id, e);
         articleEl.innerHTML = ''; // silent fail
