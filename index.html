@@ -77,7 +77,8 @@
       background: var(--surface);
       border-right: 1px solid var(--border);
       padding: 12px;
-      overflow-y: auto;
+  overflow-y: auto;
+  /* Always allow scrolling on hover, no click needed */
       position: relative;
       z-index: 1001; /* above the overlay */
     }
@@ -148,7 +149,7 @@
       flex-direction: column;
       min-width: 0;
       min-height: 0;
-      overflow: hidden;                 /* ← was auto */
+  overflow: visible;                /* allow scrolling if child overflows */
     }
 
         /* New: inner scroller so the track sits at far right,
@@ -156,7 +157,7 @@
     .scroller {
       flex: 1 1 auto;
       min-height: 0;
-      overflow: auto;
+  overflow-y: auto;                 /* always allow vertical scrolling */
       scrollbar-gutter: stable;         /* keeps a gutter so layout doesn’t jump */
       scroll-padding-top: var(--header-h);  /* anchors don’t hide under header */
     }
@@ -350,6 +351,10 @@
         </button>
         <strong id="chapterTitle">Loading…</strong>
         <div class="tools">
+          <button id="fontInc" class="icon-btn" title="Increase font size">A+</button>
+          <button id="fontDec" class="icon-btn" title="Decrease font size">A-</button>
+          <button id="padInc" class="icon-btn" title="Increase padding">⇔+</button>
+          <button id="padDec" class="icon-btn" title="Decrease padding">⇔-</button>
           <button id="themeBtn" class="icon-btn" title="Toggle theme">🌓</button>
           <!-- top nav arrows -->
           <a href="#" id="prevTop" class="icon-btn hidden" aria-label="Previous">
@@ -401,6 +406,48 @@
       themeBtn.textContent = (mode === 'dark') ? '☀️' : '🌙';
     }
     setTheme(localStorage.getItem('mp_theme') || 'light');
+
+    // Font size controls
+    const fontInc = document.getElementById('fontInc');
+    const fontDec = document.getElementById('fontDec');
+    const article = document.getElementById('article');
+    function getFontSize() {
+      return parseFloat(window.getComputedStyle(article).fontSize);
+    }
+    function setFontSize(size) {
+      article.style.fontSize = size + 'px';
+      localStorage.setItem('mp_fontsize', size);
+    }
+    fontInc.addEventListener('click', () => {
+      setFontSize(Math.min(getFontSize() + 2, 36));
+    });
+    fontDec.addEventListener('click', () => {
+      setFontSize(Math.max(getFontSize() - 2, 12));
+    });
+    // Load saved font size
+    const savedFont = localStorage.getItem('mp_fontsize');
+    if (savedFont) setFontSize(parseFloat(savedFont));
+
+    // Padding controls
+    const padInc = document.getElementById('padInc');
+    const padDec = document.getElementById('padDec');
+    function getPadding() {
+      return parseFloat(window.getComputedStyle(article).paddingLeft);
+    }
+    function setPadding(pad) {
+      article.style.paddingLeft = pad + 'px';
+      article.style.paddingRight = pad + 'px';
+      localStorage.setItem('mp_padding', pad);
+    }
+    padInc.addEventListener('click', () => {
+      setPadding(Math.min(getPadding() + 8, 128));
+    });
+    padDec.addEventListener('click', () => {
+      setPadding(Math.max(getPadding() - 8, 0));
+    });
+    // Load saved padding
+    const savedPad = localStorage.getItem('mp_padding');
+    if (savedPad) setPadding(parseFloat(savedPad));
     themeBtn.addEventListener('click', () => {
       setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
     });
