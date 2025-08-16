@@ -162,29 +162,6 @@
     }
 
     header.site-header {
-<<<<<<< HEAD
-  position: sticky;
-  top: 0;
-  z-index: 1002;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  height: var(--header-h);     /* ← explicit height */
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  transition: transform 0.25s cubic-bezier(.4,0,.2,1), opacity 0.2s, position 0s;
-    }
-
-    .site-header.hide-on-scroll {
-      position: absolute !important;
-      top: 0;
-      left: 0;
-      width: 100%;
-      transform: translateY(-100%);
-      opacity: 0;
-      pointer-events: none;
-=======
       position: sticky;
       top: 0;
       z-index: 1002;
@@ -195,7 +172,6 @@
       height: var(--header-h);     /* ← explicit height */
       background: var(--surface);
       border-bottom: 1px solid var(--border);
->>>>>>> parent of bc089c3 (fixed padding on mobile and some curly brace)
     }
 
     @media (min-width: 901px) {
@@ -208,39 +184,11 @@
         width: 100%;
       }
     }
-    }
+    
 
     /* BUTTONS (theme + arrows share the same style) */
     /* shared style for theme + arrow buttons */
     .icon-btn {
-<<<<<<< HEAD
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 14px;         /* softer, rounder corners */
-  width: 42px;
-  height: 42px;               /* was 38px */
-  display: inline-grid;
-  place-items: center;
-  cursor: pointer;
-  color: var(--fg);
-  text-decoration: none;
-  font-size: 20px;            /* force same glyph size */
-  line-height: 1;
-  padding: 0;
-  outline: none !important;   /* Prevent browser default outline */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07); /* subtle shadow for depth */
-  filter: none !important;
-  -webkit-tap-highlight-color: transparent;
-    }
-
-    .menu {
-      -webkit-tap-highlight-color: transparent;
-    }
-    .icon-btn:active, .icon-btn:focus, .icon-btn:hover {
-  outline: none !important;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.12); /* slightly stronger shadow on interaction */
-  filter: brightness(1.05);
-=======
       background: none;
       border: 1px solid var(--border);
       border-radius: 10px;
@@ -262,7 +210,6 @@
       filter: brightness(0.92);
       box-shadow: 0 1px 6px rgba(0,0,0,0.08);
       outline: none;
->>>>>>> parent of bc089c3 (fixed padding on mobile and some curly brace)
     }
     /* For accessibility: show focus ring when using keyboard navigation */
     .icon-btn:focus {
