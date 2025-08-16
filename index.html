@@ -11,11 +11,11 @@
   <style>
     /* THEME TOKENS */
     :root[data-theme="light"] {
-  --bg: #f4ecd8;           /* sepia background */
+  --bg: #f4ecd8;           /* sepia background, less yellow */
   --fg: #5b4636;           /* readable brown text */
   --muted: #a58c6f;        /* muted brown */
   --primary: #b5853e;      /* warm accent */
-  --surface: #f8f3e8;      /* lighter sepia for surfaces */
+  --surface: #f7f3e6;      /* lighter sepia for surfaces, less yellow */
   --border: #e0d6c3;       /* soft border */
   --link: #a86b32;         /* brownish link */
     }
@@ -176,39 +176,56 @@
     }
 
     .site-header.hide-on-scroll {
-  position: absolute !important;
-  width: 100%;
-  top: 0;
-  left: 0;
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @media (min-width: 901px) {
+      .site-header.hide-on-scroll {
+        left: 280px; /* sidebar width */
+        width: calc(100% - 280px);
+      }
+      body.sidebar-collapsed .site-header.hide-on-scroll {
+        left: 0;
+        width: 100%;
+      }
+    }
     }
 
     /* BUTTONS (theme + arrows share the same style) */
     /* shared style for theme + arrow buttons */
     .icon-btn {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      width: 42px;
-      height: 42px;             /* was 38px */
-      display: inline-grid;
-      place-items: center;
-      cursor: pointer;
-      color: var(--fg);
-      text-decoration: none;
-      font-size: 20px;          /* force same glyph size */
-      line-height: 1;
-      padding: 0;
-      outline: none !important; /* Prevent browser default outline */
-      box-shadow: none !important;
-      filter: none !important;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 14px;         /* softer, rounder corners */
+  width: 42px;
+  height: 42px;               /* was 38px */
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 20px;            /* force same glyph size */
+  line-height: 1;
+  padding: 0;
+  outline: none !important;   /* Prevent browser default outline */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07); /* subtle shadow for depth */
+  filter: none !important;
+  -webkit-tap-highlight-color: transparent;
+    }
+
+    .menu {
+      -webkit-tap-highlight-color: transparent;
     }
     .icon-btn:active, .icon-btn:focus, .icon-btn:hover {
-      outline: none !important;
-      box-shadow: none !important;
-      filter: none !important;
+  outline: none !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12); /* slightly stronger shadow on interaction */
+  filter: brightness(1.05);
     }
 
     @media (max-width: 900px) {
