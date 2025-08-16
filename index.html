@@ -256,47 +256,42 @@
     }
     .overlay.show { display: block; }
 
- /* MOBILE */
-  @media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; } /* hide sidebar column */
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }          /* sidebar column hidden */
 
-  .sidebar{
-    position: fixed;
-    left: 0; top: 0; bottom: 0;
-    transform: translateX(-100%);
-    transition: transform .25s ease;
-    width: min(85vw, 320px);
-    z-index: 1100;                       /* above sticky page header */
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    overflow-y: auto;                     /* drawer scrolls independently */
-  }
-  .sidebar.open{ transform: translateX(0); }
+      .sidebar{
+        position: fixed;
+        left: 0; top: 0; bottom: 0;
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        width: min(85vw, 320px);
+        z-index: 1100;                               /* above page header */
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        overflow-y: auto;                             /* drawer scrolls */
+        padding-top: calc(env(safe-area-inset-top, 0px) + 12px);  /* space from top */
+      }
+      .sidebar.open{ transform: translateX(0); }
 
-  /* Sticky drawer header (“Martial Peak”), centered */
-  .sidebar h1{
-    position: sticky;
-    top: env(safe-area-inset-top, 0px);
-    height: var(--header-h);              /* e.g. 56px */
-    margin: 0;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;                  /* vertical center */
-    justify-content: center;              /* horizontal center */
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    z-index: 1;                           /* above list items */
-  }
+      /* Simple title — centered, no sticky */
+      .sidebar h1{
+        margin: 0 0 12px;
+        padding: 0 16px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 700;
+      }
 
-  /* List starts just under the sticky header */
-  .sidebar ul{
-    padding-top: 8px;                     /* small breathing room */
-    margin: 0;
-  }
+      /* List sits right under the title */
+      .sidebar ul{
+        margin: 0;
+        padding: 0;
+      }
 
-  /* overlay sits below drawer but above content */
-  .overlay{ z-index: 1090; }
-}
+      /* overlay sits below drawer but above content */
+      .overlay{ z-index: 1090; }
+    }
 
 
   </style>
