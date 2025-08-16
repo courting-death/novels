@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "chapters/ch0002.md",
+                "file": "1 to review/ch0002.md",
                 "mode": "source",
                 "source": false
               },
@@ -181,13 +181,15 @@
       "digitalgarden:Digital Garden Publication Center": false
     }
   },
-  "active": "96347981c4037ece",
+  "active": "58bc45b7fb1343f0",
   "lastOpenFiles": [
+    "gitignore.md",
+    "1 to review/ch0002.md",
+    "1 to review/ch0002old.md",
     "chapters/ch0001.md",
     "chapters/ch0011.md",
     "chapters/ch0005.md",
     "1 to review/ch0001old.md",
-    "chapters/ch0002.md",
     "1 to review/ch0010old.md",
     "1 to review/ch0009old.md",
     "1 to review/ch0008old.md",
@@ -195,7 +197,6 @@
     "1 to review/ch0006old.md",
     "1 to review/ch0004old.md",
     "1 to review/ch0003old.md",
-    "1 to review/ch0002old.md",
     "1 to review/ch0005old.md",
     "1 to review/ch0596.md",
     "chapters/ch0313.md",
@@ -209,7 +210,6 @@
     "chapters/ch0595.md",
     "1 to review/ch0597.md",
     "chapters/ch0198.md",
-    "chapters/ch0197.md",
     "Martial Peak test.epub",
     "Martial Peak Full.epub",
     "1 to review",
