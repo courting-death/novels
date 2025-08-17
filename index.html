@@ -210,8 +210,7 @@
     @media (max-width: 900px) {
       .icon-btn {
         width: 44px;
-        height: 44px;
-        font-size: 22px;        /* slightly larger + crisper on phones */
+        height: 44px;     /* slightly larger + crisper on phones */
       }
     }
 
@@ -250,12 +249,12 @@
     .settings-inner {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
       width: 100%;
     /* position first button so its center lines up with the header center.
       42px is the .icon-btn height; adjust if you change button size
       add a small nudge so the control aligns with the cog distance from the top edge */
-    padding-top: calc((var(--header-h) - 42px) / 2 + env(safe-area-inset-top, 0px) + 10px);
+    padding-top: 17px;
       align-items: center; /* center horizontally */
       box-sizing: border-box;
     }
@@ -352,7 +351,7 @@
         background: var(--surface);
         border-right: 1px solid var(--border);
         overflow-y: auto;                             /* drawer scrolls */
-        padding-top: calc(env(safe-area-inset-top, 0px) + 12px);  /* space from top */
+        padding-top: -200px;  /* space from top */
       }
       .sidebar.open{ transform: translateX(0); }
 
@@ -374,7 +373,7 @@
       /* overlay sits below drawer but above content */
       .overlay{ z-index: 1090; }
   /* settings sidebar mobile alignment */
-  .settings-sidebar { top: 0; padding-top: calc(env(safe-area-inset-top, 0px) + var(--header-h)); z-index: 1100; }
+  .settings-sidebar { top: 0; padding-top: 16px; z-index: 1100; }
   .settings-sidebar.open { transform: translateX(0); }
     }
 
@@ -397,18 +396,18 @@
   <div class="tools">
           <!-- font and theme controls moved into the settings sidebar on the right -->
           <!-- top nav arrows -->
-          <a href="#" id="prevTop" class="icon-btn hidden" aria-label="Previous">
+          <button id="prevTop" class="icon-btn hidden" aria-label="Previous">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
-          </a>
-          <a href="#" id="nextTop" class="icon-btn hidden" aria-label="Next">
+          </button>
+          <button id="nextTop" class="icon-btn hidden" aria-label="Next">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
-          </a>
+          </button>
           <button id="cogBtn" class="icon-btn" title="Settings" aria-label="Settings">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09A1.65 1.65 0 0 0 11 3.09V3a2 2 0 0 1 4 0v.09c.38.16.7.46 1 1.51a1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82c.16.38.46.7 1.51 1H21a2 2 0 0 1 0 4h-.09c-.16.38-.46.7-1.51 1z"></path></svg>
           </button>
@@ -420,18 +419,18 @@
           <nav class="nav" id="topNav" style="display:none;"></nav> <!-- kept for structure -->
           <article id="article"></article>
           <nav class="nav" id="bottomNav">
-            <a href="#" id="prevBottom" class="icon-btn hidden" aria-label="Previous">
+            <button id="prevBottom" class="icon-btn hidden" aria-label="Previous">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
-            </a>
-            <a href="#" id="nextBottom" class="icon-btn hidden" aria-label="Next">
+            </button>
+            <button id="nextBottom" class="icon-btn hidden" aria-label="Next">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
-            </a>
+            </button>
           </nav>
         </main>
       </div>
@@ -649,15 +648,22 @@
       }
     }
 
-    function updateNav(anchor, idx) {
+    function updateNav(el, idx) {
       if (idx >= 0 && idx < CHAPTERS.length) {
-        anchor.classList.remove('hidden');
-        anchor.href = `?chapter=${CHAPTERS[idx].id}`;
-        anchor.onclick = (ev) => { ev.preventDefault(); openChapterByIndex(idx); };
+        el.classList.remove('hidden');
+        // if it's an anchor keep href for deep-linking, otherwise attach click handler
+        if (el.tagName && el.tagName.toLowerCase() === 'a') {
+          el.href = `?chapter=${CHAPTERS[idx].id}`;
+          el.onclick = (ev) => { ev.preventDefault(); openChapterByIndex(idx); };
+        } else {
+          // button or other element: set a click handler and a data-target for debugging
+          el.removeAttribute('href');
+          el.onclick = (ev) => { ev.preventDefault(); openChapterByIndex(idx); };
+        }
       } else {
-        anchor.classList.add('hidden');
-        anchor.removeAttribute('href');
-        anchor.onclick = null;
+        el.classList.add('hidden');
+        if (el.tagName && el.tagName.toLowerCase() === 'a') el.removeAttribute('href');
+        el.onclick = null;
       }
     }
 
