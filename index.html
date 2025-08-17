@@ -9,6 +9,46 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
+    /* Settings sidebar (right) */
+    .settings-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 72px;
+      height: 100vh;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      box-shadow: -2px 0 12px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 80px;
+      z-index: 2002;
+      transition: transform 0.2s;
+      transform: translateX(100%);
+    }
+    .settings-sidebar.open {
+      transform: translateX(0);
+    }
+    .settings-cog-btn {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 2003;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .settings-sidebar .icon-btn {
+      margin: 12px 0;
+    }
     /* THEME TOKENS */
     :root[data-theme="light"] {
   --bg: #f4ecd8;           /* sepia background, less yellow */
@@ -351,21 +391,6 @@
         </button>
         <strong id="chapterTitle">Loading…</strong>
         <div class="tools">
-          <button id="fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="16" />
-              <line x1="8" y1="12" x2="16" y2="12" />
-            </svg>
-          </button>
-          <button id="fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="8" y1="12" x2="16" y2="12" />
-            </svg>
-          </button>
-          <button id="themeBtn" class="icon-btn" title="Toggle theme">🌓</button>
-          <!-- top nav arrows -->
           <a href="#" id="prevTop" class="icon-btn hidden" aria-label="Previous">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -378,6 +403,25 @@
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </a>
+          <button id="themeBtn" class="icon-btn" title="Toggle theme">🌓</button>
+  <button id="settingsCogBtn" class="settings-cog-btn" title="Settings" aria-label="Settings">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09A1.65 1.65 0 0 0 11 3.09V3a2 2 0 0 1 4 0v.09c.38.16.7.46 1 1.51a1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82c.16.38.46.7 1.51 1H21a2 2 0 0 1 0 4h-.09c-.16.38-.46.7-1.51 1z"></path></svg>
+  </button>
+  <aside class="settings-sidebar" id="settingsSidebar">
+    <button id="fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="16" />
+        <line x1="8" y1="12" x2="16" y2="12" />
+      </svg>
+    </button>
+    <button id="fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="8" y1="12" x2="16" y2="12" />
+      </svg>
+    </button>
+  </aside>
         </div>
       </header>
 
@@ -407,6 +451,12 @@
   <div class="overlay" id="overlay"></div>
 
   <script>
+    // --- Settings sidebar logic ---
+    const settingsCogBtn = document.getElementById('settingsCogBtn');
+    const settingsSidebar = document.getElementById('settingsSidebar');
+    settingsCogBtn.addEventListener('click', () => {
+      settingsSidebar.classList.toggle('open');
+    });
     // --- Theme ---
     const themeBtn = document.getElementById('themeBtn');
     function setTheme(mode) {
