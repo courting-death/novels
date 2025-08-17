@@ -351,10 +351,19 @@
         </button>
         <strong id="chapterTitle">Loading…</strong>
         <div class="tools">
-          <button id="fontInc" class="icon-btn" title="Increase font size">A+</button>
-          <button id="fontDec" class="icon-btn" title="Decrease font size">A-</button>
-          <button id="padInc" class="icon-btn" title="Increase padding">⇔+</button>
-          <button id="padDec" class="icon-btn" title="Decrease padding">⇔-</button>
+          <button id="fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+          </button>
+          <button id="fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+          </button>
           <button id="themeBtn" class="icon-btn" title="Toggle theme">🌓</button>
           <!-- top nav arrows -->
           <a href="#" id="prevTop" class="icon-btn hidden" aria-label="Previous">
@@ -418,36 +427,19 @@
       article.style.fontSize = size + 'px';
       localStorage.setItem('mp_fontsize', size);
     }
-    fontInc.addEventListener('click', () => {
-      setFontSize(Math.min(getFontSize() + 2, 36));
-    });
-    fontDec.addEventListener('click', () => {
-      setFontSize(Math.max(getFontSize() - 2, 12));
-    });
+    if (fontInc) {
+      fontInc.addEventListener('click', () => {
+        setFontSize(Math.min(getFontSize() + 2, 36));
+      });
+    }
+    if (fontDec) {
+      fontDec.addEventListener('click', () => {
+        setFontSize(Math.max(getFontSize() - 2, 12));
+      });
+    }
     // Load saved font size
     const savedFont = localStorage.getItem('mp_fontsize');
     if (savedFont) setFontSize(parseFloat(savedFont));
-
-    // Padding controls
-    const padInc = document.getElementById('padInc');
-    const padDec = document.getElementById('padDec');
-    function getPadding() {
-      return parseFloat(window.getComputedStyle(article).paddingLeft);
-    }
-    function setPadding(pad) {
-      article.style.paddingLeft = pad + 'px';
-      article.style.paddingRight = pad + 'px';
-      localStorage.setItem('mp_padding', pad);
-    }
-    padInc.addEventListener('click', () => {
-      setPadding(Math.min(getPadding() + 8, 128));
-    });
-    padDec.addEventListener('click', () => {
-      setPadding(Math.max(getPadding() - 8, 0));
-    });
-    // Load saved padding
-    const savedPad = localStorage.getItem('mp_padding');
-    if (savedPad) setPadding(parseFloat(savedPad));
     themeBtn.addEventListener('click', () => {
       setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
     });
