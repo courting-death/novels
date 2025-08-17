@@ -225,7 +225,6 @@
 
     @media (max-width: 900px) {
       /* slightly larger touch targets on phones */
-      .icon-btn { width: calc(var(--icon-btn-size) + 2px); height: calc(var(--icon-btn-size) + 2px); }
     }
 
     /* visual size of the svg glyph inside the button; keep glyph smaller than hit area */
@@ -265,7 +264,7 @@
     /* position first button so its center lines up with the header center.
       42px is the .icon-btn height; adjust if you change button size
       add a small nudge so the control aligns with the cog distance from the top edge */
-    padding-top: 16px;
+    padding-top: 17px;
       align-items: center; /* center horizontally */
       box-sizing: border-box;
     }
@@ -461,6 +460,7 @@
       - Buttons here invoke the same handlers as header controls (reuse behavior)
     -->
     <div class="settings-inner" role="menu" aria-label="Settings">
+      <button id="s-themeBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">🌓</button>
       <button id="s-fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
@@ -468,11 +468,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
   <!-- Content-width controls: narrow / widen readable column -->
-  <button id="s-contentDec" class="icon-btn" title="Narrow column" aria-label="Narrow column">A‑</button>
-  <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">A+</button>
-  <div id="s-contentLabel" aria-live="polite" style="font-size:12px;color:var(--muted);padding-top:6px"> </div>
-      <button id="s-themeBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">🌓</button>
-    </div>
+      <button id="s-contentDec" class="icon-btn" title="Narrow column" aria-label="Narrow column">M+</button>
+      <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">M-</button>
+      <div id="s-contentLabel" aria-live="polite" style="font-size:12px;color:var(--muted);padding-top:0px"> </div>
+      </div>
+  
   </aside>
 
   <div class="overlay" id="overlay"></div>
