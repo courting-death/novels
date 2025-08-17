@@ -80,7 +80,7 @@
   overflow-y: auto;
   /* Always allow scrolling on hover, no click needed */
       position: relative;
-      z-index: 1001; /* above the overlay */
+  z-index: 1100; /* above the overlay */
     }
 
     .sidebar h1{
@@ -232,21 +232,33 @@
       border-left: 1px solid var(--border);
       box-shadow: -2px 0 12px rgba(0,0,0,0.08);
       display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
+      align-items: flex-start;    /* align content to the top */
+      justify-content: flex-start;
+      z-index: 1100;              /* match left sidebar stacking for consistent overlay ordering */
       transform: translateX(100%);
-      transition: transform .2s ease;
+      transition: transform .25s cubic-bezier(.2,.8,.2,1);
+      will-change: transform;     /* hint for smoother animation */
     }
     .settings-sidebar.open { transform: translateX(0); }
     /* Desktop: respect body.settings-open to reveal a compact right rail */
     @media (min-width: 901px) {
       body.settings-open .settings-sidebar { transform: translateX(0); }
-      body.settings-open .app { grid-template-columns: 280px 1fr 72px; }
-      /* when settings rail is open, leave layout space so content doesn't overlap */
-      .app { grid-template-columns: 280px 1fr; }
+      /* reserve a small right margin when settings rail is open so content doesn't shift awkwardly */
+      body.settings-open .app { margin-right: 72px; transition: margin-right .25s cubic-bezier(.2,.8,.2,1); }
     }
-    .settings-inner { display:flex; flex-direction:column; gap:12px; }
+    /* place controls centered horizontally and aligned vertically to the header (same level as the cog) */
+    .settings-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    /* position first button so its center lines up with the header center.
+      42px is the .icon-btn height; adjust if you change button size
+      add a small nudge so the control aligns with the cog distance from the top edge */
+    padding-top: calc((var(--header-h) - 42px) / 2 + env(safe-area-inset-top, 0px) + 10px);
+      align-items: center; /* center horizontally */
+      box-sizing: border-box;
+    }
   /* reuse icon-btn visuals for cog button; push it to the far right of the tools */
   #cogBtn { display:inline-grid; place-items:center; margin-left: auto; align-self:center; }
 
@@ -322,7 +334,7 @@
       inset: 0;
       background: rgba(0,0,0,.45);
       display: none;
-      z-index: 1000; /* below sidebar (1001) */
+      z-index: 1095; /* below sidebars (1100) */
     }
     .overlay.show { display: block; }
 
@@ -361,6 +373,9 @@
 
       /* overlay sits below drawer but above content */
       .overlay{ z-index: 1090; }
+  /* settings sidebar mobile alignment */
+  .settings-sidebar { top: 0; padding-top: calc(env(safe-area-inset-top, 0px) + var(--header-h)); z-index: 1100; }
+  .settings-sidebar.open { transform: translateX(0); }
     }
 
 
