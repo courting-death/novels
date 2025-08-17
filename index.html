@@ -29,11 +29,22 @@
   --link: #7ec3fa;         /* bright blue link */
     }
     
-    :root { --header-h: 56px; }     /* adjust if you like */
+    /* ====== Layout tokens (tweak these to change spacing/sizes globally) ======
+       --header-h: height of the top header
+       --settings-rail-w: width of the right-side settings rail
+       --icon-btn-size: square hit area for small header/rail buttons (do NOT confuse with glyph size)
+       --icon-glyph-size: visual size of the SVG icon inside the button
+    */
+    :root { 
+      --header-h: 56px; /* adjust if you like */
+      --settings-rail-w: 72px; /* change to widen/narrow the settings rail in one place */
+      --icon-btn-size: 42px;   /* hit/touch area for .icon-btn */
+      --icon-glyph-size: 20px; /* visual size of the SVG glyph inside the button */
+    }
     header.site-header { min-height: var(--header-h); }
 
     :root{
-    --content-w: 72ch; /* default comfortable width ~ 70–75 characters */
+      --content-w: 72ch; /* comfortable line length: ~70–75 characters */
     }
 
     
@@ -189,43 +200,43 @@
 
     /* BUTTONS (theme + arrows share the same style) */
     /* shared style for theme + arrow buttons */
+    /* Small circular/square icon buttons used in the header and settings rail.
+       Important: these define the hit area (touch target). The actual icon inside
+       is sized via --icon-glyph-size so you can make the glyph larger/smaller
+       independently of touch size for consistent UX.
+    */
     .icon-btn {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  width: 42px;
-  height: 42px;
-  display: inline-grid;
-  place-items: center;
-  cursor: pointer;
-  color: var(--fg);
-  text-decoration: none;
-  font-size: 20px;
-  line-height: 1;
-  padding: 0;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: var(--icon-btn-size);
+      height: var(--icon-btn-size);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 20px;
+      line-height: 1;
+      padding: 0;
     }
 
   /* Remove all button states: no :active, :focus, :hover, or toggled styles. */
 
     @media (max-width: 900px) {
-      .icon-btn {
-        width: 44px;
-        height: 44px;     /* slightly larger + crisper on phones */
-      }
+      /* slightly larger touch targets on phones */
+      .icon-btn { width: calc(var(--icon-btn-size) + 2px); height: calc(var(--icon-btn-size) + 2px); }
     }
 
-    .icon-btn svg {
-      width: 20px;
-      height: 20px;
-      display: block;
-    }
+    /* visual size of the svg glyph inside the button; keep glyph smaller than hit area */
+    .icon-btn svg { width: var(--icon-glyph-size); height: var(--icon-glyph-size); display: block; }
 
     /* Settings sidebar (right) */
     .settings-sidebar {
       position: fixed;
       top: 0;
       right: 0;
-      width: 72px;
+      width: var(--settings-rail-w);
       height: 100vh;
       background: var(--surface);
       border-left: 1px solid var(--border);
@@ -243,7 +254,7 @@
     @media (min-width: 901px) {
       body.settings-open .settings-sidebar { transform: translateX(0); }
       /* reserve a small right margin when settings rail is open so content doesn't shift awkwardly */
-      body.settings-open .app { margin-right: 72px; transition: margin-right .25s cubic-bezier(.2,.8,.2,1); }
+  body.settings-open .app { margin-right: var(--settings-rail-w); transition: margin-right .25s cubic-bezier(.2,.8,.2,1); }
     }
     /* place controls centered horizontally and aligned vertically to the header (same level as the cog) */
     .settings-inner {
@@ -388,6 +399,13 @@
     </aside>
 
     <div class="content">
+      <!--
+        Header: contains the hamburger menu, current chapter title, and header tools.
+        - #menuBtn toggles the left chapter drawer (mobile) or collapses the sidebar (desktop)
+        - #chapterTitle shows the current chapter's title
+        - .tools holds inline header controls (arrows + cog). Most controls are shared
+          with the right settings rail to keep behavior consistent.
+      -->
       <header class="site-header">
         <button class="menu" id="menuBtn" aria-label="Menu">
           <span></span><span></span><span></span>
@@ -395,7 +413,7 @@
         <strong id="chapterTitle">Loading…</strong>
   <div class="tools">
           <!-- font and theme controls moved into the settings sidebar on the right -->
-          <!-- top nav arrows -->
+          <!-- top nav arrows (these are buttons for consistent semantics/accessibility) -->
           <button id="prevTop" class="icon-btn hidden" aria-label="Previous">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -437,6 +455,11 @@
     </div>
   </div>
   <aside class="settings-sidebar" id="settingsSidebar" aria-hidden="true">
+    <!--
+      Right settings rail: compact vertical controls for font + theme.
+      - Sits off-canvas on mobile and as a compact rail on desktop when body.settings-open
+      - Buttons here invoke the same handlers as header controls (reuse behavior)
+    -->
     <div class="settings-inner" role="menu" aria-label="Settings">
       <button id="s-fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
@@ -451,7 +474,13 @@
   <div class="overlay" id="overlay"></div>
 
   <script>
-    // --- Theme ---
+  // ====== Small runtime guide ======
+  // This script wires UI controls (menu, cog, font/theme, navigation) to shared helper
+  // functions. Key persisted keys in localStorage are:
+  //  - mp_theme: 'light' | 'dark'
+  //  - mp_fontsize: number (px)
+
+  // --- Theme ---
     function setTheme(mode) {
       document.documentElement.setAttribute('data-theme', mode);
       localStorage.setItem('mp_theme', mode);
@@ -464,12 +493,14 @@
     }
     setTheme(localStorage.getItem('mp_theme') || 'light');
 
-    // Font size controls
-    const fontInc = document.getElementById('fontInc');
-    const fontDec = document.getElementById('fontDec');
+  // Font size controls
+  // Note: There are two places for font controls — header (optional) and settings rail.
+  // We wire both to the same handlers so behavior is identical.
+  const fontInc = document.getElementById('fontInc');
+  const fontDec = document.getElementById('fontDec');
   const sFontInc = document.getElementById('s-fontInc');
   const sFontDec = document.getElementById('s-fontDec');
-    const article = document.getElementById('article');
+  const article = document.getElementById('article');
     function getFontSize() {
       return parseFloat(window.getComputedStyle(article).fontSize);
     }
@@ -497,14 +528,16 @@
       setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
     });
 
-    // --- Sidebar open/close ---
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const menuBtn = document.getElementById('menuBtn');
+  // --- Sidebar open/close ---
+  // Elements that control drawers/overlays. The code distinguishes mobile vs desktop
+  // behavior: mobile uses slide + overlay; desktop toggles compact columns without overlay.
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
   const cogBtn = document.getElementById('cogBtn');
   const settingsSidebar = document.getElementById('settingsSidebar');
   const sThemeBtn = document.getElementById('s-themeBtn');
-    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+  const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
 
     function openSidebarMobile(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
     function closeSidebarMobile(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
@@ -544,14 +577,16 @@
       });
     }
 
-    // --- Helpers ---
-    const qs = (sel) => document.querySelector(sel);
-    const titleEl = qs('#chapterTitle');
-    const chaptersListEl = qs('#chaptersList');
-    const articleEl = qs('#article');
-    const scrollerEl = document.querySelector('.scroller');
+  // --- Helpers ---
+  // Short helper for querying elements and named references used below.
+  const qs = (sel) => document.querySelector(sel);
+  const titleEl = qs('#chapterTitle');
+  const chaptersListEl = qs('#chaptersList');
+  const articleEl = qs('#article');
+  const scrollerEl = document.querySelector('.scroller');
 
 
+    // Navigation button refs (top header and bottom nav share the same handlers)
     const navEls = {
       prevTop: qs('#prevTop'),
       nextTop: qs('#nextTop'),
@@ -648,7 +683,10 @@
       }
     }
 
-    function updateNav(el, idx) {
+  // updateNav: shows/hides a navigation control and wires it to openChapterByIndex.
+  // - el: element (button or anchor)
+  // - idx: index in CHAPTERS to open, or invalid index to hide the control
+  function updateNav(el, idx) {
       if (idx >= 0 && idx < CHAPTERS.length) {
         el.classList.remove('hidden');
         // if it's an anchor keep href for deep-linking, otherwise attach click handler
