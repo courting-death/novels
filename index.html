@@ -254,7 +254,7 @@
     /* position first button so its center lines up with the header center.
       42px is the .icon-btn height; adjust if you change button size
       add a small nudge so the control aligns with the cog distance from the top edge */
-    padding-top: 17px;
+    padding-top: 16px;
       align-items: center; /* center horizontally */
       box-sizing: border-box;
     }
@@ -351,7 +351,7 @@
         background: var(--surface);
         border-right: 1px solid var(--border);
         overflow-y: auto;                             /* drawer scrolls */
-        padding-top: -200px;  /* space from top */
+        padding-top: 0px;  /* space from top */
       }
       .sidebar.open{ transform: translateX(0); }
 
@@ -373,7 +373,7 @@
       /* overlay sits below drawer but above content */
       .overlay{ z-index: 1090; }
   /* settings sidebar mobile alignment */
-  .settings-sidebar { top: 0; padding-top: 16px; z-index: 1100; }
+  .settings-sidebar { top: 0; padding-top: 0px; z-index: 1100; }
   .settings-sidebar.open { transform: translateX(0); }
     }
 
