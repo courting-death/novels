@@ -9,46 +9,6 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
-    /* Settings sidebar (right) */
-    .settings-sidebar {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 72px;
-      height: 100vh;
-      background: var(--surface);
-      border-left: 1px solid var(--border);
-      box-shadow: -2px 0 12px rgba(0,0,0,0.08);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 80px;
-      z-index: 2002;
-      transition: transform 0.2s;
-      transform: translateX(100%);
-    }
-    .settings-sidebar.open {
-      transform: translateX(0);
-    }
-    .settings-cog-btn {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      z-index: 2003;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .settings-sidebar .icon-btn {
-      margin: 12px 0;
-    }
     /* THEME TOKENS */
     :root[data-theme="light"] {
   --bg: #f4ecd8;           /* sepia background, less yellow */
@@ -261,6 +221,35 @@
       display: block;
     }
 
+    /* Settings sidebar (right) */
+    .settings-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 72px;
+      height: 100vh;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      box-shadow: -2px 0 12px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      transform: translateX(100%);
+      transition: transform .2s ease;
+    }
+    .settings-sidebar.open { transform: translateX(0); }
+    /* Desktop: respect body.settings-open to reveal a compact right rail */
+    @media (min-width: 901px) {
+      body.settings-open .settings-sidebar { transform: translateX(0); }
+      body.settings-open .app { grid-template-columns: 280px 1fr 72px; }
+      /* when settings rail is open, leave layout space so content doesn't overlap */
+      .app { grid-template-columns: 280px 1fr; }
+    }
+    .settings-inner { display:flex; flex-direction:column; gap:12px; }
+  /* reuse icon-btn visuals for cog button; push it to the far right of the tools */
+  #cogBtn { display:inline-grid; place-items:center; margin-left: auto; align-self:center; }
+
     @media (max-width: 900px) {
       .icon-btn svg { width: 22px; height: 22px; }
     }
@@ -390,7 +379,9 @@
           <span></span><span></span><span></span>
         </button>
         <strong id="chapterTitle">Loading…</strong>
-        <div class="tools">
+  <div class="tools">
+          <!-- font and theme controls moved into the settings sidebar on the right -->
+          <!-- top nav arrows -->
           <a href="#" id="prevTop" class="icon-btn hidden" aria-label="Previous">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -403,25 +394,9 @@
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </a>
-          <button id="themeBtn" class="icon-btn" title="Toggle theme">🌓</button>
-  <button id="settingsCogBtn" class="settings-cog-btn" title="Settings" aria-label="Settings">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09A1.65 1.65 0 0 0 11 3.09V3a2 2 0 0 1 4 0v.09c.38.16.7.46 1 1.51a1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82c.16.38.46.7 1.51 1H21a2 2 0 0 1 0 4h-.09c-.16.38-.46.7-1.51 1z"></path></svg>
-  </button>
-  <aside class="settings-sidebar" id="settingsSidebar">
-    <button id="fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <line x1="12" y1="8" x2="12" y2="16" />
-        <line x1="8" y1="12" x2="16" y2="12" />
-      </svg>
-    </button>
-    <button id="fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <line x1="8" y1="12" x2="16" y2="12" />
-      </svg>
-    </button>
-  </aside>
+          <button id="cogBtn" class="icon-btn" title="Settings" aria-label="Settings">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09A1.65 1.65 0 0 0 11 3.09V3a2 2 0 0 1 4 0v.09c.38.16.7.46 1 1.51a1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82c.16.38.46.7 1.51 1H21a2 2 0 0 1 0 4h-.09c-.16.38-.46.7-1.51 1z"></path></svg>
+          </button>
         </div>
       </header>
 
@@ -447,28 +422,39 @@
       </div>
     </div>
   </div>
+  <aside class="settings-sidebar" id="settingsSidebar" aria-hidden="true">
+    <div class="settings-inner" role="menu" aria-label="Settings">
+      <button id="s-fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      </button>
+      <button id="s-fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      </button>
+      <button id="s-themeBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">🌓</button>
+    </div>
+  </aside>
 
   <div class="overlay" id="overlay"></div>
 
   <script>
-    // --- Settings sidebar logic ---
-    const settingsCogBtn = document.getElementById('settingsCogBtn');
-    const settingsSidebar = document.getElementById('settingsSidebar');
-    settingsCogBtn.addEventListener('click', () => {
-      settingsSidebar.classList.toggle('open');
-    });
     // --- Theme ---
-    const themeBtn = document.getElementById('themeBtn');
     function setTheme(mode) {
       document.documentElement.setAttribute('data-theme', mode);
       localStorage.setItem('mp_theme', mode);
-      themeBtn.textContent = (mode === 'dark') ? '☀️' : '🌙';
+      // update any theme buttons if present (header or sidebar)
+      const headerThemeBtn = document.getElementById('themeBtn');
+      const sidebarThemeBtn = document.getElementById('s-themeBtn');
+      const label = (mode === 'dark') ? '☀️' : '🌙';
+      if (headerThemeBtn) headerThemeBtn.textContent = label;
+      if (sidebarThemeBtn) sidebarThemeBtn.textContent = label;
     }
     setTheme(localStorage.getItem('mp_theme') || 'light');
 
     // Font size controls
     const fontInc = document.getElementById('fontInc');
     const fontDec = document.getElementById('fontDec');
+  const sFontInc = document.getElementById('s-fontInc');
+  const sFontDec = document.getElementById('s-fontDec');
     const article = document.getElementById('article');
     function getFontSize() {
       return parseFloat(window.getComputedStyle(article).fontSize);
@@ -487,10 +473,13 @@
         setFontSize(Math.max(getFontSize() - 2, 12));
       });
     }
+  if (sFontInc) sFontInc.addEventListener('click', () => setFontSize(Math.min(getFontSize() + 2, 36)));
+  if (sFontDec) sFontDec.addEventListener('click', () => setFontSize(Math.max(getFontSize() - 2, 12)));
     // Load saved font size
     const savedFont = localStorage.getItem('mp_fontsize');
     if (savedFont) setFontSize(parseFloat(savedFont));
-    themeBtn.addEventListener('click', () => {
+    const headerThemeBtn = document.getElementById('themeBtn');
+    if (headerThemeBtn) headerThemeBtn.addEventListener('click', () => {
       setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
     });
 
@@ -498,10 +487,16 @@
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const menuBtn = document.getElementById('menuBtn');
+  const cogBtn = document.getElementById('cogBtn');
+  const settingsSidebar = document.getElementById('settingsSidebar');
+  const sThemeBtn = document.getElementById('s-themeBtn');
     const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
 
     function openSidebarMobile(){ sidebar.classList.add('open'); overlay.classList.add('show'); }
     function closeSidebarMobile(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+
+  function openSettingsMobile(){ settingsSidebar.classList.add('open'); overlay.classList.add('show'); settingsSidebar.setAttribute('aria-hidden','false'); }
+  function closeSettingsMobile(){ settingsSidebar.classList.remove('open'); overlay.classList.remove('show'); settingsSidebar.setAttribute('aria-hidden','true'); }
 
     menuBtn.addEventListener('click', () => {
       if (isMobile()) {
@@ -513,8 +508,27 @@
         overlay.classList.remove('show');
       }
     });
-    overlay.addEventListener('click', closeSidebarMobile);
+    overlay.addEventListener('click', () => { closeSidebarMobile(); closeSettingsMobile(); });
     window.addEventListener('resize', () => { if (!isMobile()) overlay.classList.remove('show'); });
+
+    // cog button — toggles right settings drawer (mirror of hamburger but on the right)
+    if (cogBtn) {
+      cogBtn.addEventListener('click', () => {
+        if (isMobile()) {
+          settingsSidebar.classList.contains('open') ? closeSettingsMobile() : openSettingsMobile();
+        } else {
+          // desktop: toggle a class to show/hide the settings column (no overlay on desktop)
+          document.body.classList.toggle('settings-open');
+        }
+      });
+    }
+
+    // wire the small sidebar theme button to the same theme toggler
+    if (sThemeBtn) {
+      sThemeBtn.addEventListener('click', () => {
+        setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
+      });
+    }
 
     // --- Helpers ---
     const qs = (sel) => document.querySelector(sel);
