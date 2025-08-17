@@ -8,6 +8,11 @@
   <!-- Markdown renderer -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+  <!-- Fonts for reader: Droid Serif (default) + Lora (alternative) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Droid+Serif:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     /* THEME TOKENS */
     :root[data-theme="light"] {
@@ -40,6 +45,8 @@
       --settings-rail-w: 72px; /* change to widen/narrow the settings rail in one place */
       --icon-btn-size: 42px;   /* hit/touch area for .icon-btn */
       --icon-glyph-size: 20px; /* visual size of the SVG glyph inside the button */
+  /* reader-only font family (serif) */
+  --reader-font-family: 'Droid Serif', serif;
     }
     header.site-header { min-height: var(--header-h); }
 
@@ -325,6 +332,7 @@
     }
 
   article#article { font-size: 18px; }
+  article#article { font-family: var(--reader-font-family, 'Droid Serif', serif); }
     article#article h1, article#article h2, article#article h3 {
       line-height: 1.25;
       margin-top: 1.4em;
@@ -461,9 +469,11 @@
     -->
     <div class="settings-inner" role="menu" aria-label="Settings">
       <button id="s-themeBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">🌓</button>
-      <button id="s-fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
+  <button id="s-fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
+  <!-- Cycle reader font family: default (Droid Serif) → Lora → system serif -->
+  <button id="s-fontCycle" class="icon-btn" title="Cycle font family" aria-label="Cycle font family">F</button>
       <button id="s-fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
@@ -530,6 +540,31 @@
     if (headerThemeBtn) headerThemeBtn.addEventListener('click', () => {
       setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
     });
+
+  // --- Reader font family cycling ---
+  const sFontCycle = document.getElementById('s-fontCycle');
+  const READER_FONTS = [
+    { name: 'Droid Serif', css: "'Droid Serif', serif" },
+    { name: 'Lora', css: "'Lora', serif" },
+    { name: 'System Serif', css: "serif" }
+  ];
+  function applyReaderFont(css) {
+    document.documentElement.style.setProperty('--reader-font-family', css);
+    localStorage.setItem('mp_readerFont', css);
+  }
+  function cycleReaderFont() {
+    const cur = localStorage.getItem('mp_readerFont') || getComputedStyle(document.documentElement).getPropertyValue('--reader-font-family') || "'Droid Serif', serif";
+    const idx = READER_FONTS.findIndex(f => f.css === cur.trim());
+    const next = READER_FONTS[(idx + 1) % READER_FONTS.length];
+    applyReaderFont(next.css);
+    // update label for assistive UI if present
+    const lbl = document.getElementById('s-contentLabel');
+    if (lbl) lbl.textContent = next.name + ' • ' + getContentWCh() + 'ch';
+  }
+  if (sFontCycle) sFontCycle.addEventListener('click', cycleReaderFont);
+  // Restore saved reader font on load
+  const savedReaderFont = localStorage.getItem('mp_readerFont');
+  if (savedReaderFont) document.documentElement.style.setProperty('--reader-font-family', savedReaderFont);
 
   // --- Sidebar open/close ---
   // Elements that control drawers/overlays. The code distinguishes mobile vs desktop
