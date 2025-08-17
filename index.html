@@ -308,7 +308,7 @@
       flex: 0 0 auto;
       overflow: visible;
       box-sizing: border-box;
-      max-width: 72ch;                  /* your readable width */
+      max-width: var(--content-w);                  /* your readable width */
       margin: 0 auto;
       padding: 0px 16px 40px;           /* small top pad so text doesn’t kiss border */
     }
@@ -467,6 +467,10 @@
       <button id="s-fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
+  <!-- Content-width controls: narrow / widen readable column -->
+  <button id="s-contentDec" class="icon-btn" title="Narrow column" aria-label="Narrow column">A‑</button>
+  <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">A+</button>
+  <div id="s-contentLabel" aria-live="polite" style="font-size:12px;color:var(--muted);padding-top:6px"> </div>
       <button id="s-themeBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">🌓</button>
     </div>
   </aside>
@@ -576,6 +580,65 @@
         setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
       });
     }
+
+    // --- Content-width controls (readable column width) ---
+    const sContentInc = document.getElementById('s-contentInc');
+    const sContentDec = document.getElementById('s-contentDec');
+    const sContentLabel = document.getElementById('s-contentLabel');
+
+    function getContentWCh() {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue('--content-w') || '72ch';
+      return parseFloat(raw);
+    }
+    function pxPerCh() {
+      // measure 1ch in pixels reliably (accounts for current font)
+      const el = document.createElement('span');
+      el.style.position = 'absolute';
+      el.style.visibility = 'hidden';
+      el.style.width = '1ch';
+      el.style.font = getComputedStyle(document.documentElement).font;
+      document.body.appendChild(el);
+      const w = el.getBoundingClientRect().width || el.offsetWidth || 8;
+      document.body.removeChild(el);
+      return w;
+    }
+
+    function viewportChAvailable() {
+      const chPx = pxPerCh();
+      const reader = document.querySelector('main.reader');
+      let padLeft = 0, padRight = 0;
+      if (reader) {
+        const cs = getComputedStyle(reader);
+        padLeft = parseFloat(cs.paddingLeft) || 0;
+        padRight = parseFloat(cs.paddingRight) || 0;
+      }
+      const availablePx = Math.max(0, window.innerWidth - padLeft - padRight);
+      return Math.max(1, Math.floor(availablePx / chPx));
+    }
+
+    function setContentWCh(n) {
+      const clamped = Math.max(20, Math.min(n, 240)); // bounds in ch
+      const avail = viewportChAvailable();
+      const applied = Math.min(clamped, avail);
+      document.documentElement.style.setProperty('--content-w', applied + 'ch');
+      localStorage.setItem('mp_contentw', String(applied));
+      if (sContentLabel) sContentLabel.textContent = applied + 'ch';
+    }
+    if (sContentInc) sContentInc.addEventListener('click', () => setContentWCh(getContentWCh() + 4));
+    if (sContentDec) sContentDec.addEventListener('click', () => setContentWCh(getContentWCh() - 4));
+    // restore saved content width
+    const savedContentW = localStorage.getItem('mp_contentw');
+    if (savedContentW) setContentWCh(parseFloat(savedContentW));
+    else if (sContentLabel) sContentLabel.textContent = getContentWCh() + 'ch';
+    // Adjust content width if viewport shrinks smaller than current setting
+    window.addEventListener('resize', () => {
+      try {
+        const avail = viewportChAvailable();
+        const current = getContentWCh();
+        if (current > avail) setContentWCh(avail);
+        else if (sContentLabel) sContentLabel.textContent = current + 'ch';
+      } catch (e) { /* noop */ }
+    });
 
   // --- Helpers ---
   // Short helper for querying elements and named references used below.
