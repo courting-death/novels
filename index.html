@@ -8,9 +8,8 @@
   <!-- Markdown renderer -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Noto Serif & Noto Sans (matched serif/sans pair) loaded from Google Fonts.
-    We request weights 300/400/700 and use display=swap to avoid blocking render. -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- Noto Serif & Noto Sans loaded from Google Fonts. Request only 400 and 700 to reduce download size. -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     /* THEME TOKENS */
@@ -46,8 +45,8 @@
       --icon-glyph-size: 20px; /* visual size of the SVG glyph inside the button */
   /* global font family used across the site (can be toggled via settings) */
   --global-font-family: 'Noto Serif', serif;
-  /* global font weight (300/400/500) */
-  --global-font-weight: 300;
+  /* global font weight (400 recommended) */
+  --global-font-weight: 400;
     }
     header.site-header { min-height: var(--header-h); }
 
@@ -67,7 +66,7 @@
       color: var(--fg);
       /* use the global font family so the whole UI follows the selected Noto family */
       font: 16px/1.6 var(--global-font-family, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji");
-      font-weight: var(--global-font-weight, 300);
+  font-weight: var(--global-font-weight, 400);
     }
 
     /* global hidden helper (keeps layout space like your .nav rule) */
@@ -248,9 +247,8 @@
     /* visual size of the svg glyph inside the button; keep glyph smaller than hit area */
     .icon-btn svg { width: var(--icon-glyph-size); height: var(--icon-glyph-size); display: block; }
   /* make the font-cycle button itself use the active reader font so the "F" previews the selection */
-  #s-fontCycle { font-family: var(--global-font-family, 'Noto Serif', serif); font-weight: var(--global-font-weight, 300); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-  /* weight-toggle icon: use current color for fill so it matches other icons */
-  #s-weightToggle svg rect { fill: currentColor; }
+  #s-fontCycle { font-family: var(--global-font-family, 'Noto Serif', serif); font-weight: var(--global-font-weight, 400); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  /* weight-toggle removed - reclaimed space in settings rail */
 
     /* Settings sidebar (right) */
     .settings-sidebar {
@@ -349,7 +347,7 @@
   article#article {
     font-size: 18px;
     font-family: var(--global-font-family, 'Noto Serif', serif);
-    font-weight: var(--global-font-weight, 300);
+  font-weight: var(--global-font-weight, 400);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* Justify body copy for a book-like reading experience */
@@ -513,14 +511,7 @@
       </button>
       <!-- Cycle reader font family: Droid Serif ↔ Helvetica -->
       <button id="s-fontCycle" class="icon-btn" title="Cycle font family" aria-label="Cycle font family">F</button>
-      <!-- Toggle font weight (thin/normal) -->
-      <button id="s-weightToggle" class="icon-btn" title="Toggle font weight" aria-label="Toggle font weight">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-          <rect x="4" y="3" width="2" height="18" rx="1" />
-          <rect x="9" y="3" width="3" height="18" rx="1" />
-          <rect x="15" y="3" width="4" height="18" rx="1" />
-        </svg>
-      </button>
+  <!-- font-weight toggle removed to save space -->
 
       <!-- Text alignment toggle: cycles justify | left | center | right -->
       <button id="s-alignToggle" class="icon-btn" title="Text align: Justify" aria-label="Text align: Justify">
@@ -600,9 +591,14 @@
   if (!localStorage.getItem('mp_paraIndent')) localStorage.setItem('mp_paraIndent', '1');
   if (!localStorage.getItem('mp_fontsize')) localStorage.setItem('mp_fontsize', '20');
   if (!localStorage.getItem('mp_contentw')) localStorage.setItem('mp_contentw', '68');
-  if (!localStorage.getItem('mp_readerWeight')) localStorage.setItem('mp_readerWeight', '400');
+  // reader weight toggle removed; keep default typography consistent via --global-font-weight
+  if (!localStorage.getItem('mp_lineHeight')) localStorage.setItem('mp_lineHeight', '1.3');
   // apply theme from storage (now present)
   setTheme(localStorage.getItem('mp_theme'));
+  // ensure CSS variable for global font weight defaults to 400 on first run
+  if (!localStorage.getItem('mp_readerWeight')) {
+    document.documentElement.style.setProperty('--global-font-weight', '400');
+  }
 
   // Font size controls
   // Note: There are two places for font controls — header (optional) and settings rail.
@@ -652,11 +648,8 @@
   document.documentElement.style.setProperty('--global-font-family', f.css);
     localStorage.setItem('mp_readerFont', f.id);
     const lbl = document.getElementById('s-contentLabel');
-    try {
-      const w = parseInt(localStorage.getItem('mp_readerWeight') || '300', 10);
-      const weightName = (w === 300) ? 'Thin' : (w === 400) ? 'Regular' : (w === 500) ? 'Medium' : w;
-      if (lbl) lbl.textContent = f.name + ' • ' + weightName + ' • ' + getContentWCh() + 'ch';
-    } catch (e) { if (lbl) lbl.textContent = f.name + ' • ' + getContentWCh() + 'ch'; }
+  // show font name and content width; weight toggle removed
+  if (lbl) lbl.textContent = f.name + ' • ' + getContentWCh() + 'ch';
   }
   function cycleReaderFont() {
     const curId = localStorage.getItem('mp_readerFont') || DEFAULT_READER_ID;
@@ -670,25 +663,7 @@
   if (savedReaderFontId) applyReaderFontById(savedReaderFontId);
   else applyReaderFontById(DEFAULT_READER_ID);
 
-  // --- Reader font weight toggle (300 <-> 400) ---
-  const sWeightToggle = document.getElementById('s-weightToggle');
-  function applyReaderWeight(w) {
-    // apply weight to the article and preview button via inline styles to override computed styles
-  document.documentElement.style.setProperty('--global-font-weight', String(w));
-    document.querySelectorAll('article#article, #s-fontCycle').forEach(el => {
-      if (el) el.style.fontWeight = w;
-    });
-    localStorage.setItem('mp_readerWeight', String(w));
-  }
-  function toggleReaderWeight() {
-    const cur = parseInt(localStorage.getItem('mp_readerWeight') || '300', 10);
-    const next = (cur === 300) ? 400 : 300;
-    applyReaderWeight(next);
-  }
-  if (sWeightToggle) sWeightToggle.addEventListener('click', toggleReaderWeight);
-  // Restore saved weight (default 300)
-  const savedReaderWeight = parseInt(localStorage.getItem('mp_readerWeight') || '300', 10);
-  applyReaderWeight(isNaN(savedReaderWeight) ? 300 : savedReaderWeight);
+  // reader font weight toggle removed (no longer used)
 
   // --- Sidebar open/close ---
   // Elements that control drawers/overlays. The code distinguishes mobile vs desktop
