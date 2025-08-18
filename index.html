@@ -236,7 +236,9 @@
     /* visual size of the svg glyph inside the button; keep glyph smaller than hit area */
     .icon-btn svg { width: var(--icon-glyph-size); height: var(--icon-glyph-size); display: block; }
   /* make the font-cycle button itself use the active reader font so the "F" previews the selection */
-  #s-fontCycle { font-family: var(--reader-font-family, Georgia, 'Times New Roman', Times, serif); font-weight: 600; }
+  #s-fontCycle { font-family: var(--reader-font-family, Georgia, 'Times New Roman', Times, serif); font-weight: 300; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  /* weight-toggle icon: use current color for fill so it matches other icons */
+  #s-weightToggle svg rect { fill: currentColor; }
 
     /* Settings sidebar (right) */
     .settings-sidebar {
@@ -333,7 +335,7 @@
     }
 
   article#article { font-size: 18px; }
-  article#article { font-family: var(--reader-font-family, Georgia, 'Times New Roman', Times, serif); }
+  article#article { font-family: var(--reader-font-family, Georgia, 'Times New Roman', Times, serif); font-weight: 300; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
     article#article h1, article#article h2, article#article h3 {
       line-height: 1.25;
       margin-top: 1.4em;
@@ -478,6 +480,14 @@
       </button>
       <!-- Cycle reader font family: Droid Serif ↔ Helvetica -->
       <button id="s-fontCycle" class="icon-btn" title="Cycle font family" aria-label="Cycle font family">F</button>
+      <!-- Toggle font weight (thin/normal) -->
+      <button id="s-weightToggle" class="icon-btn" title="Toggle font weight" aria-label="Toggle font weight">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <rect x="4" y="3" width="2" height="18" rx="1" />
+          <rect x="9" y="3" width="3" height="18" rx="1" />
+          <rect x="15" y="3" width="4" height="18" rx="1" />
+        </svg>
+      </button>
 
   <!-- Content-width controls: narrow / widen readable column -->
       <button id="s-contentDec" class="icon-btn" title="Narrow column" aria-label="Narrow column">M+</button>
@@ -568,6 +578,26 @@
   const savedReaderFontId = localStorage.getItem('mp_readerFont');
   if (savedReaderFontId) applyReaderFontById(savedReaderFontId);
   else applyReaderFontById(DEFAULT_READER_ID);
+
+  // --- Reader font weight toggle (300 <-> 400) ---
+  const sWeightToggle = document.getElementById('s-weightToggle');
+  function applyReaderWeight(w) {
+    // apply weight to the article and preview button via inline styles to override computed styles
+    document.documentElement.style.setProperty('--reader-font-weight', String(w));
+    document.querySelectorAll('article#article, #s-fontCycle').forEach(el => {
+      if (el) el.style.fontWeight = w;
+    });
+    localStorage.setItem('mp_readerWeight', String(w));
+  }
+  function toggleReaderWeight() {
+    const cur = parseInt(localStorage.getItem('mp_readerWeight') || '300', 10);
+    const next = (cur === 300) ? 400 : 300;
+    applyReaderWeight(next);
+  }
+  if (sWeightToggle) sWeightToggle.addEventListener('click', toggleReaderWeight);
+  // Restore saved weight (default 300)
+  const savedReaderWeight = parseInt(localStorage.getItem('mp_readerWeight') || '300', 10);
+  applyReaderWeight(isNaN(savedReaderWeight) ? 300 : savedReaderWeight);
 
   // --- Sidebar open/close ---
   // Elements that control drawers/overlays. The code distinguishes mobile vs desktop
