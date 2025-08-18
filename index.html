@@ -115,6 +115,14 @@
       padding: 0;
       margin: 0;
     }
+    .no-results {
+      padding: 10px;
+      margin: 8px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .no-results.hidden { display: none; }
     /* Chapter search input inside the left sidebar */
     .chapter-search {
       width: 100%;
@@ -495,6 +503,7 @@
         <input id="chapterSearch" class="chapter-search" type="text" placeholder="Search chapters…" aria-label="Search chapters">
         <button id="chapterSearchClear" class="chapter-search-clear" aria-label="Clear search">✕</button>
       </div>
+  <div id="chaptersNoResults" class="no-results hidden" aria-live="polite"></div>
       <ul class="chapter-list" id="chaptersList"></ul>
     </aside>
 
@@ -1058,6 +1067,18 @@
       const q = (chapterSearchEl && chapterSearchEl.value) ? chapterSearchEl.value.trim().toLowerCase() : '';
       const list = q ? CHAPTERS.filter(c => ((c.title || c.id) + '').toLowerCase().includes(q)) : CHAPTERS;
       chaptersListEl.innerHTML = '';
+      const noResultsEl = document.getElementById('chaptersNoResults');
+      if (!list || list.length === 0) {
+        if (noResultsEl) {
+          const rawQ = chapterSearchEl && chapterSearchEl.value ? chapterSearchEl.value.trim() : '';
+          if (CHAPTERS.length === 0) noResultsEl.textContent = 'No chapters available';
+          else if (rawQ) noResultsEl.textContent = `No results`;
+          else noResultsEl.textContent = 'No chapters';
+          noResultsEl.classList.remove('hidden');
+        }
+        return;
+      }
+      if (noResultsEl) noResultsEl.classList.add('hidden');
       list.forEach((c, visibleIndex) => {
         // find original index in CHAPTERS so opening uses correct index
         const i = CHAPTERS.findIndex(x => x.id === c.id);
