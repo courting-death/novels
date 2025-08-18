@@ -338,14 +338,29 @@
       margin: 10px 0 18px;
     }
 
-  article#article { font-size: 18px; }
-  article#article { font-family: var(--global-font-family, 'Noto Serif', serif); font-weight: var(--global-font-weight, 300); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  article#article {
+    font-size: 18px;
+    font-family: var(--global-font-family, 'Noto Serif', serif);
+    font-weight: var(--global-font-weight, 300);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Justify body copy for a book-like reading experience */
+    text-align: justify;
+    text-justify: inter-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+    /* allow long words to break if needed */
+    overflow-wrap: anywhere;
+  }
 
   /* ensure sidebar h1 and header chapter title remain bold regardless of global weight */
   .sidebar h1, #chapterTitle { font-weight: 700; }
     article#article h1, article#article h2, article#article h3 {
       line-height: 1.25;
       margin-top: 1.4em;
+      /* keep headings left-aligned so they don't center with justified body text */
+      text-align: left;
     }
     article#article p { margin: 1em 0; }
     article#article hr {
