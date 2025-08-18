@@ -115,6 +115,18 @@
       padding: 0;
       margin: 0;
     }
+    /* Chapter search input inside the left sidebar */
+    .chapter-search {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 10px;
+      margin: 6px 0 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--fg);
+      font: inherit;
+    }
     .chapter-list a {
       display: block;
       padding: 8px 10px;
@@ -438,7 +450,8 @@
   <div class="app">
     <aside class="sidebar" id="sidebar">
       <h1>Martial Peak</h1>
-      <ul class="chapter-list" id="chaptersList"></ul>
+  <input id="chapterSearch" class="chapter-search" type="search" placeholder="Search chapters…" aria-label="Search chapters">
+  <ul class="chapter-list" id="chaptersList"></ul>
     </aside>
 
     <div class="content">
@@ -909,6 +922,7 @@
   const qs = (sel) => document.querySelector(sel);
   const titleEl = qs('#chapterTitle');
   const chaptersListEl = qs('#chaptersList');
+  const chapterSearchEl = qs('#chapterSearch');
   const articleEl = qs('#article');
   const scrollerEl = document.querySelector('.scroller');
 
@@ -951,9 +965,42 @@
       renderList();
     }
 
+    // --- Chapter search: live filter the rendered list ---
+    function applyChapterFilter() {
+      renderList();
+      // keep active highlight in sync
+      highlightActive();
+    }
+    if (chapterSearchEl) {
+      chapterSearchEl.addEventListener('input', (e) => {
+        applyChapterFilter();
+      });
+      chapterSearchEl.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') {
+          // open first visible match
+          const first = chaptersListEl.querySelector('a');
+          if (first) {
+            ev.preventDefault();
+            const params = new URL(first.href).searchParams;
+            const id = params.get('chapter');
+            if (id) openChapterById(id);
+            if (isMobile()) closeSidebarMobile();
+          }
+        } else if (ev.key === 'Escape') {
+          chapterSearchEl.value = '';
+          applyChapterFilter();
+        }
+      });
+    }
+
     function renderList() {
+      // If a search query exists, filter CHAPTERS by title/id
+      const q = (chapterSearchEl && chapterSearchEl.value) ? chapterSearchEl.value.trim().toLowerCase() : '';
+      const list = q ? CHAPTERS.filter(c => ((c.title || c.id) + '').toLowerCase().includes(q)) : CHAPTERS;
       chaptersListEl.innerHTML = '';
-      CHAPTERS.forEach((c, i) => {
+      list.forEach((c, visibleIndex) => {
+        // find original index in CHAPTERS so opening uses correct index
+        const i = CHAPTERS.findIndex(x => x.id === c.id);
         const li = document.createElement('li');
         const a = document.createElement('a');
         a.href = `?chapter=${encodeURIComponent(c.id)}`;
@@ -969,9 +1016,14 @@
     }
 
     function highlightActive() {
-      const links = chaptersListEl.querySelectorAll('a');
-      links.forEach((a, i) => {
-        a.classList.toggle('active', i === currentIndex);
+      const links = Array.from(chaptersListEl.querySelectorAll('a'));
+      links.forEach((a) => {
+        // extract chapter id from href and compare to CHAPTERS[currentIndex].id
+        const href = a.getAttribute('href') || '';
+        const params = new URL(href, location.origin).searchParams;
+        const id = params.get('chapter');
+        const isActive = (currentIndex >= 0 && CHAPTERS[currentIndex] && CHAPTERS[currentIndex].id === id);
+        a.classList.toggle('active', isActive);
       });
     }
 
