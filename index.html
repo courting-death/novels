@@ -44,8 +44,10 @@
       --settings-rail-w: 72px; /* change to widen/narrow the settings rail in one place */
       --icon-btn-size: 42px;   /* hit/touch area for .icon-btn */
       --icon-glyph-size: 20px; /* visual size of the SVG glyph inside the button */
-  /* reader-only font family (serif) */
-  --reader-font-family: Georgia, 'Times New Roman', Times, serif;
+  /* global font family used across the site (can be toggled via settings) */
+  --global-font-family: 'Noto Serif', serif;
+  /* global font weight (300/400/500) */
+  --global-font-weight: 300;
     }
     header.site-header { min-height: var(--header-h); }
 
@@ -63,7 +65,9 @@
       height: 100%;
       background: var(--bg);
       color: var(--fg);
-      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      /* use the global font family so the whole UI follows the selected Noto family */
+      font: 16px/1.6 var(--global-font-family, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji");
+      font-weight: var(--global-font-weight, 300);
     }
 
     /* global hidden helper (keeps layout space like your .nav rule) */
@@ -236,7 +240,7 @@
     /* visual size of the svg glyph inside the button; keep glyph smaller than hit area */
     .icon-btn svg { width: var(--icon-glyph-size); height: var(--icon-glyph-size); display: block; }
   /* make the font-cycle button itself use the active reader font so the "F" previews the selection */
-  #s-fontCycle { font-family: var(--reader-font-family, Georgia, 'Times New Roman', Times, serif); font-weight: 300; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  #s-fontCycle { font-family: var(--global-font-family, 'Noto Serif', serif); font-weight: var(--global-font-weight, 300); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   /* weight-toggle icon: use current color for fill so it matches other icons */
   #s-weightToggle svg rect { fill: currentColor; }
 
@@ -335,7 +339,10 @@
     }
 
   article#article { font-size: 18px; }
-  article#article { font-family: var(--reader-font-family, Georgia, 'Times New Roman', Times, serif); font-weight: 300; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  article#article { font-family: var(--global-font-family, 'Noto Serif', serif); font-weight: var(--global-font-weight, 300); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  /* ensure sidebar h1 and header chapter title remain bold regardless of global weight */
+  .sidebar h1, #chapterTitle { font-weight: 700; }
     article#article h1, article#article h2, article#article h3 {
       line-height: 1.25;
       margin-top: 1.4em;
@@ -562,10 +569,15 @@
   const DEFAULT_READER_ID = 'noto-serif';
   function applyReaderFontById(id) {
     const f = READER_FONTS.find(x => x.id === id) || READER_FONTS[0];
-    document.documentElement.style.setProperty('--reader-font-family', f.css);
+  // set the global font family token so the whole UI follows
+  document.documentElement.style.setProperty('--global-font-family', f.css);
     localStorage.setItem('mp_readerFont', f.id);
     const lbl = document.getElementById('s-contentLabel');
-    if (lbl) lbl.textContent = f.name + ' • ' + getContentWCh() + 'ch';
+    try {
+      const w = parseInt(localStorage.getItem('mp_readerWeight') || '300', 10);
+      const weightName = (w === 300) ? 'Thin' : (w === 400) ? 'Regular' : (w === 500) ? 'Medium' : w;
+      if (lbl) lbl.textContent = f.name + ' • ' + weightName + ' • ' + getContentWCh() + 'ch';
+    } catch (e) { if (lbl) lbl.textContent = f.name + ' • ' + getContentWCh() + 'ch'; }
   }
   function cycleReaderFont() {
     const curId = localStorage.getItem('mp_readerFont') || DEFAULT_READER_ID;
@@ -583,7 +595,7 @@
   const sWeightToggle = document.getElementById('s-weightToggle');
   function applyReaderWeight(w) {
     // apply weight to the article and preview button via inline styles to override computed styles
-    document.documentElement.style.setProperty('--reader-font-weight', String(w));
+  document.documentElement.style.setProperty('--global-font-weight', String(w));
     document.querySelectorAll('article#article, #s-fontCycle').forEach(el => {
       if (el) el.style.fontWeight = w;
     });
