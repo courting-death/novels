@@ -385,8 +385,9 @@
 
       /* Simple title — centered, no sticky */
       .sidebar h1{
-        margin: 0 0 12px;
-        padding: 0 16px;
+        text-align:center;
+        margin: 16px 0 10px;
+        padding: 0px 16px;
         text-align: center;
         font-size: 18px;
         font-weight: 700;
@@ -497,8 +498,28 @@
       </button>
 
   <!-- Content-width controls: narrow / widen readable column -->
-      <button id="s-contentDec" class="icon-btn" title="Narrow column" aria-label="Narrow column">M+</button>
-      <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">M−</button>
+  <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <!-- left arrow pointing left -->
+      <polyline points="10 6, 4 12, 10 18"></polyline>
+      <!-- right arrow pointing right -->
+      <polyline points="14 6, 20 12, 14 18"></polyline>
+    </svg>
+  </button>
+
+  
+  <button id="s-contentDec" class="icon-btn" title="Narrow column" aria-label="Narrow column">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <!-- left arrow pointing right -->
+      <polyline points="4 6, 10 12, 4 18"></polyline>
+      <!-- right arrow pointing left -->
+      <polyline points="20 6, 14 12, 20 18"></polyline>
+    </svg>
+  </button>
+
+
       </div>
   
   </aside>
