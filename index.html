@@ -8,10 +8,9 @@
   <!-- Markdown renderer -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Fonts for reader: Droid Serif (default) + Helvetica (alternative) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Droid+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Noto Serif & Noto Sans (matched serif/sans pair) loaded from Google Fonts.
+    We request weights 300/400/700 and use display=swap to avoid blocking render. -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&family=Noto+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 
   <style>
     /* THEME TOKENS */
@@ -46,7 +45,7 @@
       --icon-btn-size: 42px;   /* hit/touch area for .icon-btn */
       --icon-glyph-size: 20px; /* visual size of the SVG glyph inside the button */
   /* reader-only font family (serif) */
-  --reader-font-family: 'Droid Serif', serif;
+  --reader-font-family: Georgia, 'Times New Roman', Times, serif;
     }
     header.site-header { min-height: var(--header-h); }
 
@@ -237,7 +236,7 @@
     /* visual size of the svg glyph inside the button; keep glyph smaller than hit area */
     .icon-btn svg { width: var(--icon-glyph-size); height: var(--icon-glyph-size); display: block; }
   /* make the font-cycle button itself use the active reader font so the "F" previews the selection */
-  #s-fontCycle { font-family: var(--reader-font-family, 'Droid Serif', serif); font-weight: 600; }
+  #s-fontCycle { font-family: var(--reader-font-family, Georgia, 'Times New Roman', Times, serif); font-weight: 600; }
 
     /* Settings sidebar (right) */
     .settings-sidebar {
@@ -334,7 +333,7 @@
     }
 
   article#article { font-size: 18px; }
-  article#article { font-family: var(--reader-font-family, 'Droid Serif', serif); }
+  article#article { font-family: var(--reader-font-family, Georgia, 'Times New Roman', Times, serif); }
     article#article h1, article#article h2, article#article h3 {
       line-height: 1.25;
       margin-top: 1.4em;
@@ -547,10 +546,10 @@
   // --- Reader font family cycling ---
   const sFontCycle = document.getElementById('s-fontCycle');
   const READER_FONTS = [
-    { id: 'droid', name: 'Droid Serif', css: "'Droid Serif', serif" },
-    { id: 'helvetica', name: 'Helvetica', css: "'Helvetica Neue', Helvetica, Arial, sans-serif" }
+    { id: 'noto-serif', name: 'Noto Serif', css: "'Noto Serif', serif" },
+    { id: 'noto-sans', name: 'Noto Sans', css: "'Noto Sans', sans-serif" }
   ];
-  const DEFAULT_READER_ID = 'droid';
+  const DEFAULT_READER_ID = 'noto-serif';
   function applyReaderFontById(id) {
     const f = READER_FONTS.find(x => x.id === id) || READER_FONTS[0];
     document.documentElement.style.setProperty('--reader-font-family', f.css);
