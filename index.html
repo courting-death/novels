@@ -362,7 +362,9 @@
       /* keep headings left-aligned so they don't center with justified body text */
       text-align: left;
     }
-    article#article p { margin: 1em 0; }
+  article#article p { margin: 1em 0; }
+  /* paragraph indent support when user enables it (applies to article paragraphs) */
+  .para-indent article#article p { text-indent: 1.25em; }
     article#article hr {
       border: 0;
       border-top: 1px solid var(--border);
@@ -520,6 +522,16 @@
           <line x1="4" y1="10" x2="20" y2="10"></line>
           <line x1="4" y1="14" x2="20" y2="14"></line>
           <line x1="4" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Paragraph indent toggle: toggles first-line indent on/off -->
+      <button id="s-indentToggle" class="icon-btn" title="Paragraph indent: Off" aria-label="Paragraph indent: Off">
+        <!-- default icon (updated by JS) -->
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="10" x2="20" y2="10"></line>
+          <line x1="4" y1="14" x2="20" y2="14"></line>
         </svg>
       </button>
 
@@ -765,6 +777,40 @@
     // restore saved alignment on load
     const savedAlign = localStorage.getItem('mp_textAlign') || 'justify';
     applyAlignment(savedAlign);
+
+    // --- Paragraph indent toggle ---
+    const sIndentToggle = document.getElementById('s-indentToggle');
+    const INDENT_ICON = {
+      on: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="4" height="12" rx="1"></rect><line x1="11" y1="10" x2="21" y2="10"></line><line x1="11" y1="14" x2="21" y2="14"></line></svg>',
+      off: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="8" x2="20" y2="8"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="16" x2="20" y2="16"></line></svg>'
+    };
+
+    function applyParaIndent(enabled) {
+      const on = Boolean(enabled);
+      if (on) {
+        // add a class so CSS can style first-line indent
+        document.documentElement.classList.add('para-indent');
+        localStorage.setItem('mp_paraIndent', '1');
+      } else {
+        document.documentElement.classList.remove('para-indent');
+        localStorage.removeItem('mp_paraIndent');
+      }
+      if (sIndentToggle) {
+        sIndentToggle.innerHTML = on ? INDENT_ICON.on : INDENT_ICON.off;
+        sIndentToggle.title = 'Paragraph indent: ' + (on ? 'On' : 'Off');
+        sIndentToggle.setAttribute('aria-label', 'Paragraph indent: ' + (on ? 'On' : 'Off'));
+      }
+    }
+
+    function toggleParaIndent() {
+      const cur = !!localStorage.getItem('mp_paraIndent');
+      applyParaIndent(!cur);
+    }
+
+    if (sIndentToggle) sIndentToggle.addEventListener('click', toggleParaIndent);
+    // restore saved indent state
+    const savedIndent = !!localStorage.getItem('mp_paraIndent');
+    applyParaIndent(savedIndent);
 
     function viewportChAvailable() {
       const chPx = pxPerCh();
