@@ -512,6 +512,17 @@
         </svg>
       </button>
 
+      <!-- Text alignment toggle: cycles justify | left | center | right -->
+      <button id="s-alignToggle" class="icon-btn" title="Text align: Justify" aria-label="Text align: Justify">
+        <!-- default icon (will be replaced on load) -->
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="10" x2="20" y2="10"></line>
+          <line x1="4" y1="14" x2="20" y2="14"></line>
+          <line x1="4" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </button>
+
   <!-- Content-width controls: narrow / widen readable column -->
   <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"
@@ -717,6 +728,43 @@
       document.body.removeChild(el);
       return w;
     }
+
+    // --- Text alignment toggle (justify | left | center | right) ---
+    const sAlignToggle = document.getElementById('s-alignToggle');
+    const ALIGN_MODES = ['justify','left','center','right'];
+    const ALIGN_ICONS = {
+      justify: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="10" x2="20" y2="10"></line><line x1="4" y1="14" x2="20" y2="14"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>',
+      left: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="12" y2="6"></line><line x1="4" y1="10" x2="16" y2="10"></line><line x1="4" y1="14" x2="12" y2="14"></line><line x1="4" y1="18" x2="16" y2="18"></line></svg>',
+      center: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="6"></line><line x1="8" y1="10" x2="16" y2="10"></line><line x1="6" y1="14" x2="18" y2="14"></line><line x1="8" y1="18" x2="16" y2="18"></line></svg>',
+      right: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="6" x2="20" y2="6"></line><line x1="8" y1="10" x2="20" y2="10"></line><line x1="12" y1="14" x2="20" y2="14"></line><line x1="8" y1="18" x2="20" y2="18"></line></svg>'
+    };
+
+    function applyAlignment(mode) {
+      if (!mode) mode = 'justify';
+      mode = ALIGN_MODES.includes(mode) ? mode : 'justify';
+      // apply to article
+      article.style.textAlign = mode === 'justify' ? 'justify' : mode;
+      // store for persistence
+      localStorage.setItem('mp_textAlign', mode);
+      // update the toggle icon/title
+      if (sAlignToggle) {
+        sAlignToggle.innerHTML = ALIGN_ICONS[mode] || ALIGN_ICONS.justify;
+        sAlignToggle.title = 'Text align: ' + mode.charAt(0).toUpperCase() + mode.slice(1);
+        sAlignToggle.setAttribute('aria-label', 'Text align: ' + mode);
+      }
+    }
+
+    function cycleAlignment() {
+      const cur = localStorage.getItem('mp_textAlign') || 'justify';
+      const idx = Math.max(0, ALIGN_MODES.indexOf(cur));
+      const next = ALIGN_MODES[(idx + 1) % ALIGN_MODES.length];
+      applyAlignment(next);
+    }
+
+    if (sAlignToggle) sAlignToggle.addEventListener('click', cycleAlignment);
+    // restore saved alignment on load
+    const savedAlign = localStorage.getItem('mp_textAlign') || 'justify';
+    applyAlignment(savedAlign);
 
     function viewportChAvailable() {
       const chPx = pxPerCh();
