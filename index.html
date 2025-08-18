@@ -547,26 +547,28 @@
   // --- Reader font family cycling ---
   const sFontCycle = document.getElementById('s-fontCycle');
   const READER_FONTS = [
-    { name: 'Droid Serif', css: "'Droid Serif', serif" },
-    { name: 'Helvetica', css: "'Helvetica Neue', Helvetica, Arial, sans-serif" }
+    { id: 'droid', name: 'Droid Serif', css: "'Droid Serif', serif" },
+    { id: 'helvetica', name: 'Helvetica', css: "'Helvetica Neue', Helvetica, Arial, sans-serif" }
   ];
-  function applyReaderFont(css) {
-    document.documentElement.style.setProperty('--reader-font-family', css);
-    localStorage.setItem('mp_readerFont', css);
+  const DEFAULT_READER_ID = 'droid';
+  function applyReaderFontById(id) {
+    const f = READER_FONTS.find(x => x.id === id) || READER_FONTS[0];
+    document.documentElement.style.setProperty('--reader-font-family', f.css);
+    localStorage.setItem('mp_readerFont', f.id);
+    const lbl = document.getElementById('s-contentLabel');
+    if (lbl) lbl.textContent = f.name + ' • ' + getContentWCh() + 'ch';
   }
   function cycleReaderFont() {
-    const cur = localStorage.getItem('mp_readerFont') || getComputedStyle(document.documentElement).getPropertyValue('--reader-font-family') || "'Droid Serif', serif";
-    const idx = READER_FONTS.findIndex(f => f.css === cur.trim());
+    const curId = localStorage.getItem('mp_readerFont') || DEFAULT_READER_ID;
+    const idx = Math.max(0, READER_FONTS.findIndex(f => f.id === curId));
     const next = READER_FONTS[(idx + 1) % READER_FONTS.length];
-    applyReaderFont(next.css);
-    // update label for assistive UI if present
-    const lbl = document.getElementById('s-contentLabel');
-    if (lbl) lbl.textContent = next.name + ' • ' + getContentWCh() + 'ch';
+    applyReaderFontById(next.id);
   }
   if (sFontCycle) sFontCycle.addEventListener('click', cycleReaderFont);
-  // Restore saved reader font on load
-  const savedReaderFont = localStorage.getItem('mp_readerFont');
-  if (savedReaderFont) document.documentElement.style.setProperty('--reader-font-family', savedReaderFont);
+  // Restore saved reader font on load (use id-based storage)
+  const savedReaderFontId = localStorage.getItem('mp_readerFont');
+  if (savedReaderFontId) applyReaderFontById(savedReaderFontId);
+  else applyReaderFontById(DEFAULT_READER_ID);
 
   // --- Sidebar open/close ---
   // Elements that control drawers/overlays. The code distinguishes mobile vs desktop
