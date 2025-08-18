@@ -13,6 +13,15 @@
 
   <style>
     /* THEME TOKENS */
+    :root[data-theme="white"] {
+  --bg: #ffffff;           /* pure white */
+  --fg: #1f2328;           /* near-black text */
+  --muted: #6e7781;        /* neutral muted */
+  --primary: #0969da;      /* GitHub-like blue */
+  --surface: #f6f8fa;      /* light gray surface */
+  --border: #d0d7de;       /* neutral border */
+  --link: #0969da;         /* link blue */
+    }
     :root[data-theme="light"] {
   --bg: #f4ecd8;           /* sepia background, less yellow */
   --fg: #5b4636;           /* readable brown text */
@@ -30,6 +39,15 @@
   --surface: #223042;      /* lighter blue-gray for surfaces */
   --border: #2c3a4d;       /* soft blue border */
   --link: #7ec3fa;         /* bright blue link */
+    }
+    :root[data-theme="black"] {
+  --bg: #0d1117;           /* GitHub dark */
+  --fg: #e6edf3;           /* light text */
+  --muted: #7d8590;        /* muted gray */
+  --primary: #2f81f7;      /* accent blue */
+  --surface: #161b22;      /* dark surface */
+  --border: #30363d;       /* border gray */
+  --link: #2f81f7;         /* link blue */
     }
     
     /* ====== Layout tokens (tweak these to change spacing/sizes globally) ======
@@ -522,6 +540,7 @@
         <strong id="chapterTitle">Loading…</strong>
   <div class="tools">
           <!-- font and theme controls moved into the settings sidebar on the right -->
+          <button id="themeBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">🌓</button>
           <!-- top nav arrows (these are buttons for consistent semantics/accessibility) -->
           <button id="prevTop" class="icon-btn hidden" aria-label="Previous">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -642,19 +661,23 @@
   // ====== Small runtime guide ======
   // This script wires UI controls (menu, cog, font/theme, navigation) to shared helper
   // functions. Key persisted keys in localStorage are:
-  //  - mp_theme: 'light' | 'dark'
+  //  - mp_theme: 'white' | 'light' | 'dark' | 'black'
   //  - mp_fontsize: number (px)
 
   // --- Theme ---
+    const THEME_ORDER = ['white', 'light', 'dark', 'black'];
+    const THEME_ICON = { white: '❄️', light: '☀️', dark: '🌙', black: '🌑' };
     function setTheme(mode) {
       document.documentElement.setAttribute('data-theme', mode);
       localStorage.setItem('mp_theme', mode);
       // update any theme buttons if present (header or sidebar)
       const headerThemeBtn = document.getElementById('themeBtn');
       const sidebarThemeBtn = document.getElementById('s-themeBtn');
-      const label = (mode === 'dark') ? '☀️' : '🌙';
+      const label = THEME_ICON[mode] || '�';
       if (headerThemeBtn) headerThemeBtn.textContent = label;
       if (sidebarThemeBtn) sidebarThemeBtn.textContent = label;
+      if (headerThemeBtn) { headerThemeBtn.title = `Theme: ${mode}`; headerThemeBtn.setAttribute('aria-label', `Theme: ${mode}`); }
+      if (sidebarThemeBtn) { sidebarThemeBtn.title = `Theme: ${mode}`; sidebarThemeBtn.setAttribute('aria-label', `Theme: ${mode}`); }
   // sync Giscus theme if present
   try { updateGiscusTheme(mode); } catch (_) {}
     }
@@ -705,9 +728,13 @@
     const savedFont = localStorage.getItem('mp_fontsize');
     if (savedFont) setFontSize(parseFloat(savedFont));
     const headerThemeBtn = document.getElementById('themeBtn');
-    if (headerThemeBtn) headerThemeBtn.addEventListener('click', () => {
-      setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
-    });
+    function cycleTheme() {
+      const current = localStorage.getItem('mp_theme') || 'light';
+      const idx = THEME_ORDER.indexOf(current);
+      const next = THEME_ORDER[(idx >= 0 ? idx + 1 : 0) % THEME_ORDER.length];
+      setTheme(next);
+    }
+    if (headerThemeBtn) headerThemeBtn.addEventListener('click', cycleTheme);
 
   // --- Reader font family cycling ---
   const sFontCycle = document.getElementById('s-fontCycle');
@@ -782,11 +809,7 @@
     }
 
     // wire the small sidebar theme button to the same theme toggler
-    if (sThemeBtn) {
-      sThemeBtn.addEventListener('click', () => {
-        setTheme((localStorage.getItem('mp_theme') || 'light') === 'light' ? 'dark' : 'light');
-      });
-    }
+  if (sThemeBtn) { sThemeBtn.addEventListener('click', cycleTheme); }
 
     // --- Content-width controls (readable column width) ---
     const sContentInc = document.getElementById('s-contentInc');
@@ -1084,7 +1107,12 @@
     function currentChapterId() {
       return (CHAPTERS[currentIndex] && CHAPTERS[currentIndex].id) || null;
     }
-    function giscusThemeFor(mode) { return mode === 'dark' ? 'dark' : 'light'; }
+  // Map site themes to Giscus built-in themes
+    function giscusThemeFor(mode) {
+      // giscus supports 'light' and 'dark' built-ins; map our white->light, light->light, dark->dark, black->dark
+      if (mode === 'dark' || mode === 'black') return 'dark';
+      return 'light';
+    }
     function updateGiscusTheme(mode) {
       const iframe = document.querySelector('iframe.giscus-frame');
       if (!iframe) return;
