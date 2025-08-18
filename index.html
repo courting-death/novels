@@ -237,6 +237,8 @@
       line-height: 1;
       padding: 0;
     }
+  /* hyphen toggle small serif label */
+  #s-hyphenToggle { font-size: 12px; font-family: var(--global-font-family, 'Noto Serif', serif); }
 
   /* Remove all button states: no :active, :focus, :hover, or toggled styles. */
 
@@ -536,6 +538,8 @@
 
       <!-- Line spacing toggle: cycles 1.0 | 1.1 | 1.2 | 1.3 | 1.4 | 1.5 -->
   <button id="s-lineSpacing" class="icon-btn" title="Line spacing: 1.2" aria-label="Line spacing: 1.2">1.2</button>
+  <!-- Hyphenation toggle: toggles hyphens on/off for the article -->
+  <button id="s-hyphenToggle" class="icon-btn" title="Hyphenation: On" aria-label="Hyphenation: On">Hy</button>
 
   <!-- Content-width controls: narrow / widen readable column -->
   <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">
@@ -838,6 +842,30 @@
     // restore saved line-height or default to 1.2
   const savedLine = parseFloat(localStorage.getItem('mp_lineHeight') || '1.2');
   applyLineSpacing(isNaN(savedLine) ? 1.2 : savedLine);
+
+    // --- Hyphenation toggle ---
+    const sHyphenToggle = document.getElementById('s-hyphenToggle');
+    function applyHyphens(enabled) {
+      const on = Boolean(enabled);
+      if (on) {
+        article.style.hyphens = 'auto';
+        document.documentElement.classList.add('hyphens-on');
+        localStorage.setItem('mp_hyphens', '1');
+      } else {
+        article.style.hyphens = 'none';
+        document.documentElement.classList.remove('hyphens-on');
+        localStorage.removeItem('mp_hyphens');
+      }
+      if (sHyphenToggle) {
+        sHyphenToggle.textContent = 'Hy';
+        sHyphenToggle.title = 'Hyphenation: ' + (on ? 'On' : 'Off');
+        sHyphenToggle.setAttribute('aria-label', 'Hyphenation: ' + (on ? 'On' : 'Off'));
+      }
+    }
+    function toggleHyphens() { applyHyphens(!!localStorage.getItem('mp_hyphens') ? false : true); }
+    if (sHyphenToggle) sHyphenToggle.addEventListener('click', toggleHyphens);
+    // restore hyphenation state
+    applyHyphens(!!localStorage.getItem('mp_hyphens'));
 
     function viewportChAvailable() {
       const chPx = pxPerCh();
