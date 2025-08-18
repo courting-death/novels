@@ -1003,13 +1003,73 @@
       return id.endsWith('.md') ? id.slice(0, -3) : id;
     }
 
+    // --- External chapters support (fetch from other repos) ---
+    // Allow specifying a novel by key (?novel=martial-peak) or an explicit repo (?repo=courting-death/martial-peak)
+    // Optional branch via ?branch=<name> (defaults to main).
+    const OWNER = 'courting-death';
+    const NOVEL_MAP = {
+      'martial-peak': 'martial-peak'
+    };
+
+    const qpNovel  = getParam('novel');
+    const qpRepo   = getParam('repo');
+    const qpBranch = getParam('branch') || 'main';
+
+    function resolveRepoRef() {
+      if (qpRepo) {
+        const [owner, repo] = qpRepo.split('/');
+        if (owner && repo) return { owner, repo, branch: qpBranch };
+      }
+      if (qpNovel && NOVEL_MAP[qpNovel]) {
+        return { owner: OWNER, repo: NOVEL_MAP[qpNovel], branch: qpBranch };
+      }
+      return null; // use local chapters folder
+    }
+
+    function buildChapterURLs() {
+      const ref = resolveRepoRef();
+      if (!ref) {
+        return {
+          baseIndex: 'chapters/chapters.json',
+          chapterURL: (id) => `chapters/${id}.md`,
+        };
+      }
+      const { owner, repo, branch } = ref;
+      const base = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/chapters`;
+      return {
+        baseIndex: `${base}/chapters.json`,
+        chapterURL: (id) => `${base}/${id}.md`,
+      };
+    }
+
+    // Build href for chapter links while preserving existing query params (novel/repo/branch)
+    function buildChapterHref(id) {
+      const url = new URL(window.location.href);
+      if (id == null) url.searchParams.delete('chapter');
+      else url.searchParams.set('chapter', id);
+      return `${url.pathname}?${url.searchParams.toString()}`;
+    }
+
+    // Human label for current novel/repo to use in titles/headers
+    function toTitleCase(s) { return (s || '').replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase()); }
+    function currentNovelLabel() {
+      if (qpRepo) {
+        const parts = qpRepo.split('/');
+        return toTitleCase(parts[1] || qpRepo);
+      }
+      if (qpNovel) return toTitleCase(qpNovel);
+      // fallback to existing hard-coded label
+      return 'Martial Peak';
+    }
+
     // --- Load chapters index ---
     let CHAPTERS = [];        // [{ id, title }]
     let currentIndex = -1;    // index in CHAPTERS
 
     async function loadIndex() {
+      const urls = buildChapterURLs();
       try {
-        const res = await fetch('chapters/chapters.json', { cache: 'no-cache' });
+        const res = await fetch(urls.baseIndex, { cache: 'no-cache' });
         CHAPTERS = await res.json();
       } catch (e) {
         console.error('Failed to load chapters.json', e);
@@ -1083,8 +1143,8 @@
         // find original index in CHAPTERS so opening uses correct index
         const i = CHAPTERS.findIndex(x => x.id === c.id);
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = `?chapter=${encodeURIComponent(c.id)}`;
+  const a = document.createElement('a');
+  a.href = buildChapterHref(c.id);
         a.textContent = c.title || c.id;
         a.addEventListener('click', (ev) => {
           ev.preventDefault();
@@ -1118,9 +1178,9 @@
     async function openChapterByIndex(i) {
       if (i < 0 || i >= CHAPTERS.length) return;
       currentIndex = i;
-      const { id, title } = CHAPTERS[i];
-      titleEl.textContent = title || id;
-      document.title = (title || id) + ' — Martial Peak Reader';
+  const { id, title } = CHAPTERS[i];
+  titleEl.textContent = title || id;
+  document.title = (title || id) + ' — ' + currentNovelLabel() + ' Reader';
 
       // prev/next (top & bottom)
       updateNav(navEls.prevTop, i - 1);
@@ -1132,7 +1192,8 @@
       highlightActive();
 
       try {
-        const res = await fetch(`chapters/${id}.md`, { cache: 'no-cache' });
+        const urls = buildChapterURLs();
+        const res = await fetch(urls.chapterURL(id), { cache: 'no-cache' });
         if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
         const md = await res.text();
         articleEl.innerHTML = marked.parse(md);
@@ -1147,11 +1208,11 @@
   // - el: element (button or anchor)
   // - idx: index in CHAPTERS to open, or invalid index to hide the control
   function updateNav(el, idx) {
-      if (idx >= 0 && idx < CHAPTERS.length) {
+    if (idx >= 0 && idx < CHAPTERS.length) {
         el.classList.remove('hidden');
         // if it's an anchor keep href for deep-linking, otherwise attach click handler
         if (el.tagName && el.tagName.toLowerCase() === 'a') {
-          el.href = `?chapter=${CHAPTERS[idx].id}`;
+      el.href = buildChapterHref(CHAPTERS[idx].id);
           el.onclick = (ev) => { ev.preventDefault(); openChapterByIndex(idx); };
         } else {
           // button or other element: set a click handler and a data-target for debugging
@@ -1167,6 +1228,11 @@
 
     // initial load
     (async function init() {
+      // Set sidebar title based on novel/repo if provided
+      try {
+        const h1 = document.querySelector('.sidebar h1');
+        if (h1) h1.textContent = currentNovelLabel();
+      } catch(e) { /* noop */ }
       await loadIndex();
       const q = getParam('chapter');
       if (q) openChapterById(q);
