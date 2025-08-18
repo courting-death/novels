@@ -8,10 +8,10 @@
   <!-- Markdown renderer -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Fonts for reader: Droid Serif (default) + Lora (alternative) -->
+  <!-- Fonts for reader: Droid Serif (default) + Helvetica (alternative) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Droid+Serif:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Droid+Serif:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     /* THEME TOKENS */
@@ -223,8 +223,8 @@
       cursor: pointer;
       color: var(--fg);
       text-decoration: none;
-      font-size: 20px;
-      line-height: 1;
+  font-size: 20px;
+  line-height: 1;
       padding: 0;
     }
 
@@ -236,6 +236,8 @@
 
     /* visual size of the svg glyph inside the button; keep glyph smaller than hit area */
     .icon-btn svg { width: var(--icon-glyph-size); height: var(--icon-glyph-size); display: block; }
+  /* make the font-cycle button itself use the active reader font so the "F" previews the selection */
+  #s-fontCycle { font-family: var(--reader-font-family, 'Droid Serif', serif); font-weight: 600; }
 
     /* Settings sidebar (right) */
     .settings-sidebar {
@@ -472,11 +474,12 @@
   <button id="s-fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
-  <!-- Cycle reader font family: default (Droid Serif) → Lora → system serif -->
-  <button id="s-fontCycle" class="icon-btn" title="Cycle font family" aria-label="Cycle font family">F</button>
       <button id="s-fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
+      <!-- Cycle reader font family: Droid Serif ↔ Helvetica -->
+      <button id="s-fontCycle" class="icon-btn" title="Cycle font family" aria-label="Cycle font family">F</button>
+
   <!-- Content-width controls: narrow / widen readable column -->
       <button id="s-contentDec" class="icon-btn" title="Narrow column" aria-label="Narrow column">M+</button>
       <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">M−</button>
@@ -545,8 +548,7 @@
   const sFontCycle = document.getElementById('s-fontCycle');
   const READER_FONTS = [
     { name: 'Droid Serif', css: "'Droid Serif', serif" },
-    { name: 'Lora', css: "'Lora', serif" },
-    { name: 'System Serif', css: "serif" }
+    { name: 'Helvetica', css: "'Helvetica Neue', Helvetica, Arial, sans-serif" }
   ];
   function applyReaderFont(css) {
     document.documentElement.style.setProperty('--reader-font-family', css);
