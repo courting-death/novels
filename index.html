@@ -559,6 +559,8 @@
               </svg>
             </button>
           </nav>
+          <!-- Comments -->
+          <div id="giscusContainer" style="margin-top:24px;"></div>
         </main>
       </div>
     </div>
@@ -653,6 +655,8 @@
       const label = (mode === 'dark') ? '☀️' : '🌙';
       if (headerThemeBtn) headerThemeBtn.textContent = label;
       if (sidebarThemeBtn) sidebarThemeBtn.textContent = label;
+  // sync Giscus theme if present
+  try { updateGiscusTheme(mode); } catch (_) {}
     }
   // Ensure sensible defaults on first run so the reader opens with these settings
   if (!localStorage.getItem('mp_theme')) localStorage.setItem('mp_theme', 'light');
@@ -1011,6 +1015,16 @@
       'martial-peak': 'martial-peak'
     };
 
+    // Per-novel Discussions (ID-based) used by Giscus
+    // Fill this with repo/category IDs per novel repository.
+    const NOVEL_DISCUSSIONS = {
+      'courting-death/martial-peak': {
+        repoId: 'R_kgDOPgGOOA',
+        category: 'Chapters',
+        categoryId: 'DIC_kwDOPgGOOM4CuUCY'
+      }
+    };
+
     const qpNovel  = getParam('novel');
     const qpRepo   = getParam('repo');
     const qpBranch = getParam('branch') || 'main';
@@ -1060,6 +1074,51 @@
       if (qpNovel) return toTitleCase(qpNovel);
       // fallback to existing hard-coded label
       return 'Martial Peak';
+    }
+
+    // ====== Giscus helpers ======
+    function currentRepoKey() {
+      const ref = resolveRepoRef();
+      return ref ? `${ref.owner}/${ref.repo}` : null;
+    }
+    function currentChapterId() {
+      return (CHAPTERS[currentIndex] && CHAPTERS[currentIndex].id) || null;
+    }
+    function giscusThemeFor(mode) { return mode === 'dark' ? 'dark' : 'light'; }
+    function updateGiscusTheme(mode) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (!iframe) return;
+      iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: giscusThemeFor(mode) } } }, 'https://giscus.app');
+    }
+    function renderGiscus() {
+      const container = document.getElementById('giscusContainer');
+      if (!container) return;
+      const repoKey = currentRepoKey();
+      const chap = currentChapterId();
+      if (!repoKey || !chap) { container.innerHTML = ''; return; }
+  const term = `${repoKey}:${chap}`;
+
+      // clear previous instance and inject a fresh script
+      container.innerHTML = '';
+      const s = document.createElement('script');
+      s.src = 'https://giscus.app/client.js';
+      s.async = true;
+      s.crossOrigin = 'anonymous';
+      s.setAttribute('data-repo', repoKey);
+      const conf = NOVEL_DISCUSSIONS[repoKey] || {};
+      if (conf.repoId) s.setAttribute('data-repo-id', conf.repoId);
+      s.setAttribute('data-category', conf.category || 'Chapters');
+      if (conf.categoryId) s.setAttribute('data-category-id', conf.categoryId);
+      s.setAttribute('data-mapping', 'specific');
+      s.setAttribute('data-term', term);
+      s.setAttribute('data-strict', '1');
+      s.setAttribute('data-reactions-enabled', '1');
+      s.setAttribute('data-emit-metadata', '0');
+      s.setAttribute('data-input-position', 'top');
+      s.setAttribute('data-theme', giscusThemeFor(localStorage.getItem('mp_theme') || 'light'));
+      s.setAttribute('data-lang', 'en');
+      s.setAttribute('data-loading', 'lazy');
+      container.appendChild(s);
     }
 
     // --- Load chapters index ---
@@ -1192,15 +1251,18 @@
       highlightActive();
 
       try {
-        const urls = buildChapterURLs();
-        const res = await fetch(urls.chapterURL(id), { cache: 'no-cache' });
+  const urls = buildChapterURLs();
+  const res = await fetch(urls.chapterURL(id), { cache: 'no-cache' });
         if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
         const md = await res.text();
         articleEl.innerHTML = marked.parse(md);
+  // render comments for this chapter
+  renderGiscus();
         if (scrollerEl) scrollerEl.scrollTo({ top: 0, behavior: 'auto' }); // or 'smooth'
       } catch (e) {
         console.error('Failed to load chapter', id, e);
         articleEl.innerHTML = ''; // silent fail
+  try { renderGiscus(); } catch (_) {}
       }
     }
 
