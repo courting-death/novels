@@ -582,7 +582,16 @@
       if (headerThemeBtn) headerThemeBtn.textContent = label;
       if (sidebarThemeBtn) sidebarThemeBtn.textContent = label;
     }
-    setTheme(localStorage.getItem('mp_theme') || 'light');
+  // Ensure sensible defaults on first run so the reader opens with these settings
+  if (!localStorage.getItem('mp_theme')) localStorage.setItem('mp_theme', 'light');
+  if (!localStorage.getItem('mp_textAlign')) localStorage.setItem('mp_textAlign', 'justify');
+  if (!localStorage.getItem('mp_readerFont')) localStorage.setItem('mp_readerFont', 'noto-serif');
+  if (!localStorage.getItem('mp_paraIndent')) localStorage.setItem('mp_paraIndent', '1');
+  if (!localStorage.getItem('mp_fontsize')) localStorage.setItem('mp_fontsize', '20');
+  if (!localStorage.getItem('mp_contentw')) localStorage.setItem('mp_contentw', '68');
+  if (!localStorage.getItem('mp_readerWeight')) localStorage.setItem('mp_readerWeight', '400');
+  // apply theme from storage (now present)
+  setTheme(localStorage.getItem('mp_theme'));
 
   // Font size controls
   // Note: There are two places for font controls — header (optional) and settings rail.
