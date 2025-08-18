@@ -231,6 +231,14 @@
       padding: 0;
     }
 
+    /* make the numeric line-spacing label smaller and use the reader serif font */
+    #s-lineSpacing {
+      font-size: 13px; /* slightly smaller than other icons */
+      font-family: var(--global-font-family, 'Noto Serif', serif);
+      line-height: 1;
+      padding: 0;
+    }
+
   /* Remove all button states: no :active, :focus, :hover, or toggled styles. */
 
     @media (max-width: 900px) {
@@ -535,6 +543,9 @@
         </svg>
       </button>
 
+      <!-- Line spacing toggle: cycles 1.0 | 1.1 | 1.2 | 1.3 | 1.4 | 1.5 -->
+  <button id="s-lineSpacing" class="icon-btn" title="Line spacing: 1.2" aria-label="Line spacing: 1.2">1.2</button>
+
   <!-- Content-width controls: narrow / widen readable column -->
   <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"
@@ -820,6 +831,38 @@
     // restore saved indent state
     const savedIndent = !!localStorage.getItem('mp_paraIndent');
     applyParaIndent(savedIndent);
+
+    // --- Line spacing toggle (1.0 -> 1.1 -> 1.2 -> 1.3 -> 1.4 -> 1.5) ---
+    const sLineSpacing = document.getElementById('s-lineSpacing');
+  const LINE_SPACES = [1.2, 1.3, 1.4, 1.5];
+
+    function applyLineSpacing(val) {
+      let v = Number(val) || 1.2;
+      // normalize to one of the supported steps
+      if (!LINE_SPACES.includes(v)) {
+        // find nearest
+        v = LINE_SPACES.reduce((prev, curr) => Math.abs(curr - v) < Math.abs(prev - v) ? curr : prev, LINE_SPACES[0]);
+      }
+      article.style.lineHeight = String(v);
+      localStorage.setItem('mp_lineHeight', String(v));
+      if (sLineSpacing) {
+        sLineSpacing.textContent = String(v);
+        sLineSpacing.title = 'Line spacing: ' + v;
+        sLineSpacing.setAttribute('aria-label', 'Line spacing: ' + v);
+      }
+    }
+
+    function cycleLineSpacing() {
+      const cur = parseFloat(localStorage.getItem('mp_lineHeight') || '1.2');
+      const idx = Math.max(0, LINE_SPACES.findIndex(x => Math.abs(x - cur) < 0.001));
+      const next = LINE_SPACES[(idx + 1) % LINE_SPACES.length];
+      applyLineSpacing(next);
+    }
+
+    if (sLineSpacing) sLineSpacing.addEventListener('click', cycleLineSpacing);
+    // restore saved line-height or default to 1.2
+  const savedLine = parseFloat(localStorage.getItem('mp_lineHeight') || '1.2');
+  applyLineSpacing(isNaN(savedLine) ? 1.2 : savedLine);
 
     function viewportChAvailable() {
       const chPx = pxPerCh();
