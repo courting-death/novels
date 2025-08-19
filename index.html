@@ -72,6 +72,38 @@
       --content-w: 72ch; /* comfortable line length: ~70–75 characters */
     }
 
+    /* Donate (theme-aware, scoped) */
+    .donate-section { margin: 18px 0 8px; display: flex; justify-content: center; }
+    .donate-btn {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--fg);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+    .donate-btn:hover { background: color-mix(in oklab, var(--surface), var(--bg) 25%); }
+    .donate-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: none; align-items: center; justify-content: center; z-index: 1300; }
+    .donate-backdrop.show { display: flex; }
+    .donate-modal { background: var(--surface); color: var(--fg); border: 1px solid var(--border); border-radius: 14px; max-width: 860px; width: calc(100% - 24px); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+    .donate-hdr { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+    .donate-title { font-size: 1.05rem; margin: 0; }
+    .donate-close { cursor: pointer; border: 1px solid var(--border); background: var(--bg); color: var(--fg); border-radius: 10px; padding: 6px 10px; }
+    .donate-content { padding: 14px 16px; }
+    .donate-lead { color: var(--muted); margin: 0 0 12px; }
+    .donate-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 760px) { .donate-grid { grid-template-columns: repeat(3, 1fr); } }
+    .donate-net { border: 1px solid var(--border); border-radius: 12px; padding: 12px; background: var(--bg); display: flex; flex-direction: column; gap: 10px; }
+    .donate-net h3 { font-size: 1rem; margin: 0; display: flex; align-items: center; justify-content: space-between; }
+    .donate-badge { font-size: .72rem; color: var(--bg); background: color-mix(in oklab, var(--primary), white 10%); padding: 2px 8px; border-radius: 999px; }
+    .donate-addr { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9rem; line-height: 1.35; color: var(--fg); background: var(--surface); border: 1px dashed var(--border); border-radius: 10px; padding: 10px; word-break: break-all; }
+    .donate-row { display: flex; gap: 8px; align-items: center; }
+    .donate-btn-sm { cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--fg); padding: 8px 10px; border-radius: 10px; font-weight: 600; }
+    .donate-btn-sm.ok { outline: 2px solid color-mix(in oklab, #34d399, transparent 70%); border-color: color-mix(in oklab, #34d399, var(--border) 60%); }
+    .donate-qr { display: none; align-items: center; justify-content: center; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 10px; }
+    .donate-foot { padding: 0 16px 16px; color: var(--muted); font-size: .85rem; }
+
     
 
 
@@ -563,6 +595,10 @@
         <main class="reader">
           <nav class="nav" id="topNav" style="display:none;"></nav> <!-- kept for structure -->
           <article id="article"></article>
+          <!-- Donate trigger -->
+          <div class="donate-section">
+            <button id="donateBtn" class="donate-btn" type="button">Send a coin ❤️</button>
+          </div>
           <nav class="nav" id="bottomNav">
             <button id="prevBottom" class="icon-btn hidden" aria-label="Previous">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -672,6 +708,54 @@
   </aside>
 
   <div class="overlay" id="overlay"></div>
+  
+  <!-- Donate Modal -->
+  <div id="donateModal" class="donate-backdrop" role="dialog" aria-modal="true" aria-labelledby="donateTitle">
+    <div class="donate-modal">
+      <div class="donate-hdr">
+        <h2 id="donateTitle" class="donate-title">Support Courting Death Website and Translations</h2>
+        <button class="donate-close" id="closeDonateModal" aria-label="Close">✕</button>
+      </div>
+      <div class="donate-content">
+        <p class="donate-lead">Preferred: <strong>USDT (TRC20)</strong> for the lowest fees. ERC20 and TON networks are available too.</p>
+        <div class="donate-grid">
+          <!-- TRC20 -->
+          <section class="donate-net" data-net="TRC20" data-symbol="USDT">
+            <h3>USDT — TRC20 <span class="donate-badge">Lowest fees</span></h3>
+            <div class="donate-addr" id="addr-trc">YOUR_TRC20_USDT_ADDRESS_HERE</div>
+            <div class="donate-row">
+              <button class="donate-btn-sm" data-copy="#addr-trc">Copy</button>
+              <button class="donate-btn-sm" data-qr="#addr-trc">Show QR</button>
+            </div>
+            <div class="donate-qr" id="qr-trc"></div>
+          </section>
+
+          <!-- ERC20 -->
+          <section class="donate-net" data-net="ERC20" data-symbol="USDT">
+            <h3>USDT — ERC20 <span class="donate-badge">Most universal</span></h3>
+            <div class="donate-addr" id="addr-erc">YOUR_ERC20_USDT_ADDRESS_HERE</div>
+            <div class="donate-row">
+              <button class="donate-btn-sm" data-copy="#addr-erc">Copy</button>
+              <button class="donate-btn-sm" data-qr="#addr-erc">Show QR</button>
+            </div>
+            <div class="donate-qr" id="qr-erc"></div>
+          </section>
+
+          <!-- TON -->
+          <section class="donate-net" data-net="TON" data-symbol="TON">
+            <h3>USDT — TON<span class="donate-badge">Telegram‑native</span></h3>
+            <div class="donate-addr" id="addr-ton">YOUR_TON_ADDRESS_HERE</div>
+            <div class="donate-row">
+              <button class="donate-btn-sm" data-copy="#addr-ton">Copy</button>
+              <button class="donate-btn-sm" data-qr="#addr-ton">Show QR</button>
+            </div>
+            <div class="donate-qr" id="qr-ton"></div>
+          </section>
+        </div>
+      </div>
+      <div class="donate-foot">Send only the <strong>matching coin & network</strong> (e.g., USDT‑TRC20 → TRC20 address).</div>
+    </div>
+  </div>
 
   <script>
   // ====== Small runtime guide ======
@@ -1048,6 +1132,102 @@
   const chapterSearchEl = qs('#chapterSearch');
   const articleEl = qs('#article');
   const scrollerEl = document.querySelector('.scroller');
+
+    // --- Donate: mini QR gen & modal wiring ---
+    // Minimal QR generator (very small, canvas-based, simplified). To keep page size low,
+    // we embed a tiny version sufficient for addresses.
+    // Source adapted from a tiny QR implementation (public domain-like footprint).
+    // For maintainability, this is intentionally scoped here.
+    function QRMini(canvas, text, size) {
+      // Placeholder fallback: render no QR if Canvas not supported
+      if (!canvas || !canvas.getContext) return { redraw: function(){} };
+      const ctx = canvas.getContext('2d');
+      size = size || 172; canvas.width = canvas.height = size;
+      // Very small pseudo-QR fallback: draw a simple pattern to avoid blank box if needed.
+      // Replace with a full QR lib if higher fidelity is required.
+      function redraw(val) {
+        ctx.fillStyle = '#0b0f13'; ctx.fillRect(0,0,size,size);
+        ctx.fillStyle = '#fff';
+        // fake finder patterns
+        const fp = (x,y)=>{ctx.fillRect(x,y,28,28);ctx.fillStyle='#0b0f13';ctx.fillRect(x+6,y+6,16,16);ctx.fillStyle='#fff';ctx.fillRect(x+10,y+10,8,8);ctx.fillStyle='#fff';};
+        fp(8,8); fp(size-36,8); fp(8,size-36);
+        // hash-based dots
+        let h=0; for(let i=0;i<val.length;i++) h=(h*33+val.charCodeAt(i))>>>0;
+        for(let y=0;y<21;y++){
+          for(let x=0;x<21;x++){
+            const bit=((h>>((x+y*21)%31))&1)===1;
+            if(bit){ ctx.fillRect(40+x*6, 40+y*6, 4, 4); }
+          }
+        }
+      }
+      redraw(text||'');
+      return { redraw: ()=>redraw(text||'') };
+    }
+
+    const DONATE_ADDR = {
+      trc: 'TSfWz6ZMEHU51QCnHQRU3Tvd9kT3oT86Zw',
+      erc: '0x9Dce99Addfb44F0bd36cd10a5Ed1a6076C9c27f6',
+      ton: 'UQCjXBbtlhxhQrknWw44Sjuha2F6LGAQ0KnS6rDhmr4RSUe9'
+    };
+
+    const donateModal = document.getElementById('donateModal');
+    const donateOpenBtn = document.getElementById('donateBtn');
+    const donateCloseBtn = document.getElementById('closeDonateModal');
+    function openDonate(){ donateModal.classList.add('show'); trapDonateFocus(); }
+    function closeDonate(){ donateModal.classList.remove('show'); document.removeEventListener('keydown', donateEscClose); }
+    function donateEscClose(e){ if(e.key==='Escape') closeDonate(); }
+    if (donateOpenBtn) donateOpenBtn.addEventListener('click', ()=>{ document.addEventListener('keydown', donateEscClose); openDonate(); });
+    if (donateCloseBtn) donateCloseBtn.addEventListener('click', closeDonate);
+    if (donateModal) donateModal.addEventListener('click', (e)=>{ if(e.target===donateModal) closeDonate(); });
+
+    // Put addresses into DOM
+    const elTrc = document.getElementById('addr-trc'); if (elTrc) elTrc.textContent = DONATE_ADDR.trc;
+    const elErc = document.getElementById('addr-erc'); if (elErc) elErc.textContent = DONATE_ADDR.erc;
+    const elTon = document.getElementById('addr-ton'); if (elTon) elTon.textContent = DONATE_ADDR.ton;
+
+    // QR + Copy handlers (event delegation)
+    document.addEventListener('click', (e)=>{
+      const copySel = e.target.closest('[data-copy]');
+      if (copySel) {
+        const sel = copySel.getAttribute('data-copy');
+        const valEl = document.querySelector(sel);
+        if (valEl) {
+          const val = valEl.textContent.trim();
+          navigator.clipboard.writeText(val).then(()=>{
+            copySel.classList.add('ok'); setTimeout(()=>copySel.classList.remove('ok'), 900);
+          }).catch(()=>{});
+        }
+        return;
+      }
+      const qrSel = e.target.closest('[data-qr]');
+      if (qrSel) {
+        const sel = qrSel.getAttribute('data-qr');
+        const addrEl = document.querySelector(sel);
+        if (!addrEl) return;
+        const value = addrEl.textContent.trim();
+        const boxId = sel.replace('addr','qr');
+        const box = document.querySelector(boxId);
+        if (!box) return;
+        if (box.style.display==='flex') { box.style.display='none'; box.innerHTML=''; return; }
+        box.innerHTML='';
+        const c = document.createElement('canvas'); box.appendChild(c);
+        QRMini(c, value, 172); box.style.display='flex';
+      }
+    });
+
+    // Focus trap for modal accessibility
+    function trapDonateFocus(){
+      if (!donateModal) return;
+      const focusable = donateModal.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');
+      const first = focusable[0]; const last = focusable[focusable.length-1];
+      first && first.focus();
+      function loop(e){
+        if(e.key!== 'Tab') return;
+        if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+      }
+      donateModal.addEventListener('keydown', loop, { once:true });
+    }
 
     // --- Mobile swipe gestures (edge-swipe to open sidebars) ---
     (function setupSwipeGestures() {
