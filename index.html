@@ -1110,8 +1110,8 @@
   // Map site themes to Giscus built-in themes
     function giscusThemeFor(mode) {
       // giscus supports 'light' and 'dark' built-ins; map our white->light, light->light, dark->dark, black->dark
-      if (mode === 'dark') return 'transparent_dark';
-      if (mode === 'black') return 'transparent_dark';
+      if (mode === 'dark') return 'dark';
+      if (mode === 'black') return 'dark_protanopia';
       if (mode === 'light') return 'light';
       if (mode === 'white') return 'light_protanopia';
     }
@@ -1147,8 +1147,26 @@
       s.setAttribute('data-input-position', 'top');
       s.setAttribute('data-theme', giscusThemeFor(localStorage.getItem('mp_theme') || 'light'));
       s.setAttribute('data-lang', 'en');
-      s.setAttribute('data-loading', 'lazy');
+      s.setAttribute('data-loading', 'eager');
       container.appendChild(s);
+    }
+
+    // Defer Giscus rendering so comments load after the chapter content
+    let giscusTimeoutId = null;
+    let giscusIdleId = null;
+    function cancelScheduledGiscus() {
+      if (giscusTimeoutId) { clearTimeout(giscusTimeoutId); giscusTimeoutId = null; }
+      if (giscusIdleId && 'cancelIdleCallback' in window) { cancelIdleCallback(giscusIdleId); giscusIdleId = null; }
+    }
+    function scheduleGiscusRender(delayMs = 800) {
+      cancelScheduledGiscus();
+      const run = () => { giscusTimeoutId = null; giscusIdleId = null; try { renderGiscus(); } catch (_) {} };
+      if ('requestIdleCallback' in window) {
+        giscusIdleId = requestIdleCallback(run, { timeout: delayMs + 200 });
+        giscusTimeoutId = setTimeout(() => { if (giscusIdleId) { cancelIdleCallback(giscusIdleId); giscusIdleId = null; } run(); }, delayMs);
+      } else {
+        giscusTimeoutId = setTimeout(run, delayMs);
+      }
     }
 
     // --- Load chapters index ---
@@ -1286,13 +1304,13 @@
         if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
         const md = await res.text();
         articleEl.innerHTML = marked.parse(md);
-  // render comments for this chapter
-  renderGiscus();
+  // render comments for this chapter (deferred so it loads after content)
+  scheduleGiscusRender();
         if (scrollerEl) scrollerEl.scrollTo({ top: 0, behavior: 'auto' }); // or 'smooth'
       } catch (e) {
         console.error('Failed to load chapter', id, e);
         articleEl.innerHTML = ''; // silent fail
-  try { renderGiscus(); } catch (_) {}
+  try { scheduleGiscusRender(); } catch (_) {}
       }
     }
 
