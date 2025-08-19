@@ -650,6 +650,9 @@
     </svg>
   </button>
 
+  <!-- Reset settings (keeps current theme) -->
+  <button id="s-reset" class="icon-btn" title="Reset settings" aria-label="Reset settings">↺</button>
+
 
       </div>
   
@@ -704,6 +707,7 @@
   const fontDec = document.getElementById('fontDec');
   const sFontInc = document.getElementById('s-fontInc');
   const sFontDec = document.getElementById('s-fontDec');
+  const sReset = document.getElementById('s-reset');
   const article = document.getElementById('article');
     function getFontSize() {
       return parseFloat(window.getComputedStyle(article).fontSize);
@@ -763,6 +767,34 @@
   const savedReaderFontId = localStorage.getItem('mp_readerFont');
   if (savedReaderFontId) applyReaderFontById(savedReaderFontId);
   else applyReaderFontById(DEFAULT_READER_ID);
+
+  // --- Reset settings (except theme) ---
+  function resetSettingsExceptTheme() {
+    const theme = localStorage.getItem('mp_theme') || 'light';
+    // Clear all but keep theme value
+    try {
+      localStorage.clear();
+    } catch (_) {}
+    // Reapply defaults
+    localStorage.setItem('mp_theme', theme);
+    localStorage.setItem('mp_textAlign', 'justify');
+    localStorage.setItem('mp_readerFont', DEFAULT_READER_ID);
+    localStorage.setItem('mp_paraIndent', '1');
+    localStorage.setItem('mp_fontsize', '20');
+    localStorage.setItem('mp_contentw', '68');
+    localStorage.setItem('mp_lineHeight', '1.3');
+    // Re-apply UI state
+    setTheme(theme);
+    applyReaderFontById(DEFAULT_READER_ID);
+    setFontSize(parseFloat(localStorage.getItem('mp_fontsize')));
+    applyAlignment(localStorage.getItem('mp_textAlign'));
+    applyParaIndent(!!localStorage.getItem('mp_paraIndent'));
+    const savedLine = parseFloat(localStorage.getItem('mp_lineHeight') || '1.2');
+    applyLineSpacing(isNaN(savedLine) ? 1.2 : savedLine);
+    const savedContentW = localStorage.getItem('mp_contentw');
+    if (savedContentW) setContentWCh(parseFloat(savedContentW));
+  }
+  if (sReset) sReset.addEventListener('click', resetSettingsExceptTheme);
 
   // reader font weight toggle removed (no longer used)
 
