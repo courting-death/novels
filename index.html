@@ -1110,8 +1110,10 @@
   // Map site themes to Giscus built-in themes
     function giscusThemeFor(mode) {
       // giscus supports 'light' and 'dark' built-ins; map our white->light, light->light, dark->dark, black->dark
-      if (mode === 'dark' || mode === 'black') return 'dark';
-      return 'light';
+      if (mode === 'dark') return 'transparent_dark';
+      if (mode === 'black') return 'transparent_dark';
+      if (mode === 'light') return 'light';
+      if (mode === 'white') return 'light_protanopia';
     }
     function updateGiscusTheme(mode) {
       const iframe = document.querySelector('iframe.giscus-frame');
