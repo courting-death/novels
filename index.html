@@ -1048,6 +1048,58 @@
   const articleEl = qs('#article');
   const scrollerEl = document.querySelector('.scroller');
 
+    // --- Mobile swipe gestures (edge-swipe to open sidebars) ---
+    (function setupSwipeGestures() {
+      let startX = 0, startY = 0, tracking = false, fromEdge = null; // 'left' | 'right' | null
+      const EDGE_PX = 28;        // how close to the edge a swipe must start
+      const MIN_X = 60;          // minimum horizontal travel to count as a swipe
+      const MAX_Y = 40;          // max vertical deviation to treat as horizontal swipe
+
+      const surface = scrollerEl || document;
+
+      surface.addEventListener('touchstart', (e) => {
+        if (!isMobile()) return;
+        if (!e.touches || e.touches.length !== 1) { tracking = false; return; }
+        const t = e.touches[0];
+        startX = t.clientX; startY = t.clientY; tracking = true; fromEdge = null;
+        if (startX <= EDGE_PX) fromEdge = 'left';
+        else if (startX >= window.innerWidth - EDGE_PX) fromEdge = 'right';
+      }, { passive: true });
+
+      surface.addEventListener('touchmove', (e) => {
+        // We keep this passive; we don't want to block vertical scrolling.
+        if (!tracking) return;
+        if (!isMobile()) { tracking = false; return; }
+      }, { passive: true });
+
+      surface.addEventListener('touchend', (e) => {
+        if (!tracking) return; tracking = false;
+        if (!isMobile()) return;
+        const t = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0] : null;
+        if (!t) return;
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+        if (Math.abs(dy) > MAX_Y) return; // likely a vertical scroll
+
+        const leftOpen = sidebar && sidebar.classList.contains('open');
+        const rightOpen = settingsSidebar && settingsSidebar.classList.contains('open');
+
+        // Edge-intent open gestures
+        if (fromEdge === 'left' && dx > MIN_X && !leftOpen) {
+          openSidebarMobile();
+          return;
+        }
+        if (fromEdge === 'right' && dx < -MIN_X && !rightOpen) {
+          openSettingsMobile();
+          return;
+        }
+
+        // Convenience close gestures when already open
+        if (leftOpen && dx < -MIN_X) { closeSidebarMobile(); return; }
+        if (rightOpen && dx > MIN_X) { closeSettingsMobile(); return; }
+      }, { passive: true });
+    })();
+
 
     // Navigation button refs (top header and bottom nav share the same handlers)
     const navEls = {
