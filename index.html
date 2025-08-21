@@ -118,6 +118,7 @@
       font: 16px/1.6 var(--global-font-family, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji");
   font-weight: var(--global-font-weight, 400);
     }
+    html, body, .chapter-list, .scroller { overscroll-behavior: contain; }
 
     /* global hidden helper (keeps layout space like your .nav rule) */
     .hidden { visibility: hidden; }
@@ -126,7 +127,9 @@
     .app {
       display: grid;
       grid-template-columns: 280px 1fr;
-      height: 100vh;
+      height: 100dvh; /* dynamic viewport */
+      max-height: 100dvh;
+      overflow: hidden; /* prevent outer scroll pass-through */
       transition: grid-template-columns .2s ease;
     }
     /* desktop collapse state */
@@ -147,10 +150,12 @@
       background: var(--surface);
       border-right: 1px solid var(--border);
       padding: 12px;
-  overflow-y: auto;
-  /* Always allow scrolling on hover, no click needed */
       position: relative;
-  z-index: 1100; /* above the overlay */
+      z-index: 1100; /* above the overlay */
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden; /* contain internal scroller */
     }
 
     .sidebar h1{
@@ -542,6 +547,15 @@
   .settings-sidebar.open { transform: translateX(0); }
     }
 
+  /* Sidebar scrolling model: fixed header (title + search) + scrolling chapter list */
+  .sidebar h1 { margin-top: 0; padding-top: 4px; flex-shrink: 0; }
+  .sidebar .chapter-search-wrap { flex-shrink: 0; }
+  .chapter-list { flex: 1 1 auto; overflow-y: auto; margin-top: 4px; padding-right: 4px; }
+  .chapter-list::-webkit-scrollbar { width: 10px; }
+  .chapter-list::-webkit-scrollbar-track { background: transparent; }
+  .chapter-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
+  .chapter-list::-webkit-scrollbar-thumb:hover { background: color-mix(in oklab, var(--border), var(--fg) 25%); }
+
 
   </style>
 </head>
@@ -713,11 +727,11 @@
   <div id="donateModal" class="donate-backdrop" role="dialog" aria-modal="true" aria-labelledby="donateTitle">
     <div class="donate-modal">
       <div class="donate-hdr">
-        <h2 id="donateTitle" class="donate-title">Support Courting Death Website and Translations</h2>
+        <h2 id="donateTitle" class="donate-title">Support the Courting Death Translations!</h2>
         <button class="donate-close" id="closeDonateModal" aria-label="Close">✕</button>
       </div>
       <div class="donate-content">
-        <p class="donate-lead">If you'd like to support the site & translations you can send <strong>Bitcoin</strong>. Thank you ❤️</p>
+        <p class="donate-lead">If you'd like to support the site & translations you can send me some <strong>Bitcoin</strong>. Thank you!</p>
         <div class="donate-grid">
           <section class="donate-net" data-net="BTC" data-symbol="BTC">
             <h3>Bitcoin <span class="donate-badge">BTC</span></h3>
