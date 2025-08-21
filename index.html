@@ -86,23 +86,23 @@
     .donate-btn:hover { background: color-mix(in oklab, var(--surface), var(--bg) 25%); }
     .donate-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: none; align-items: center; justify-content: center; z-index: 1300; }
     .donate-backdrop.show { display: flex; }
-    .donate-modal { background: var(--surface); color: var(--fg); border: 1px solid var(--border); border-radius: 14px; max-width: 860px; width: calc(100% - 24px); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
-    .donate-hdr { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .donate-modal { background: var(--surface); color: var(--fg); border: 1px solid var(--border); border-radius: 14px; max-width: 420px; width: calc(100% - 24px); box-shadow: 0 16px 48px rgba(0,0,0,.35); }
+  .donate-hdr { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--border); }
     .donate-title { font-size: 1.05rem; margin: 0; }
-    .donate-close { cursor: pointer; border: 1px solid var(--border); background: var(--bg); color: var(--fg); border-radius: 10px; padding: 6px 10px; }
-    .donate-content { padding: 14px 16px; }
-    .donate-lead { color: var(--muted); margin: 0 0 12px; }
-    .donate-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .donate-close { cursor: pointer; border: 1px solid var(--border); background: var(--bg); color: var(--fg); border-radius: 8px; padding: 4px 8px; font-size: .85rem; }
+  .donate-content { padding: 12px 14px 10px; }
+  .donate-lead { color: var(--muted); margin: 0 0 10px; font-size: .85rem; line-height: 1.3; }
+  .donate-grid { display: block; }
     @media (min-width: 760px) { .donate-grid { grid-template-columns: repeat(3, 1fr); } }
-    .donate-net { border: 1px solid var(--border); border-radius: 12px; padding: 12px; background: var(--bg); display: flex; flex-direction: column; gap: 10px; }
-    .donate-net h3 { font-size: 1rem; margin: 0; display: flex; align-items: center; justify-content: space-between; }
+  .donate-net { border: none; border-radius: 10px; padding: 0; background: transparent; display: flex; flex-direction: column; gap: 8px; }
+  .donate-net h3 { font-size: .95rem; margin: 0 0 2px; display: flex; align-items: center; gap: 8px; justify-content: center; }
     .donate-badge { font-size: .72rem; color: var(--bg); background: color-mix(in oklab, var(--primary), white 10%); padding: 2px 8px; border-radius: 999px; }
-    .donate-addr { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9rem; line-height: 1.35; color: var(--fg); background: var(--surface); border: 1px dashed var(--border); border-radius: 10px; padding: 10px; word-break: break-all; }
-    .donate-row { display: flex; gap: 8px; align-items: center; }
-    .donate-btn-sm { cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--fg); padding: 8px 10px; border-radius: 10px; font-weight: 600; }
+  .donate-addr { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .8rem; line-height: 1.25; color: var(--fg); background: var(--bg); border: 1px dashed var(--border); border-radius: 8px; padding: 8px 8px; word-break: break-all; text-align: center; }
+  .donate-row { display: flex; gap: 6px; align-items: center; justify-content: center; }
+  .donate-btn-sm { cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--fg); padding: 6px 9px; border-radius: 8px; font-weight: 600; font-size: .75rem; }
     .donate-btn-sm.ok { outline: 2px solid color-mix(in oklab, #34d399, transparent 70%); border-color: color-mix(in oklab, #34d399, var(--border) 60%); }
-    .donate-qr { display: none; align-items: center; justify-content: center; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 10px; }
-    .donate-foot { padding: 0 16px 16px; color: var(--muted); font-size: .85rem; }
+  .donate-qr { display: none; align-items: center; justify-content: center; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 6px; margin-top: 4px; }
+  .donate-foot { padding: 0 14px 12px; color: var(--muted); font-size: .7rem; text-align: center; }
 
     
 
@@ -717,46 +717,23 @@
         <button class="donate-close" id="closeDonateModal" aria-label="Close">✕</button>
       </div>
       <div class="donate-content">
-        <p class="donate-lead">Preferred: <strong>USDT (TRC20)</strong> for the lowest fees. ERC20 and TON networks are available too.</p>
+        <p class="donate-lead">If you'd like to support the site & translations you can send <strong>Bitcoin</strong>. Thank you ❤️</p>
         <div class="donate-grid">
-          <!-- TRC20 -->
-          <section class="donate-net" data-net="TRC20" data-symbol="USDT">
-            <h3>USDT — TRC20 <span class="donate-badge">Lowest fees</span></h3>
-            <div class="donate-addr" id="addr-trc">YOUR_TRC20_USDT_ADDRESS_HERE</div>
+          <section class="donate-net" data-net="BTC" data-symbol="BTC">
+            <h3>Bitcoin <span class="donate-badge">BTC</span></h3>
+            <div class="donate-addr" id="addr-btc">1CVVMcmEmFRBVXq31gbbBYdDUHxpEPsqw5</div>
             <div class="donate-row">
-              <button class="donate-btn-sm" data-copy="#addr-trc">Copy</button>
-              <button class="donate-btn-sm" data-qr="#addr-trc">Show QR</button>
+              <button class="donate-btn-sm" data-copy="#addr-btc">Copy</button>
             </div>
-            <div class="donate-qr" id="qr-trc"></div>
-          </section>
-
-          <!-- ERC20 -->
-          <section class="donate-net" data-net="ERC20" data-symbol="USDT">
-            <h3>USDT — ERC20 <span class="donate-badge">Most universal</span></h3>
-            <div class="donate-addr" id="addr-erc">YOUR_ERC20_USDT_ADDRESS_HERE</div>
-            <div class="donate-row">
-              <button class="donate-btn-sm" data-copy="#addr-erc">Copy</button>
-              <button class="donate-btn-sm" data-qr="#addr-erc">Show QR</button>
-            </div>
-            <div class="donate-qr" id="qr-erc"></div>
-          </section>
-
-          <!-- TON -->
-          <section class="donate-net" data-net="TON" data-symbol="TON">
-            <h3>USDT — TON<span class="donate-badge">Telegram‑native</span></h3>
-            <div class="donate-addr" id="addr-ton">YOUR_TON_ADDRESS_HERE</div>
-            <div class="donate-row">
-              <button class="donate-btn-sm" data-copy="#addr-ton">Copy</button>
-              <button class="donate-btn-sm" data-qr="#addr-ton">Show QR</button>
-            </div>
-            <div class="donate-qr" id="qr-ton"></div>
+            <!-- QR removed -->
           </section>
         </div>
       </div>
-      <div class="donate-foot">Send only the <strong>matching coin & network</strong> (e.g., USDT‑TRC20 → TRC20 address).</div>
+      <div class="donate-foot">Send only BTC to this address. Network: Bitcoin mainnet.</div>
     </div>
   </div>
 
+  <!-- QR library removed -->
   <script>
   // ====== Small runtime guide ======
   // This script wires UI controls (menu, cog, font/theme, navigation) to shared helper
@@ -1133,42 +1110,8 @@
   const articleEl = qs('#article');
   const scrollerEl = document.querySelector('.scroller');
 
-    // --- Donate: mini QR gen & modal wiring ---
-    // Minimal QR generator (very small, canvas-based, simplified). To keep page size low,
-    // we embed a tiny version sufficient for addresses.
-    // Source adapted from a tiny QR implementation (public domain-like footprint).
-    // For maintainability, this is intentionally scoped here.
-    function QRMini(canvas, text, size) {
-      // Placeholder fallback: render no QR if Canvas not supported
-      if (!canvas || !canvas.getContext) return { redraw: function(){} };
-      const ctx = canvas.getContext('2d');
-      size = size || 172; canvas.width = canvas.height = size;
-      // Very small pseudo-QR fallback: draw a simple pattern to avoid blank box if needed.
-      // Replace with a full QR lib if higher fidelity is required.
-      function redraw(val) {
-        ctx.fillStyle = '#0b0f13'; ctx.fillRect(0,0,size,size);
-        ctx.fillStyle = '#fff';
-        // fake finder patterns
-        const fp = (x,y)=>{ctx.fillRect(x,y,28,28);ctx.fillStyle='#0b0f13';ctx.fillRect(x+6,y+6,16,16);ctx.fillStyle='#fff';ctx.fillRect(x+10,y+10,8,8);ctx.fillStyle='#fff';};
-        fp(8,8); fp(size-36,8); fp(8,size-36);
-        // hash-based dots
-        let h=0; for(let i=0;i<val.length;i++) h=(h*33+val.charCodeAt(i))>>>0;
-        for(let y=0;y<21;y++){
-          for(let x=0;x<21;x++){
-            const bit=((h>>((x+y*21)%31))&1)===1;
-            if(bit){ ctx.fillRect(40+x*6, 40+y*6, 4, 4); }
-          }
-        }
-      }
-      redraw(text||'');
-      return { redraw: ()=>redraw(text||'') };
-    }
-
-    const DONATE_ADDR = {
-      trc: 'TSfWz6ZMEHU51QCnHQRU3Tvd9kT3oT86Zw',
-      erc: '0x9Dce99Addfb44F0bd36cd10a5Ed1a6076C9c27f6',
-      ton: 'UQCjXBbtlhxhQrknWw44Sjuha2F6LGAQ0KnS6rDhmr4RSUe9'
-    };
+  // --- Donate: BTC modal & real QR generation ---
+  const BTC_ADDRESS = '1CVVMcmEmFRBVXq31gbbBYdDUHxpEPsqw5';
 
     const donateModal = document.getElementById('donateModal');
     const donateOpenBtn = document.getElementById('donateBtn');
@@ -1180,10 +1123,8 @@
     if (donateCloseBtn) donateCloseBtn.addEventListener('click', closeDonate);
     if (donateModal) donateModal.addEventListener('click', (e)=>{ if(e.target===donateModal) closeDonate(); });
 
-    // Put addresses into DOM
-    const elTrc = document.getElementById('addr-trc'); if (elTrc) elTrc.textContent = DONATE_ADDR.trc;
-    const elErc = document.getElementById('addr-erc'); if (elErc) elErc.textContent = DONATE_ADDR.erc;
-    const elTon = document.getElementById('addr-ton'); if (elTon) elTon.textContent = DONATE_ADDR.ton;
+  // (address already in markup; left here for consistency if later made dynamic)
+  const elBtc = document.getElementById('addr-btc'); if (elBtc) elBtc.textContent = BTC_ADDRESS;
 
     // QR + Copy handlers (event delegation)
     document.addEventListener('click', (e)=>{
@@ -1199,20 +1140,7 @@
         }
         return;
       }
-      const qrSel = e.target.closest('[data-qr]');
-      if (qrSel) {
-        const sel = qrSel.getAttribute('data-qr');
-        const addrEl = document.querySelector(sel);
-        if (!addrEl) return;
-        const value = addrEl.textContent.trim();
-        const boxId = sel.replace('addr','qr');
-        const box = document.querySelector(boxId);
-        if (!box) return;
-        if (box.style.display==='flex') { box.style.display='none'; box.innerHTML=''; return; }
-        box.innerHTML='';
-        const c = document.createElement('canvas'); box.appendChild(c);
-        QRMini(c, value, 172); box.style.display='flex';
-      }
+  // QR functionality removed
     });
 
     // Focus trap for modal accessibility
