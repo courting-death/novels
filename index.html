@@ -73,7 +73,8 @@
     }
 
     /* Donate (theme-aware, scoped) */
-    .donate-section { margin: 18px 0 8px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .donate-section { margin: 18px 0 8px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; opacity: 0; transform: translateY(4px); transition: opacity .25s ease, transform .25s ease; }
+  .donate-section.ready { opacity: 1; transform: translateY(0); }
     .tele-btn, .donate-btn {
       cursor: pointer;
       border: none;
@@ -1550,13 +1551,16 @@
   const res = await fetch(urls.chapterURL(id), { cache: 'no-cache' });
         if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
         const md = await res.text();
-        articleEl.innerHTML = marked.parse(md);
+  articleEl.innerHTML = marked.parse(md);
+  // reveal donate/telegram buttons after content paint
+  try { document.querySelector('.donate-section')?.classList.add('ready'); } catch(_) {}
   // render comments for this chapter (deferred so it loads after content)
   scheduleGiscusRender();
         if (scrollerEl) scrollerEl.scrollTo({ top: 0, behavior: 'auto' }); // or 'smooth'
       } catch (e) {
         console.error('Failed to load chapter', id, e);
-        articleEl.innerHTML = ''; // silent fail
+  articleEl.innerHTML = ''; // silent fail
+  try { document.querySelector('.donate-section')?.classList.add('ready'); } catch(_) {}
   try { scheduleGiscusRender(); } catch (_) {}
       }
     }
