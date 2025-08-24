@@ -658,7 +658,7 @@
                 <button id="startReadingBtn" class="btn-primary" type="button">Start Reading →</button>
                 <button id="firstUnreadBtn" class="btn-secondary" type="button" style="display:none;">Resume Reading →</button>
                 <span class="row-break" aria-hidden="true"></span>
-                <a class="tele-btn" href="https://t.me/meecosha" target="_blank" rel="noopener">Telegram</a>
+                <a class="tele-btn" href="https://t.me/meecosha" target="_blank" rel="noopener">My Telegram Channel</a>
                 <button id="openDonateFromHome" class="donate-btn" type="button">Support (BTC)</button>
               </div>
               <p id="homeDisclaimer" class="home-disclaimer reader-intro" style="margin-top:34px;"></p>
@@ -1680,6 +1680,14 @@
   const homeAuthorEl = document.getElementById('homeAuthor');
   const homeAnnoContainer = document.getElementById('homeAnnotation');
   const homeDisclaimerEl = document.getElementById('homeDisclaimer');
+  const HOME_DISCLAIMER = [
+    "No MTL. Polished English translation by Courting Death Translations.",
+    "All original rights belong to their respective copyright holders.",
+    "Contact: courtingdeathnovels@gmail.com"
+  ];
+  if (homeDisclaimerEl) {
+    homeDisclaimerEl.innerHTML = HOME_DISCLAIMER.map(s=>`<span>${s}</span>`).join('<br>');
+  }
 
   function showHome(){
     if (!homePanel) return;
@@ -1752,11 +1760,7 @@
             homeAnnoContainer.appendChild(el);
         });
       }
-      if (homeDisclaimerEl) {
-        let text = meta.disclaimer || '';
-        if (meta.contact) text += (text ? ' ' : '') + 'Contact: ' + meta.contact;
-        homeDisclaimerEl.textContent = text;
-      }
+  // Disclaimer/contact intentionally fixed site-wide; ignore per-novel values
     } catch(_){ }
   }
 
