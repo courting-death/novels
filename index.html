@@ -596,6 +596,17 @@
   .home-flex { display:flex; flex-direction:column; gap: 14px; }
   .home-kicker { font-size: .7rem; font-weight:700; letter-spacing:2px; color: var(--primary); text-transform:uppercase; margin:0 0 14px; }
   #homeAuthor { font-size: 1.3rem; font-weight:600; letter-spacing:.3px; margin: 2px 0 20px; color: var(--fg); }
+  .recent-wrapper { margin: 34px 0 10px; }
+  .recent-title { margin:0 0 14px; font-size: 1.05rem; font-weight:700; letter-spacing:.4px; }
+  .recent-table { width:100%; border-collapse: collapse; font-size:.8rem; }
+  .recent-table thead th { text-align:left; font-weight:600; padding:6px 6px; border-bottom:1px solid var(--border); color: var(--muted); font-size:.7rem; letter-spacing:.7px; text-transform:uppercase; }
+  .recent-table tbody td { padding:6px 6px; border-bottom:1px solid color-mix(in oklab, var(--border), transparent 40%); }
+  .recent-table tbody tr:last-child td { border-bottom:none; }
+  .recent-table a { color: var(--link); text-decoration:none; }
+  .recent-table a:hover { text-decoration:underline; }
+  .recent-date { white-space:nowrap; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .recent-empty { font-size:.75rem; color: var(--muted); padding: 4px 0 0; }
+  @media (max-width:600px){ .recent-date.hide-narrow { display:none; } }
 
 
   </style>
@@ -660,6 +671,10 @@
                 <span class="row-break" aria-hidden="true"></span>
                 <a class="tele-btn" href="https://t.me/meecosha" target="_blank" rel="noopener">My Telegram Channel</a>
                 <button id="openDonateFromHome" class="donate-btn" type="button">Support (BTC)</button>
+              </div>
+              <div id="recentChapters" class="recent-wrapper" hidden>
+                <h3 class="recent-title">Recent Chapters</h3>
+                <div class="recent-body"></div>
               </div>
               <p id="homeDisclaimer" class="home-disclaimer reader-intro" style="margin-top:34px;"></p>
             </div>
@@ -1676,6 +1691,8 @@
   const startBtn = document.getElementById('startReadingBtn');
   const resumeBtn = document.getElementById('firstUnreadBtn');
   const donateFromHome = document.getElementById('openDonateFromHome');
+  const recentWrapper = document.getElementById('recentChapters');
+  const recentBody = recentWrapper ? recentWrapper.querySelector('.recent-body') : null;
   const homeTitleEl = document.getElementById('homeTitle');
   const homeAuthorEl = document.getElementById('homeAuthor');
   const homeAnnoContainer = document.getElementById('homeAnnotation');
@@ -1706,6 +1723,7 @@
     } catch(_){}
   // lazy load meta info once
   if (!homePanel.dataset.metaLoaded) loadNovelMeta();
+  try { buildRecentChapters(); } catch(_){ }
   }
   function hideHome(){ if (homePanel) homePanel.hidden = true; }
   if (startBtn) startBtn.addEventListener('click', ()=> { if (CHAPTERS.length) openChapterByIndex(0); });
@@ -1762,6 +1780,37 @@
       }
   // Disclaimer/contact intentionally fixed site-wide; ignore per-novel values
     } catch(_){ }
+  }
+
+  function formatDate(dStr){
+    if(!dStr) return '';
+    const d = new Date(dStr);
+    if (isNaN(+d)) return '';
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const da = String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${da}`;
+  }
+  function buildRecentChapters(limit=10){
+    if (!recentWrapper || !recentBody || !Array.isArray(CHAPTERS) || CHAPTERS.length===0) return;
+    const haveTimestamps = CHAPTERS.some(c => c.updated);
+    let list = [...CHAPTERS];
+    if (haveTimestamps) list.sort((a,b)=> new Date(b.updated||0) - new Date(a.updated||0));
+  else list = list.slice(-limit).reverse(); // fallback: take last N and reverse so newest first
+    list = list.slice(0, limit);
+    if (list.length===0){ recentBody.innerHTML = '<div class="recent-empty">No chapters yet.</div>'; recentWrapper.hidden=false; return; }
+    const rows = list.map(c=>{
+      const dateStr = formatDate(c.updated);
+      const id = c.id;
+      const title = c.title || c.id;
+      const href = buildChapterHref(id);
+      return `<tr><td><a href="${href}" data-chapter="${id}">${title}</a></td><td class="recent-date hide-narrow">${dateStr || ''}</td></tr>`;
+    }).join('');
+    recentBody.innerHTML = `<table class="recent-table"><thead><tr><th>Chapter</th><th class="hide-narrow">Updated</th></tr></thead><tbody>${rows}</tbody></table>`;
+    recentBody.querySelectorAll('a[data-chapter]').forEach(a=>{
+      a.addEventListener('click', ev=>{ ev.preventDefault(); const id = a.getAttribute('data-chapter'); openChapterById(id); });
+    });
+    recentWrapper.hidden = false;
   }
 
   </script>
