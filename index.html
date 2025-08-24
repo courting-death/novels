@@ -581,8 +581,10 @@
   .home-card h3 { margin: 0; font-size: .95rem; letter-spacing: .5px; text-transform: uppercase; font-weight: 700; color: var(--primary); }
   .home-card p { margin: 0; font-size: .8rem; line-height: 1.4; color: var(--fg); }
   .home-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top: 6px; }
-  .btn-primary { background: linear-gradient(135deg,#4f8cc9,#2f81f7); color:#fff; border:none; padding:12px 20px; font-size: 15px; font-weight:700; border-radius: 10px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 2px 6px rgba(0,0,0,.2); transition: transform .15s ease, box-shadow .15s ease; }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow:0 5px 16px rgba(0,0,0,.3); }
+  .home-actions .row-break { flex-basis:100%; height:0; }
+  .btn-primary { background: linear-gradient(135deg,#39b362,#238636); color:#fff; border:none; padding:12px 20px; font-size: 15px; font-weight:700; border-radius: 10px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 2px 6px rgba(0,0,0,.2); transition: transform .15s ease, box-shadow .15s ease, filter .2s ease; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow:0 5px 16px rgba(0,0,0,.3); filter: brightness(1.05); }
+  #chapterTitle { cursor: pointer; }
   .btn-secondary { background: var(--surface); color: var(--fg); border:1px solid var(--border); padding:11px 18px; font-size:14px; font-weight:600; border-radius:10px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
   .home-note { font-size: .68rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-top: 10px; }
   .home-badge { display:inline-block; background: color-mix(in oklab, var(--primary), white 20%); color: var(--bg); font-size: .65rem; padding:4px 8px; border-radius: 999px; letter-spacing: .5px; font-weight:600; margin-right: 8px; }
@@ -648,28 +650,17 @@
           <section id="homePanel" aria-labelledby="homeTitle" hidden>
             <div class="home-hero">
               <p class="home-kicker">Courting Death Translations</p>
-              <h2 id="homeTitle">Martial Peak — Fast, Clean, Ad‑Free Reader</h2>
-              <p class="home-lead">A minimalist, high‑performance web reader focused on comfort and control: adjustable typography, themes (white • sepia • dark • black), live chapter search, keyboard + mobile gestures, and integrated per‑chapter discussions. All chapters load straight from GitHub—no tracking scripts, no ads, just the story.</p>
+              <h2 id="homeTitle">Martial Peak</h2>
+              <p class="home-lead">Rise from the lowest outer disciple to the summit of the Martial Peak. Endless trials, hidden realms, ancient sect legacies, alchemy, arrays, artifacts and brutal cultivation battles shape Yang Kai's relentless climb. This archive hosts clean, carefully edited English chapters.</p>
+              <p class="home-mini"><strong>Quality:</strong> Translated using AI and polished by Courting Death Translations team — absolutely no MTL.</p>
               <div class="home-actions">
                 <button id="startReadingBtn" class="btn-primary" type="button">Start Reading Chapter 1 →</button>
                 <button id="firstUnreadBtn" class="btn-secondary" type="button" style="display:none;">Resume Reading →</button>
-                <a class="tele-btn" href="https://t.me/meecosha" target="_blank" rel="noopener">Join Telegram</a>
+                <span class="row-break" aria-hidden="true"></span>
+                <a class="tele-btn" href="https://t.me/meecosha" target="_blank" rel="noopener">Telegram</a>
                 <button id="openDonateFromHome" class="donate-btn" type="button">Support (BTC)</button>
               </div>
-              <p class="home-mini">Your preferences (font size, alignment, line spacing, indent, theme & width) are stored locally—clear them anytime with the reset button in the right rail.</p>
-            </div>
-            <div class="home-grid">
-              <div class="home-card"><h3>Open Source</h3><p>Content & reader live on GitHub. View raw markdown, verify integrity, or self‑host.</p></div>
-              <div class="home-card"><h3>Reader First</h3><p>No pagination spam, no popups, no clutter—just continuous chapters with clean typography.</p></div>
-              <div class="home-card"><h3>Customizable</h3><p>Fine‑tune font, width, spacing, indent, alignment & theme to fit your screen and taste.</p></div>
-              <div class="home-card"><h3>Discussions</h3><p>Each chapter has its own focused discussion thread (powered by GitHub Discussions via Giscus).</p></div>
-              <div class="home-card"><h3>Fast Loading</h3><p>Chapters stream directly; buttons and comments defer until after content paints.</p></div>
-              <div class="home-card"><h3>Offline Friendly</h3><p>Your last opened chapter & settings persist locally so you can quickly resume.</p></div>
-            </div>
-            <hr class="home-divider" />
-            <div class="home-flex">
-              <p class="home-lead" style="margin-top:0;">This site exists to make following <strong>Martial Peak</strong> painless. If you enjoy the experience and want it to keep improving, consider a small BTC tip or say hi on Telegram.</p>
-              <p class="home-disclaimer">Fan translation archive / reader interface. All rights to original content belong to the respective copyright holders. If there are any concerns, please reach out.</p>
+              <p class="home-disclaimer" style="margin-top:34px;">Fan translation. All original rights belong to the respective copyright holders.</p>
             </div>
           </section>
           <nav class="nav" id="topNav" style="display:none;"></nav> <!-- kept for structure -->
@@ -1706,12 +1697,22 @@
   if (donateFromHome) donateFromHome.addEventListener('click', ()=> { document.getElementById('donateBtn')?.click(); });
 
   // Track last opened chapter id for resume button
-  const originalOpenChapterByIndex = openChapterByIndex;
-  // (Already intercept above; append tracking logic by wrapping if desired) — Instead of full wrapper, add observer via Mutation or simpler: patch inside openChapterByIndex earlier if needed.
-  // We'll use a MutationObserver fallback if needed. Simpler: add event listener after chapter load using a custom event.
+  const originalOpenChapterByIndex = openChapterByIndex; // kept for potential future wrapping
   document.addEventListener('chapter:opened', (e)=>{
     try { const id = e.detail && e.detail.id; if (id) localStorage.setItem('mp_lastChapterId', id); } catch(_){}
   });
+
+  // Clickable header title -> go home (clear chapter param & show home panel)
+  function goHome(){
+    try { setParam('chapter', null); } catch(_){}
+    currentIndex = -1;
+    // clear content & comments
+    try { articleEl.innerHTML = ''; document.getElementById('giscusContainer').innerHTML=''; } catch(_){}
+    // hide nav buttons
+    Object.values(navEls).forEach(btn=> btn && btn.classList.add('hidden'));
+    showHome();
+  }
+  if (titleEl) titleEl.addEventListener('click', ()=>{ goHome(); });
 
   </script>
 </body>
