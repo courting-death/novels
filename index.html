@@ -595,6 +595,7 @@
   .home-disclaimer { font-size: .65rem; line-height:1.4; color: var(--muted); margin-top: 40px; text-align: center; }
   .home-flex { display:flex; flex-direction:column; gap: 14px; }
   .home-kicker { font-size: .7rem; font-weight:700; letter-spacing:2px; color: var(--primary); text-transform:uppercase; margin:0 0 14px; }
+  #homeAuthor { font-size: 1.3rem; font-weight:600; letter-spacing:.3px; margin: 2px 0 20px; color: var(--fg); }
 
 
   </style>
@@ -648,22 +649,19 @@
       <div class="scroller">
         <main class="reader">
           <section id="homePanel" aria-labelledby="homeTitle" hidden>
-            <div class="home-hero">
-              <p class="home-kicker">Courting Death Translations</p>
-              <h2 id="homeTitle">Martial Peak</h2>
-              <p class="home-lead">The path to the Martial Peak is one of loneliness and solitude—an endless quest where the heights are bitterly cold. Only by growing through adversity, surviving on the brink, and remaining unyielding can one glimpse the ultimate Martial Dao.</p>
-              <p class="home-lead">Yang Kai, a lowly sweeper and trial disciple of Lingxiao Pavilion, chances upon a wordless black book. From that moment he steps onto the boundless road of cultivation.</p>
-              <p class="home-lead">The novel ranked among the top ten most‑read mobile web novels in China. In June 2014 it topped the charts with nearly fifty million views and has remained hugely popular ever since—earning both manhua and donghua adaptations.</p>
+            <div class="home-hero" id="homeHero">
+              <p class="home-kicker" id="homeBrand">Courting Death Translations</p>
+              <h2 id="homeTitle">Loading…</h2>
+              <p id="homeAuthor" class="home-mini" style="margin-top:-4px; display:none;"></p>
+              <div id="homeAnnotation"></div>
               <div class="home-actions">
-                <button id="startReadingBtn" class="btn-primary" type="button">Start Reading Chapter 1 →</button>
+                <button id="startReadingBtn" class="btn-primary" type="button">Start Reading →</button>
                 <button id="firstUnreadBtn" class="btn-secondary" type="button" style="display:none;">Resume Reading →</button>
                 <span class="row-break" aria-hidden="true"></span>
                 <a class="tele-btn" href="https://t.me/meecosha" target="_blank" rel="noopener">Telegram</a>
                 <button id="openDonateFromHome" class="donate-btn" type="button">Support (BTC)</button>
               </div>
-              <p class="home-disclaimer" style="margin-top:34px;">This site and its translations are fanmade by the Courting Death Translations team.<br>
-              <strong>All rights to the original works remain with their respective copyright holders.</strong><br>
-              For any concerns please contact: courtingdeathnovels@gmail.com
+              <p id="homeDisclaimer" class="home-disclaimer reader-intro" style="margin-top:34px;"></p>
             </div>
           </section>
           <nav class="nav" id="topNav" style="display:none;"></nav> <!-- kept for structure -->
@@ -1678,6 +1676,10 @@
   const startBtn = document.getElementById('startReadingBtn');
   const resumeBtn = document.getElementById('firstUnreadBtn');
   const donateFromHome = document.getElementById('openDonateFromHome');
+  const homeTitleEl = document.getElementById('homeTitle');
+  const homeAuthorEl = document.getElementById('homeAuthor');
+  const homeAnnoContainer = document.getElementById('homeAnnotation');
+  const homeDisclaimerEl = document.getElementById('homeDisclaimer');
 
   function showHome(){
     if (!homePanel) return;
@@ -1694,6 +1696,8 @@
         resumeBtn.onclick = () => openChapterById(last);
       }
     } catch(_){}
+  // lazy load meta info once
+  if (!homePanel.dataset.metaLoaded) loadNovelMeta();
   }
   function hideHome(){ if (homePanel) homePanel.hidden = true; }
   if (startBtn) startBtn.addEventListener('click', ()=> { if (CHAPTERS.length) openChapterByIndex(0); });
@@ -1716,6 +1720,45 @@
     showHome();
   }
   if (titleEl) titleEl.addEventListener('click', ()=>{ goHome(); });
+
+  // ====== Novel meta loader ======
+  async function loadNovelMeta(){
+    const ref = resolveRepoRef();
+    let novelKey = 'martial-peak';
+    if (ref) novelKey = ref.repo; // assume repo name is meta id
+    const attempts = [];
+    async function tryFetch(url){
+      attempts.push(url);
+      try { const r = await fetch(url, { cache: 'no-cache' }); if (!r.ok) return null; return await r.json(); } catch(_){ return null; }
+    }
+    let meta = null;
+    if (ref) {
+      // Preferred path inside the novel repo root
+      meta = await tryFetch(`https://raw.githubusercontent.com/${ref.owner}/${ref.repo}/${ref.branch}/${novelKey}.meta.json`);
+      // Secondary legacy path inside a novels/ folder of that repo
+      if (!meta) meta = await tryFetch(`https://raw.githubusercontent.com/${ref.owner}/${ref.repo}/${ref.branch}/novels/${novelKey}.meta.json`);
+    }
+    if (!meta) { homePanel.dataset.metaLoaded = '1'; return; }
+    homePanel.dataset.metaLoaded = '1';
+    try {
+      if (homeTitleEl) homeTitleEl.textContent = meta.name || currentNovelLabel();
+      if (meta.author && homeAuthorEl) { homeAuthorEl.textContent = 'by ' + meta.author; homeAuthorEl.style.display='block'; }
+      if (Array.isArray(meta.annotation) && homeAnnoContainer){
+        homeAnnoContainer.innerHTML = '';
+        meta.annotation.forEach(p => {
+          const el = document.createElement('p');
+            el.className = 'home-lead reader-intro';
+            el.textContent = p;
+            homeAnnoContainer.appendChild(el);
+        });
+      }
+      if (homeDisclaimerEl) {
+        let text = meta.disclaimer || '';
+        if (meta.contact) text += (text ? ' ' : '') + 'Contact: ' + meta.contact;
+        homeDisclaimerEl.textContent = text;
+      }
+    } catch(_){ }
+  }
 
   </script>
 </body>
