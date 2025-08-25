@@ -360,6 +360,13 @@
       padding: 0;
     }
 
+    /* visual disabled state for icon buttons (used on home preview) */
+    .icon-btn[disabled] {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
     /* make the numeric line-spacing label smaller and use the reader serif font */
     #s-lineSpacing {
       font-size: 13px; /* slightly smaller than other icons */
@@ -1413,6 +1420,30 @@
     function currentChapterId() {
       return (CHAPTERS[currentIndex] && CHAPTERS[currentIndex].id) || null;
     }
+
+    // Enable or disable specific settings controls in the settings rail.
+    // - allowedIds: null to enable all, or array of element ids to allow; all others will be disabled.
+    function setSettingsAvailability(allowedIds) {
+      try {
+        const container = document.querySelector('.settings-inner');
+        if (!container) return;
+        const buttons = Array.from(container.querySelectorAll('.icon-btn'));
+        // when allowedIds is null -> enable all
+        const allowAll = allowedIds == null;
+        buttons.forEach(btn => {
+          const id = btn.id;
+          if (allowAll || (Array.isArray(allowedIds) && allowedIds.includes(id))) {
+            btn.removeAttribute('disabled');
+            btn.classList.remove('disabled');
+            btn.setAttribute('aria-disabled', 'false');
+          } else {
+            btn.setAttribute('disabled', '');
+            btn.classList.add('disabled');
+            btn.setAttribute('aria-disabled', 'true');
+          }
+        });
+      } catch (_) {}
+    }
   // Map site themes to Giscus built-in themes
     function giscusThemeFor(mode) {
       // giscus supports 'light' and 'dark' built-ins; map our white->light, light->light, dark->dark, black->dark
@@ -1591,6 +1622,8 @@
     async function openChapterByIndex(i) {
       if (i < 0 || i >= CHAPTERS.length) return;
   hideHome();
+  // Ensure all settings controls are enabled when a real chapter is open
+  try { setSettingsAvailability(null); } catch(_){}
       currentIndex = i;
   const { id, title } = CHAPTERS[i];
   titleEl.textContent = title || id;
@@ -1710,9 +1743,14 @@
     if (!homePanel) return;
     // Set header title to novel label (consistent with sidebar)
     try { titleEl.textContent = currentNovelLabel(); document.title = currentNovelLabel() + ' — Reader'; } catch(_){}
-    // Hide donate/comments/navigation until a chapter is opened
-    document.querySelector('.donate-section')?.classList.remove('ready');
-    homePanel.hidden = false;
+  // Hide donate/comments/navigation until a chapter is opened
+  document.querySelector('.donate-section')?.classList.remove('ready');
+  homePanel.hidden = false;
+  // Keep cog visible but disable most settings; allow only theme, font family, column width and reset
+  try { if (cogBtn) cogBtn.classList.remove('hidden'); } catch(_){ }
+  try { setSettingsAvailability(['s-themeBtn','s-fontCycle','s-contentInc','s-contentDec','s-reset']); } catch(_){ }
+  // Ensure settings rail and any overlays are closed when on the home panel
+  try { settingsSidebar.classList.remove('open'); settingsSidebar.setAttribute('aria-hidden','true'); document.body.classList.remove('settings-open'); overlay.classList.remove('show'); } catch(_){}
     // Determine resume button (if last read chapter stored)
     try {
       const last = getParam('chapter') || localStorage.getItem('mp_lastChapterId');
