@@ -613,7 +613,18 @@
   .recent-table a:hover { text-decoration:underline; }
   .recent-date { white-space:nowrap; font-variant-numeric: tabular-nums; color: var(--muted); }
   .recent-empty { font-size:.75rem; color: var(--muted); padding: 4px 0 0; }
-  @media (max-width:600px){ .recent-date.hide-narrow { display:none; } }
+  @media (max-width:600px){
+   /* Mobile: make each recent row a 2-column grid: title (1fr) + date (auto).
+     This prevents overflow, lets titles wrap naturally, and keeps dates tight. */
+   .recent-wrapper { margin: 18px 0 10px; padding: 0 8px; box-sizing: border-box; }
+   .recent-table { width: 100%; table-layout: auto; font-size: .78rem; border-collapse: collapse; }
+   .recent-table thead { display: table-header-group; }
+  .recent-table tbody tr { display: table-row; }
+  .recent-table tbody td { display: table-cell; padding: 6px 6px; box-sizing: border-box; vertical-align: middle; }
+  .recent-table tbody td:nth-child(2) { width: 1%; white-space: nowrap; text-align: right; color: var(--muted); font-size: .75rem; }
+  .recent-table tbody td:nth-child(1) { overflow-wrap: anywhere; white-space: normal; }
+   .recent-date.hide-narrow { display: table-cell; }
+  }
 
 
   </style>
