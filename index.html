@@ -1831,10 +1831,30 @@
   }
   function buildRecentChapters(limit=10){
     if (!recentWrapper || !recentBody || !Array.isArray(CHAPTERS) || CHAPTERS.length===0) return;
-    const haveTimestamps = CHAPTERS.some(c => c.updated);
+    // Prefer sorting by numeric chapter id (e.g. 123) descending so the latest chapter appears first.
+    function chapterNumber(obj) {
+      if (!obj) return NaN;
+      const s = String(obj.id || '');
+      const m = s.match(/(\d+)/g);
+      if (m && m.length) return parseInt(m[m.length-1], 10);
+      if (obj.title) {
+        const t = String(obj.title).match(/(\d+)/g);
+        if (t && t.length) return parseInt(t[t.length-1], 10);
+      }
+      return NaN;
+    }
     let list = [...CHAPTERS];
-    if (haveTimestamps) list.sort((a,b)=> new Date(b.updated||0) - new Date(a.updated||0));
-  else list = list.slice(-limit).reverse(); // fallback: take last N and reverse so newest first
+    list.sort((a, b) => {
+      const na = chapterNumber(a);
+      const nb = chapterNumber(b);
+      if (!isNaN(na) && !isNaN(nb)) return nb - na; // numeric descending
+      if (!isNaN(na)) return -1; // put numeric ids before non-numeric
+      if (!isNaN(nb)) return 1;
+      // fallback to updated timestamp if present
+      if (a.updated || b.updated) return new Date(b.updated || 0) - new Date(a.updated || 0);
+      // final fallback: locale-aware id comparison (numeric aware)
+      return String(b.id || '').localeCompare(String(a.id || ''), undefined, { numeric: true, sensitivity: 'base' });
+    });
     list = list.slice(0, limit);
     if (list.length===0){ recentBody.innerHTML = '<div class="recent-empty">No chapters yet.</div>'; recentWrapper.hidden=false; return; }
     const rows = list.map(c=>{
