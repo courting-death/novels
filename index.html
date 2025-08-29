@@ -611,6 +611,13 @@
   .recent-table tbody tr:last-child td { border-bottom:none; }
   .recent-table a { color: var(--link); text-decoration:none; }
   .recent-table a:hover { text-decoration:underline; }
+  /* Spoiler blur for chapter titles (recent list) */
+  .spoiler-blur { filter: blur(5px); cursor: pointer; transition: filter .18s ease; display:inline; font-weight:600; color: var(--link); }
+  /* Prevent subpixel reflow by promoting to its own layer */
+  .spoiler-blur, .spoiler-blur.revealed { will-change: filter; }
+  .spoiler-blur.revealed { filter:none; }
+  .chapter-number-link { font-weight:600; margin-right:0; }
+  .chapter-dash { font-weight:600; color: var(--link); }
   .recent-date { white-space:nowrap; font-variant-numeric: tabular-nums; color: var(--muted); }
   .recent-empty { font-size:.75rem; color: var(--muted); padding: 4px 0 0; }
   @media (max-width:600px){
@@ -1855,6 +1862,32 @@
       }
       return NaN;
     }
+    function escapeHTML(str){
+      return String(str).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;' }[c]||c));
+    }
+    function splitTitle(full){
+      if(!full) return { num:'', rest:'', dash:'' };
+      const original = String(full);
+      let m = original.match(/^((?:[Cc]h(?:apter)?\.?)\s*\d+)(.*)$/); // Chapter 123 ...
+      if(!m){
+        let m2 = original.match(/^(\d+)(.*)$/); // 123 ...
+        if(!m2) return { num: original, rest:'', dash:'' };
+        return separateDash(m2[1], m2[2]);
+      }
+      return separateDash(m[1].trim(), m[2]);
+    }
+  function separateDash(numPart, remainder){
+      if(!remainder) return { num: numPart, dash:'', rest:'' };
+      // Look for first dash-like separator (— or -) with optional surrounding spaces
+      const dm = remainder.match(/^(\s*[–—-]\s*)(.*)$/); // capture dash+spaces then rest
+      if(dm){
+    let restStr = dm[2].replace(/^\s+/, '');
+    // Force canonical spacing: single space before and after em dash
+    const dashStr = ' — ';
+    return { num: numPart, dash: dashStr, rest: restStr };
+      }
+      return { num: numPart, dash:'', rest: remainder };
+    }
     let list = [...CHAPTERS];
     list.sort((a, b) => {
       const na = chapterNumber(a);
@@ -1872,14 +1905,31 @@
     const rows = list.map(c=>{
       const dateStr = formatDate(c.updated);
       const id = c.id;
-      const title = c.title || c.id;
+      const rawTitle = c.title || c.id;
+  const { num, rest, dash } = splitTitle(rawTitle);
       const href = buildChapterHref(id);
-      return `<tr><td><a href="${href}" data-chapter="${id}">${title}</a></td><td class="recent-date hide-narrow">${dateStr || ''}</td></tr>`;
+      const numHTML = `<a class="chapter-number-link" href="${href}" data-chapter="${id}" aria-label="Open ${escapeHTML(rawTitle)}">${escapeHTML(num || rawTitle)}</a>`;
+      let restHTML = '';
+      const dashHTML = dash ? `<span class="chapter-dash">${escapeHTML(dash)}</span>` : '';
+      if(rest && rest.trim().length>0){
+        restHTML = `<span class="spoiler-blur" data-chapter-title="${escapeHTML(rawTitle)}" aria-label="Hidden chapter title - click to reveal">${escapeHTML(rest)}</span>`;
+      }
+      return `<tr><td>${numHTML}${dashHTML}${restHTML}</td><td class="recent-date hide-narrow">${dateStr || ''}</td></tr>`;
     }).join('');
     recentBody.innerHTML = `<table class="recent-table"><thead><tr><th>Chapter</th><th class="hide-narrow">Updated</th></tr></thead><tbody>${rows}</tbody></table>`;
     recentBody.querySelectorAll('a[data-chapter]').forEach(a=>{
       a.addEventListener('click', ev=>{ ev.preventDefault(); const id = a.getAttribute('data-chapter'); openChapterById(id); });
     });
+    if(!window._recentSpoilerHandlerAttached){
+      recentBody.addEventListener('click', e=>{
+        const target = e.target;
+        if(target && target.classList && target.classList.contains('spoiler-blur')){
+          e.preventDefault();
+          target.classList.add('revealed');
+        }
+      });
+      window._recentSpoilerHandlerAttached = true;
+    }
     recentWrapper.hidden = false;
   }
 
