@@ -1908,25 +1908,30 @@
       const rawTitle = c.title || c.id;
   const { num, rest, dash } = splitTitle(rawTitle);
       const href = buildChapterHref(id);
-      const numHTML = `<a class="chapter-number-link" href="${href}" data-chapter="${id}" aria-label="Open ${escapeHTML(rawTitle)}">${escapeHTML(num || rawTitle)}</a>`;
+  const numHTML = `<a class="chapter-number-link" href="${href}" data-chapter="${id}" data-chapter-title="${escapeHTML(rawTitle)}" aria-label="Open ${escapeHTML(rawTitle)}">${escapeHTML(num || rawTitle)}</a>`;
       let restHTML = '';
       const dashHTML = dash ? `<span class="chapter-dash">${escapeHTML(dash)}</span>` : '';
       if(rest && rest.trim().length>0){
-        restHTML = `<span class="spoiler-blur" data-chapter-title="${escapeHTML(rawTitle)}" aria-label="Hidden chapter title - click to reveal">${escapeHTML(rest)}</span>`;
+        // Make the blurred portion an anchor so after reveal it can open the chapter
+  restHTML = `<a class="spoiler-blur chapter-title-link" href="${href}" data-chapter="${id}" data-chapter-title="${escapeHTML(rawTitle)}" aria-label="Hidden chapter title - click to reveal then click again to open">${escapeHTML(rest)}</a>`;
       }
       return `<tr><td>${numHTML}${dashHTML}${restHTML}</td><td class="recent-date hide-narrow">${dateStr || ''}</td></tr>`;
     }).join('');
     recentBody.innerHTML = `<table class="recent-table"><thead><tr><th>Chapter</th><th class="hide-narrow">Updated</th></tr></thead><tbody>${rows}</tbody></table>`;
-    recentBody.querySelectorAll('a[data-chapter]').forEach(a=>{
-      a.addEventListener('click', ev=>{ ev.preventDefault(); const id = a.getAttribute('data-chapter'); openChapterById(id); });
-    });
     if(!window._recentSpoilerHandlerAttached){
       recentBody.addEventListener('click', e=>{
-        const target = e.target;
-        if(target && target.classList && target.classList.contains('spoiler-blur')){
+        const a = e.target.closest('a[data-chapter]');
+        if(!a) return;
+        // If it's a blurred title and not yet revealed, reveal instead of opening
+        if(a.classList.contains('spoiler-blur') && !a.classList.contains('revealed')){
           e.preventDefault();
-          target.classList.add('revealed');
+          a.classList.add('revealed');
+          a.setAttribute('aria-label', `Open ${a.getAttribute('data-chapter-title')||'chapter'}`);
+          return;
         }
+        e.preventDefault();
+        const id = a.getAttribute('data-chapter');
+        openChapterById(id);
       });
       window._recentSpoilerHandlerAttached = true;
     }
