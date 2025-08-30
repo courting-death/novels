@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Martial Peak — Reader</title>
 
+  <!-- Yandex.Metrica counter (load early in head) -->
+  <script>
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j=0;j<document.scripts.length;j++){ if(document.scripts[j].src===r) return; }
+      k=e.createElement(t);a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103953563','ym');
+    try { ym(103953563,'init',{ssr:true,webvisor:true,trackHash:true,clickmap:true,ecommerce:'dataLayer',accurateTrackBounce:true,trackLinks:true}); } catch(_){ }
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/103953563" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrica counter -->
+
   <!-- Markdown renderer -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -1927,6 +1940,8 @@
           e.preventDefault();
           a.classList.add('revealed');
           a.setAttribute('aria-label', `Open ${a.getAttribute('data-chapter-title')||'chapter'}`);
+          // Yandex Metrica goal for revealing a hidden title
+          try { if (typeof ym==='function') ym(103953563, 'reachGoal', 'reveal_title', { chapter: a.getAttribute('data-chapter') }); } catch(_){ }
           return;
         }
         e.preventDefault();
@@ -1937,6 +1952,24 @@
     }
     recentWrapper.hidden = false;
   }
+
+  // ===== Yandex.Metrica virtual pageview tracking (chapter navigation) =====
+  (function(){
+    const METRICA_ID = 103953563;
+    let lastVirtual = location.pathname + location.search;
+    document.addEventListener('chapter:opened', ev=>{
+      const id = ev.detail && ev.detail.id;
+      if(!id || typeof ym!=='function') return;
+      try {
+        const ch = (window.CHAPTERS||[]).find(c=>c.id===id);
+        const title = (ch && ch.title) ? ch.title : id;
+        const virtualUrl = buildChapterHref(id);
+        ym(METRICA_ID, 'hit', virtualUrl, { title: title + ' — ' + currentNovelLabel(), referer: lastVirtual });
+        ym(METRICA_ID, 'reachGoal', 'open_chapter', { chapter: id });
+        lastVirtual = virtualUrl;
+      } catch(_){ }
+    });
+  })();
 
   </script>
 </body>
