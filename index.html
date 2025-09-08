@@ -644,11 +644,13 @@
   .patrons-banner { box-sizing: border-box; margin: 42px auto 10px; max-width: var(--ui-rail-w, 760px); width: 100%; padding: 0 var(--page-gutter, 20px); text-align: center; }
   .patrons-mount { display: flex; justify-content: center; }
   .patrons-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; letter-spacing: .5px; margin: 0 0 10px; color: var(--fg); }
-  .patrons-hr { height: 1px; max-width: 86%; width: 100%; margin: 6px auto 18px; background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary), var(--fg) 35%), transparent); opacity: .6; }
+  .patrons-hr { height: 1px; max-width: 86%; width: 100%; margin: 12px auto; background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary), var(--fg) 35%), transparent); opacity: .6; }
   .patrons-names { display: grid; gap: 8px; justify-items: center; }
   .patron-name { font-size: 1.05rem; font-weight: 700; color: var(--fg); }
-  .patrons-banner .thanks { margin-top: 12px; font-size: .85rem; color: var(--muted); }
+  .patrons-banner .thanks { margin: 0; font-size: .85rem; color: var(--muted); }
   .patrons-subtext { margin-top: 6px; font-size: .78rem; color: var(--muted); }
+  .patrons-subtext a { color: inherit; text-decoration: underline; font-weight: 600; }
+  .patrons-subtext a:hover, .patrons-subtext a:focus { color: inherit; text-decoration: underline; }
   /* Make the Patrons CTA use the same style as the primary button */
   .patrons-banner .btn-primary { margin-top: 10px; }
   /* Primary CTA (neutral styling to avoid clashing, still prominent via size/weight/shadow) */
@@ -843,12 +845,14 @@
           <!-- Reusable Patrons banner template -->
           <template id="patronsTpl">
             <section class="patrons-banner" aria-labelledby="patronsTitle">
-              <h3 id="patronsTitle" class="patrons-title">Immortal Ancestor Patrons</h3>
+              <h3 id="patronsTitle" class="patrons-title">Immortal Ancestor Patrons<br>Hall of Fame</h3>
               <div class="patrons-hr" aria-hidden="true"></div>
               <div class="patrons-names" role="list"></div>
-              <a class="btn-primary" href="https://www.patreon.com/cw/courting_death/membership" target="_blank" rel="noopener" data-ym-goal="patrons_cta" data-ym-label="patrons_cta">Become an Immortal Ancestor Patron</a>
-              <div class="patrons-subtext">Join before the next translation begins, and your name shall be etched here forever</div>
-              
+              <div class="patrons-hr" aria-hidden="true"></div>
+              <div class="patrons-subtext">
+                <a href="https://www.patreon.com/cw/courting_death/membership" target="_blank" rel="noopener" data-ym-goal="patrons_cta" data-ym-label="patrons_cta">Click here to become an Immortal Ancestor Patron</a><br>
+                Join before the next translation begins,<br>and your name shall be etched here forever.
+              </div>
             </section>
           </template>
 
