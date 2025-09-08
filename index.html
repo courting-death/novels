@@ -82,8 +82,8 @@
   --ui-rail-w: 760px;
   /* minimum width for rails so they don't shrink excessively */
   --ui-rail-min: 520px;
-  /* horizontal page gutter (mobile/tablet); responsive with a slightly larger range */
-  --page-gutter: clamp(18px, 6vw, 28px);
+  /* horizontal page gutter (mobile/tablet); bumped so reader matches the previous home feel */
+  --page-gutter: clamp(26px, calc(6vw + 8px), 36px);
     }
     header.site-header { min-height: var(--header-h); }
 
@@ -619,7 +619,7 @@
   .chapter-list::-webkit-scrollbar-thumb:hover { background: color-mix(in oklab, var(--border), var(--fg) 25%); }
 
   /* HOME PANEL (shown when no ?chapter param) */
-  #homePanel { max-width: 760px; margin: 32px auto 56px; padding: 0 8px; font-family: var(--global-font-family,'Noto Serif',serif); }
+  #homePanel { max-width: 760px; margin: 32px auto 56px; padding: 0; font-family: var(--global-font-family,'Noto Serif',serif); }
   #homePanel[hidden] { display: none !important; }
   .home-hero h2 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); line-height: 1.15; margin: 0 0 .6em; font-weight: 700; letter-spacing: -.5px; }
   .home-lead { font-size: 1.05rem; line-height: 1.5; margin: 0 0 1.4em; color: var(--muted); }
