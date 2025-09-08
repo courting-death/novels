@@ -761,7 +761,7 @@
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </button>
-          <button id="cogBtn" class="icon-btn" title="Settings" aria-label="Settings">
+          <button id="cogBtn" class="icon-btn" title="Settings" aria-label="Settings" data-ym-goal="settings_open">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09A1.65 1.65 0 0 0 11 3.09V3a2 2 0 0 1 4 0v.09c.38.16.7.46 1 1.51a1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82c.16.38.46.7 1.51 1H21a2 2 0 0 1 0 4h-.09c-.16.38-.46.7-1.51 1z"></path></svg>
           </button>
         </div>
@@ -776,7 +776,7 @@
               <p id="homeAuthor" class="home-mini" style="margin-top:-4px; display:none;"></p>
               <div id="homeAnnotation"></div>
               <div class="home-actions">
-                <button id="startReadingBtn" class="btn-primary" type="button">Start Reading →</button>
+                <button id="startReadingBtn" class="btn-primary" type="button" data-ym-goal="start_reading">Start Reading →</button>
                 <button id="firstUnreadBtn" class="btn-secondary" type="button" style="display:none;">Resume Reading →</button>
                 <div class="cta-stack" data-cta-target></div>
               </div>
@@ -809,14 +809,14 @@
           
           <!-- Reusable CTA template (buttons only). Will be cloned into any [data-cta-target] containers above. -->
           <template id="ctaButtonsTpl">
-            <a href="https://www.patreon.com/c/courting_death" target="_blank" rel="noopener" class="patreon-btn" aria-label="Patreon">
+            <a href="https://www.patreon.com/c/courting_death" target="_blank" rel="noopener" class="patreon-btn" aria-label="Patreon" data-ym-goal="cta_patreon" data-ym-label="patreon">
               <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect x="20" y="20" width="52" height="216" fill="#fff"/>
                 <circle cx="156" cy="104" r="80" fill="#fff"/>
               </svg>
               Support and get EPUBs
             </a>
-            <a href="https://t.me/meecosha" target="_blank" rel="noopener" class="tele-btn" aria-label="Telegram Channel">
+            <a href="https://t.me/meecosha" target="_blank" rel="noopener" class="tele-btn" aria-label="Telegram Channel" data-ym-goal="cta_telegram" data-ym-label="telegram">
               <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <circle cx="120" cy="120" r="120" fill="url(#tggrad)" />
                 <path d="M173 72L151.4 170.6c-1.6 7.2-6 9-12.2 5.6l-34-25.2-16.4 15.8c-1.8 1.8-3.2 3.2-6.4 3.2l2.2-32.2 58.6-52.8c2.6-2.2-.6-3.4-4-1.2l-72.4 45.6-31.2-9.8c-6.8-2.2-6.8-6.8 1.4-10.2l122-47.2c5.6-2 10.4 1.2 8.6 9.8Z" fill="#fff" />
@@ -829,7 +829,7 @@
               </svg>
               My Telegram Channel
             </a>
-            <button class="donate-btn" type="button">Send some Bitcoin 🤍</button>
+            <button class="donate-btn" type="button" data-ym-goal="cta_donate_open" data-ym-label="donate_open">Send some Bitcoin 🤍</button>
           </template>
 
           <!-- Reusable Patrons banner template -->
@@ -838,7 +838,7 @@
               <h3 id="patronsTitle" class="patrons-title">Immortal Ancestor Patrons</h3>
               <div class="patrons-hr" aria-hidden="true"></div>
               <div class="patrons-names" role="list"></div>
-              <a class="btn-primary" href="https://www.patreon.com/cw/courting_death/membership" target="_blank" rel="noopener">Become an Immortal Ancestor Patron</a>
+              <a class="btn-primary" href="https://www.patreon.com/cw/courting_death/membership" target="_blank" rel="noopener" data-ym-goal="patrons_cta" data-ym-label="patrons_cta">Become an Immortal Ancestor Patron</a>
               <div class="patrons-subtext">join before the next translation begins, and your name shall be etched here forever</div>
               
             </section>
@@ -858,19 +858,19 @@
       - Buttons here invoke the same handlers as header controls (reuse behavior)
     -->
     <div class="settings-inner" role="menu" aria-label="Settings">
-      <button id="s-themeBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">🌓</button>
-  <button id="s-fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size">
+  <button id="s-themeBtn" class="icon-btn" title="Toggle theme" aria-label="Toggle theme" data-ym-goal="settings_theme_toggle">🌓</button>
+  <button id="s-fontInc" class="icon-btn" title="Increase font size" aria-label="Increase font size" data-ym-goal="settings_font_inc">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
-      <button id="s-fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">
+  <button id="s-fontDec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size" data-ym-goal="settings_font_dec">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
       <!-- Cycle reader font family: Droid Serif ↔ Helvetica -->
-      <button id="s-fontCycle" class="icon-btn" title="Cycle font family" aria-label="Cycle font family">F</button>
+  <button id="s-fontCycle" class="icon-btn" title="Cycle font family" aria-label="Cycle font family" data-ym-goal="settings_font_cycle">F</button>
   <!-- font-weight toggle removed to save space -->
 
       <!-- Text alignment toggle: cycles justify | left | center | right -->
-      <button id="s-alignToggle" class="icon-btn" title="Text align: Justify" aria-label="Text align: Justify">
+  <button id="s-alignToggle" class="icon-btn" title="Text align: Justify" aria-label="Text align: Justify" data-ym-goal="settings_align_toggle">
         <!-- default icon (will be replaced on load) -->
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="4" y1="6" x2="20" y2="6"></line>
@@ -881,7 +881,7 @@
       </button>
 
       <!-- Paragraph indent toggle: toggles first-line indent on/off -->
-      <button id="s-indentToggle" class="icon-btn" title="Paragraph indent: Off" aria-label="Paragraph indent: Off">
+  <button id="s-indentToggle" class="icon-btn" title="Paragraph indent: Off" aria-label="Paragraph indent: Off" data-ym-goal="settings_indent_toggle">
         <!-- default icon (updated by JS) -->
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="4" y1="6" x2="20" y2="6"></line>
@@ -891,12 +891,12 @@
       </button>
 
       <!-- Line spacing toggle: cycles 1.0 | 1.1 | 1.2 | 1.3 | 1.4 | 1.5 -->
-  <button id="s-lineSpacing" class="icon-btn" title="Line spacing: 1.2" aria-label="Line spacing: 1.2">1.2</button>
+  <button id="s-lineSpacing" class="icon-btn" title="Line spacing: 1.2" aria-label="Line spacing: 1.2" data-ym-goal="settings_line_spacing">1.2</button>
   <!-- Hyphenation toggle: toggles hyphens on/off for the article -->
-  <button id="s-hyphenToggle" class="icon-btn" title="Hyphenation: On" aria-label="Hyphenation: On">Hy</button>
+  <button id="s-hyphenToggle" class="icon-btn" title="Hyphenation: On" aria-label="Hyphenation: On" data-ym-goal="settings_hyphen_toggle">Hy</button>
 
   <!-- Content-width controls: narrow / widen readable column -->
-  <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column">
+  <button id="s-contentInc" class="icon-btn" title="Widen column" aria-label="Widen column" data-ym-goal="settings_content_inc">
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round">
       <!-- left arrow pointing left -->
@@ -907,7 +907,7 @@
   </button>
 
   
-  <button id="s-contentDec" class="icon-btn" title="Narrow column" aria-label="Narrow column">
+  <button id="s-contentDec" class="icon-btn" title="Narrow column" aria-label="Narrow column" data-ym-goal="settings_content_dec">
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round">
       <!-- left arrow pointing right -->
@@ -917,7 +917,7 @@
     </svg>
   </button>
 
-<button id="s-reset" class="icon-btn" title="Reset" aria-label="Reset">
+<button id="s-reset" class="icon-btn" title="Reset" aria-label="Reset" data-ym-goal="settings_reset">
   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <!-- flipped circular arc -->
@@ -1441,12 +1441,34 @@
           const val = valEl.textContent.trim();
           navigator.clipboard.writeText(val).then(()=>{
             copySel.classList.add('ok'); setTimeout(()=>copySel.classList.remove('ok'), 900);
+            try { if (typeof ym==='function') ym(103953563, 'reachGoal', 'donate_copy_btc', { view: (getParam('chapter')? 'chapter':'home') }); } catch(_){ }
           }).catch(()=>{});
         }
         return;
       }
   // QR functionality removed
     });
+
+  // ===== Yandex.Metrica: delegated click tracking for all important buttons =====
+  document.addEventListener('click', (e) => {
+    // find closest element with a tracking goal
+    const el = e.target && e.target.closest && e.target.closest('[data-ym-goal]');
+    if (!el) return;
+    // Skip chapter nav arrows explicitly (not tagged by us, but guard anyway)
+    const id = el.id || '';
+    if (id === 'prevTop' || id === 'nextTop' || id === 'prevBottom' || id === 'nextBottom') return;
+    // Skip chapter list clicks (left sidebar) entirely
+    if (el.closest && el.closest('#chaptersList')) return;
+
+    const goal = el.getAttribute('data-ym-goal');
+    if (!goal) return;
+    const params = {
+      view: (typeof getParam==='function' && getParam('chapter')) ? 'chapter' : 'home',
+      chapterId: (typeof getParam==='function' ? (getParam('chapter') || null) : null),
+      label: el.getAttribute('data-ym-label') || null
+    };
+    try { if (typeof ym==='function') ym(103953563, 'reachGoal', goal, params); } catch(_) {}
+  });
 
     // Focus trap for modal accessibility
     function trapDonateFocus(){
