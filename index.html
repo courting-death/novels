@@ -632,6 +632,13 @@
   .home-actions .row-break { flex-basis:100%; height:0; }
   /* Vertical stack for Patreon, Telegram, BTC */
   .cta-stack { display:flex; flex-direction: column; align-items: flex-start; gap:10px; margin-top:10px; flex-basis:100%; width:100%; }
+  /* Patrons banner (shared on home and chapter pages) */
+  .patrons-banner { margin: 42px auto 10px; width: min(100%, var(--ui-rail-w, 760px)); padding: 0 var(--page-gutter, 20px); text-align: center; }
+  .patrons-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; letter-spacing: .5px; margin: 0 0 10px; color: var(--fg); }
+  .patrons-hr { height: 1px; width: 86%; margin: 6px auto 18px; background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary), var(--fg) 35%), transparent); opacity: .6; }
+  .patrons-names { display: grid; gap: 8px; justify-items: center; }
+  .patron-name { font-size: 1.05rem; font-weight: 700; color: var(--fg); }
+  .patrons-banner .thanks { margin-top: 12px; font-size: .85rem; color: var(--muted); }
   /* Primary CTA (neutral styling to avoid clashing, still prominent via size/weight/shadow) */
   .btn-primary {
     background: var(--surface);
@@ -772,6 +779,7 @@
                 <h3 class="recent-title">Recent Chapters</h3>
                 <div class="recent-body"></div>
               </div>
+              <div class="patrons-mount" data-patrons-target></div>
               <p id="homeDisclaimer" class="home-disclaimer reader-intro" style="margin-top:34px;"></p>
             </div>
           </section>
@@ -819,8 +827,19 @@
             <button class="donate-btn" type="button">Send some Bitcoin 🤍</button>
           </template>
 
+          <!-- Reusable Patrons banner template -->
+          <template id="patronsTpl">
+            <section class="patrons-banner" aria-labelledby="patronsTitle">
+              <h3 id="patronsTitle" class="patrons-title">Immortal Ancestor Patrons</h3>
+              <div class="patrons-hr" aria-hidden="true"></div>
+              <div class="patrons-names" role="list"></div>
+              <p class="thanks">Thank you for supporting the translations.</p>
+            </section>
+          </template>
+
           <!-- Comments -->
           <div id="giscusContainer" style="margin-top:24px;"></div>
+          <div class="patrons-mount" data-patrons-target></div>
         </main>
       </div>
     </div>
@@ -1335,6 +1354,48 @@
     });
   }
 
+  // Inject Patrons banner into all [data-patrons-target] and populate from novel repo's Patrons.md
+  async function hydratePatrons(){
+    try {
+      const tpl = document.getElementById('patronsTpl');
+      if (!tpl) return;
+      document.querySelectorAll('[data-patrons-target]').forEach((target)=>{
+        if (target.dataset.patronsHydrated === '1') return;
+        target.innerHTML = '';
+        target.appendChild(tpl.content.cloneNode(true));
+        target.dataset.patronsHydrated = '1';
+      });
+
+      const ref = resolveRepoRef();
+      let url = null;
+      if (ref) url = `https://raw.githubusercontent.com/${ref.owner}/${ref.repo}/${ref.branch}/Patrons.md`;
+      else url = 'Patrons.md';
+      if (!url) return;
+      let text = '';
+      try {
+        const r = await fetch(url, { cache: 'no-cache' });
+        if (!r.ok) throw new Error('HTTP '+r.status);
+        text = await r.text();
+      } catch (_) { return; }
+
+      const lines = text.split(/\r?\n/)
+        .map(s=>s.trim())
+        .filter(s=> s && !s.startsWith('#'))
+        .map(s=> s.replace(/^[-*+]\s+/, ''));
+      if (!lines.length) return;
+      document.querySelectorAll('.patrons-banner .patrons-names').forEach(list => {
+        list.innerHTML = '';
+        lines.forEach(name => {
+          const div = document.createElement('div');
+          div.className = 'patron-name';
+          div.setAttribute('role','listitem');
+          div.textContent = name;
+          list.appendChild(div);
+        });
+      });
+    } catch (_) {}
+  }
+
   // --- Donate: BTC modal & real QR generation ---
   const BTC_ADDRESS = '1CVVMcmEmFRBVXq31gbbBYdDUHxpEPsqw5';
 
@@ -1770,12 +1831,14 @@
   try { document.querySelector('.donate-section')?.classList.add('ready'); } catch(_) {}
   // render comments for this chapter (deferred so it loads after content)
   scheduleGiscusRender();
+  try { hydratePatrons(); } catch(_) {}
         if (scrollerEl) scrollerEl.scrollTo({ top: 0, behavior: 'auto' }); // or 'smooth'
       } catch (e) {
         console.error('Failed to load chapter', id, e);
   articleEl.innerHTML = ''; // silent fail
   try { document.querySelector('.donate-section')?.classList.add('ready'); } catch(_) {}
   try { scheduleGiscusRender(); } catch (_) {}
+  try { hydratePatrons(); } catch(_) {}
       }
     }
 
@@ -1805,6 +1868,8 @@
     (async function init() {
       // Ensure CTA buttons are present in both Home and Chapter footer
       try { hydrateCtas(); } catch(_) {}
+  // Render patrons banner in both placements
+  try { hydratePatrons(); } catch(_) {}
       // Set sidebar title based on novel/repo if provided
       try {
         const h1 = document.querySelector('.sidebar h1');
