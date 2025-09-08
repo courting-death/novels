@@ -82,6 +82,8 @@
   --ui-rail-w: 760px;
   /* minimum width for rails so they don't shrink excessively */
   --ui-rail-min: 520px;
+  /* horizontal page gutter (mobile/tablet); responsive with a sane range */
+  --page-gutter: clamp(14px, 5vw, 24px);
     }
     header.site-header { min-height: var(--header-h); }
 
@@ -490,7 +492,8 @@
       box-sizing: border-box;
       max-width: 100%;                  /* allow UI to use full column width */
       margin: 0 auto;
-      padding: 0px 16px 40px;           /* small top pad so text doesn’t kiss border */
+      /* restore comfortable side gutter on mobile, honoring safe areas */
+      padding: 0px max(var(--page-gutter), env(safe-area-inset-left)) 40px max(var(--page-gutter), env(safe-area-inset-right));
     }
     @media (min-width: 901px){
       main.reader{ padding: 0px 24px 56px; }
@@ -567,6 +570,7 @@
 
     /* MOBILE */
     @media (max-width: 900px) {
+  :root { --page-gutter: 20px; }
       .app { grid-template-columns: 1fr; }          /* sidebar column hidden */
 
       .sidebar{
@@ -1138,12 +1142,13 @@
       return parseFloat(raw);
     }
     function pxPerCh() {
-      // measure 1ch in pixels reliably (accounts for current font)
+      // Measure 1ch using the article's current font metrics for accuracy.
+      const base = document.getElementById('article') || document.documentElement;
       const el = document.createElement('span');
       el.style.position = 'absolute';
       el.style.visibility = 'hidden';
       el.style.width = '1ch';
-      el.style.font = getComputedStyle(document.documentElement).font;
+      el.style.font = getComputedStyle(base).font;
       document.body.appendChild(el);
       const w = el.getBoundingClientRect().width || el.offsetWidth || 8;
       document.body.removeChild(el);
@@ -1280,13 +1285,18 @@
     function viewportChAvailable() {
       const chPx = pxPerCh();
       const reader = document.querySelector('main.reader');
+      const scroller = document.querySelector('.scroller');
+      // Use the right column's inner viewport width (scroller), not the full window width.
+      let containerPx = (scroller && scroller.clientWidth) || window.innerWidth;
       let padLeft = 0, padRight = 0;
       if (reader) {
         const cs = getComputedStyle(reader);
-        padLeft = parseFloat(cs.paddingLeft) || 0;
-        padRight = parseFloat(cs.paddingRight) || 0;
+        const pl = parseFloat(cs.paddingLeft);
+        const pr = parseFloat(cs.paddingRight);
+        padLeft = Number.isFinite(pl) ? pl : 0;
+        padRight = Number.isFinite(pr) ? pr : 0;
       }
-      const availablePx = Math.max(0, window.innerWidth - padLeft - padRight);
+      const availablePx = Math.max(0, containerPx - padLeft - padRight);
       return Math.max(1, Math.floor(availablePx / chPx));
     }
 
@@ -1295,8 +1305,8 @@
       const avail = viewportChAvailable();
       const applied = Math.min(clamped, avail);
       document.documentElement.style.setProperty('--content-w', applied + 'ch');
-      localStorage.setItem('mp_contentw', String(applied));
-      if (sContentLabel) sContentLabel.textContent = applied + 'ch';
+  try { localStorage.setItem('mp_contentw', String(applied)); } catch(_){ }
+  if (sContentLabel) sContentLabel.textContent = applied + 'ch';
     }
     if (sContentInc) sContentInc.addEventListener('click', () => setContentWCh(getContentWCh() + 4));
     if (sContentDec) sContentDec.addEventListener('click', () => setContentWCh(getContentWCh() - 4));
