@@ -88,7 +88,7 @@
     header.site-header { min-height: var(--header-h); }
 
     :root{
-      --content-w: 72ch; /* comfortable line length: ~70–75 characters */
+  --content-w: 64ch; /* optimal default ~60–70 characters on desktop */
     }
 
     /* Donate (theme-aware, scoped) */
@@ -816,7 +816,7 @@
               </svg>
               My Telegram Channel
             </a>
-            <button class="donate-btn" type="button">Send Bitcoin 🤍</button>
+            <button class="donate-btn" type="button">Send some Bitcoin 🤍</button>
           </template>
 
           <!-- Comments -->
@@ -970,7 +970,7 @@
   if (!localStorage.getItem('mp_readerFont')) localStorage.setItem('mp_readerFont', 'noto-serif');
   if (!localStorage.getItem('mp_paraIndent')) localStorage.setItem('mp_paraIndent', '1');
   if (!localStorage.getItem('mp_fontsize')) localStorage.setItem('mp_fontsize', '20');
-  if (!localStorage.getItem('mp_contentw')) localStorage.setItem('mp_contentw', '68');
+  if (!localStorage.getItem('mp_contentw')) localStorage.setItem('mp_contentw', '64');
   // reader weight toggle removed; keep default typography consistent via --global-font-weight
   if (!localStorage.getItem('mp_lineHeight')) localStorage.setItem('mp_lineHeight', '1.3');
   // apply theme from storage (now present)
@@ -1059,7 +1059,7 @@
     localStorage.setItem('mp_readerFont', DEFAULT_READER_ID);
     localStorage.setItem('mp_paraIndent', '1');
     localStorage.setItem('mp_fontsize', '20');
-    localStorage.setItem('mp_contentw', '68');
+  localStorage.setItem('mp_contentw', '64');
     localStorage.setItem('mp_lineHeight', '1.3');
     // Re-apply UI state
     setTheme(theme);
@@ -1127,7 +1127,7 @@
     const sContentLabel = document.getElementById('s-contentLabel');
 
     function getContentWCh() {
-      const raw = getComputedStyle(document.documentElement).getPropertyValue('--content-w') || '72ch';
+  const raw = getComputedStyle(document.documentElement).getPropertyValue('--content-w') || '64ch';
       return parseFloat(raw);
     }
     function pxPerCh() {
