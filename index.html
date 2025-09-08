@@ -88,7 +88,7 @@
     /* Donate (theme-aware, scoped) */
   .donate-section { margin: 18px 0 8px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; opacity: 0; transform: translateY(4px); transition: opacity .25s ease, transform .25s ease; }
   .donate-section.ready { opacity: 1; transform: translateY(0); }
-    .tele-btn, .donate-btn {
+    .tele-btn, .donate-btn, .patreon-btn {
       cursor: pointer;
       border: none;
       padding: 10px 14px;
@@ -108,7 +108,12 @@
   .tele-btn { background: linear-gradient(135deg,#2AABEE,#229ED9); color: #fff; }
     .tele-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.25); }
     .tele-btn svg { width: 18px; height: 18px; }
-  .donate-btn { background: linear-gradient(135deg,#39b362,#238636); color: #fff; }
+  /* Patreon button: same style as telegram, different colors */
+  .patreon-btn { background: linear-gradient(135deg,#FF6A6F,#FF424D); color: #fff; text-decoration: none; }
+    .patreon-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.25); text-decoration: none; }
+    .patreon-btn svg { width: 18px; height: 18px; }
+  /* BTC donate button recolored to #e09438 with a soft gradient */
+  .donate-btn { background: linear-gradient(135deg,#f1a24f,#e09438); color: #fff; }
     .donate-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.25); filter: brightness(1.05); }
     .donate-btn:active, .tele-btn:active { transform: translateY(0); box-shadow: 0 2px 4px rgba(0,0,0,.2); }
     .donate-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: none; align-items: center; justify-content: center; z-index: 1300; }
@@ -708,6 +713,13 @@
                 <button id="firstUnreadBtn" class="btn-secondary" type="button" style="display:none;">Resume Reading →</button>
                 <span class="row-break" aria-hidden="true"></span>
                 <a class="tele-btn" href="https://t.me/meecosha" target="_blank" rel="noopener">My Telegram Channel</a>
+                <a class="patreon-btn" href="https://www.patreon.com/cw/courting_death" target="_blank" rel="noopener" aria-label="Patreon">
+                  <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="20" y="20" width="52" height="216" fill="#fff"/>
+                    <circle cx="156" cy="104" r="80" fill="#fff"/>
+                  </svg>
+                  Support and get EPUBs here
+                </a>
                 <button id="openDonateFromHome" class="donate-btn" type="button">Support (BTC)</button>
               </div>
               <div id="recentChapters" class="recent-wrapper" hidden>
@@ -743,6 +755,13 @@
                   </defs>
                 </svg>
                 My Telegram Channel
+              </a>
+              <a href="https://www.patreon.com/" target="_blank" rel="noopener" class="patreon-btn" aria-label="Patreon">
+                <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect x="20" y="20" width="52" height="216" fill="#fff"/>
+                  <circle cx="156" cy="104" r="80" fill="#fff"/>
+                </svg>
+                Support and get EPUBs here
               </a>
             
             </div>
