@@ -78,6 +78,10 @@
   --global-font-family: 'Noto Serif', serif;
   /* global font weight (400 recommended) */
   --global-font-weight: 400;
+  /* a comfortable, stable width for UI rails (navs, comments, etc.), independent of article width */
+  --ui-rail-w: 760px;
+  /* minimum width for rails so they don't shrink excessively */
+  --ui-rail-min: 520px;
     }
     header.site-header { min-height: var(--header-h); }
 
@@ -484,7 +488,7 @@
       flex: 0 0 auto;
       overflow: visible;
       box-sizing: border-box;
-      max-width: var(--content-w);                  /* your readable width */
+      max-width: 100%;                  /* allow UI to use full column width */
       margin: 0 auto;
       padding: 0px 16px 40px;           /* small top pad so text doesn’t kiss border */
     }
@@ -501,12 +505,28 @@
       margin: 10px 0 18px;
     }
 
+    /* Keep navigation bars and comments within a centered UI rail.
+       - width grows up to --ui-rail-w (capped by viewport)
+       - never shrinks below --ui-rail-min (but never exceeds viewport)
+       - independent of the article width so controls stay usable when text column is very narrow */
+    .nav, #giscusContainer {
+      width: min(100%, var(--ui-rail-w));
+      max-width: min(100%, var(--ui-rail-w));
+      min-width: min(100%, var(--ui-rail-min));
+      margin-left: auto;
+      margin-right: auto;
+    }
+  /* Make sure the embedded giscus frame fills the container */
+  #giscusContainer .giscus, #giscusContainer iframe.giscus-frame { display: block; width: 100% !important; max-width: 100% !important; }
+
   article#article {
     font-size: 18px;
     font-family: var(--global-font-family, 'Noto Serif', serif);
   font-weight: var(--global-font-weight, 400);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    max-width: var(--content-w);    /* constrain only the reading text */
+    margin: 0 auto;                 /* center it within the reader column */
     /* Justify body copy for a book-like reading experience */
     text-align: justify;
     text-justify: inter-word;
