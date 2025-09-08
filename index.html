@@ -82,8 +82,8 @@
   --ui-rail-w: 760px;
   /* minimum width for rails so they don't shrink excessively */
   --ui-rail-min: 520px;
-  /* horizontal page gutter (mobile/tablet); responsive with a sane range */
-  --page-gutter: clamp(14px, 5vw, 24px);
+  /* horizontal page gutter (mobile/tablet); responsive with a slightly larger range */
+  --page-gutter: clamp(18px, 6vw, 28px);
     }
     header.site-header { min-height: var(--header-h); }
 
@@ -570,7 +570,6 @@
 
     /* MOBILE */
     @media (max-width: 900px) {
-  :root { --page-gutter: 20px; }
       .app { grid-template-columns: 1fr; }          /* sidebar column hidden */
 
       .sidebar{
