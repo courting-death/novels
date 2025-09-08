@@ -633,9 +633,10 @@
   /* Vertical stack for Patreon, Telegram, BTC */
   .cta-stack { display:flex; flex-direction: column; align-items: flex-start; gap:10px; margin-top:10px; flex-basis:100%; width:100%; }
   /* Patrons banner (shared on home and chapter pages) */
-  .patrons-banner { margin: 42px auto 10px; width: min(100%, var(--ui-rail-w, 760px)); padding: 0 var(--page-gutter, 20px); text-align: center; }
+  .patrons-banner { box-sizing: border-box; margin: 42px auto 10px; max-width: var(--ui-rail-w, 760px); width: 100%; padding: 0 var(--page-gutter, 20px); text-align: center; }
+  .patrons-mount { display: flex; justify-content: center; }
   .patrons-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; letter-spacing: .5px; margin: 0 0 10px; color: var(--fg); }
-  .patrons-hr { height: 1px; width: 86%; margin: 6px auto 18px; background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary), var(--fg) 35%), transparent); opacity: .6; }
+  .patrons-hr { height: 1px; max-width: 86%; width: 100%; margin: 6px auto 18px; background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary), var(--fg) 35%), transparent); opacity: .6; }
   .patrons-names { display: grid; gap: 8px; justify-items: center; }
   .patron-name { font-size: 1.05rem; font-weight: 700; color: var(--fg); }
   .patrons-banner .thanks { margin-top: 12px; font-size: .85rem; color: var(--muted); }
@@ -779,7 +780,7 @@
                 <h3 class="recent-title">Recent Chapters</h3>
                 <div class="recent-body"></div>
               </div>
-              <div class="patrons-mount" data-patrons-target></div>
+              <div class="patrons-mount" data-patrons-target="home"></div>
               <p id="homeDisclaimer" class="home-disclaimer reader-intro" style="margin-top:34px;"></p>
             </div>
           </section>
@@ -839,7 +840,7 @@
 
           <!-- Comments -->
           <div id="giscusContainer" style="margin-top:24px;"></div>
-          <div class="patrons-mount" data-patrons-target></div>
+          <div class="patrons-mount" data-patrons-target="chapter"></div>
         </main>
       </div>
     </div>
@@ -1359,7 +1360,7 @@
     try {
       const tpl = document.getElementById('patronsTpl');
       if (!tpl) return;
-      document.querySelectorAll('[data-patrons-target]').forEach((target)=>{
+  document.querySelectorAll('[data-patrons-target]').forEach((target)=>{
         if (target.dataset.patronsHydrated === '1') return;
         target.innerHTML = '';
         target.appendChild(tpl.content.cloneNode(true));
@@ -1383,7 +1384,7 @@
         .filter(s=> s && !s.startsWith('#'))
         .map(s=> s.replace(/^[-*+]\s+/, ''));
       if (!lines.length) return;
-      document.querySelectorAll('.patrons-banner .patrons-names').forEach(list => {
+  document.querySelectorAll('.patrons-banner .patrons-names').forEach(list => {
         list.innerHTML = '';
         lines.forEach(name => {
           const div = document.createElement('div');
@@ -1949,6 +1950,7 @@
   // lazy load meta info once
   if (!homePanel.dataset.metaLoaded) loadNovelMeta();
   try { buildRecentChapters(); } catch(_){ }
+  try { hydratePatrons(); } catch(_) {}
   }
   function hideHome(){ if (homePanel) homePanel.hidden = true; }
   if (startBtn) startBtn.addEventListener('click', ()=> { if (CHAPTERS.length) openChapterByIndex(0); });
@@ -1968,6 +1970,7 @@
     // hide nav buttons
     Object.values(navEls).forEach(btn=> btn && btn.classList.add('hidden'));
     showHome();
+  try { hydratePatrons(); } catch(_) {}
   }
   if (titleEl) titleEl.addEventListener('click', ()=>{ goHome(); });
 
