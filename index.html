@@ -766,31 +766,7 @@
               <div class="home-actions">
                 <button id="startReadingBtn" class="btn-primary" type="button">Start Reading →</button>
                 <button id="firstUnreadBtn" class="btn-secondary" type="button" style="display:none;">Resume Reading →</button>
-                <div class="cta-stack">
-                  <a class="patreon-btn" href="https://www.patreon.com/cw/courting_death" target="_blank" rel="noopener" aria-label="Patreon">
-                    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <rect x="20" y="20" width="52" height="216" fill="#fff"/>
-                      <circle cx="156" cy="104" r="80" fill="#fff"/>
-                    </svg>
-                    Support and get EPUBs
-                  </a>
-                  <a href="https://t.me/meecosha" target="_blank" rel="noopener" class="tele-btn" aria-label="Telegram Channel">
-                    <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <circle cx="120" cy="120" r="120" fill="url(#tggrad)" />
-                      <path
-                        d="M173 72L151.4 170.6c-1.6 7.2-6 9-12.2 5.6l-34-25.2-16.4 15.8c-1.8 1.8-3.2 3.2-6.4 3.2l2.2-32.2 58.6-52.8c2.6-2.2-.6-3.4-4-1.2l-72.4 45.6-31.2-9.8c-6.8-2.2-6.8-6.8 1.4-10.2l122-47.2c5.6-2 10.4 1.2 8.6 9.8Z"
-                        fill="#fff" />
-                      <defs>
-                        <linearGradient id="tggrad" x1="0" y1="0" x2="1" y2="1">
-                          <stop stop-color="#37B7F4" />
-                          <stop offset="1" stop-color="#1E96C8" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                    My Telegram Channel
-                  </a>
-                  <button id="openDonateFromHome" class="donate-btn" type="button">Send Bitcoin 🤍</button>
-                </div>
+                <div class="cta-stack" data-cta-target></div>
               </div>
               <div id="recentChapters" class="recent-wrapper" hidden>
                 <h3 class="recent-title">Recent Chapters</h3>
@@ -809,32 +785,7 @@
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
-            <div class="donate-section">
-              <a href="https://www.patreon.com/c/courting_death" target="_blank" rel="noopener" class="patreon-btn" aria-label="Patreon">
-                <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect x="20" y="20" width="52" height="216" fill="#fff"/>
-                  <circle cx="156" cy="104" r="80" fill="#fff"/>
-                </svg>
-                Support and get EPUBs
-              </a>
-              <a href="https://t.me/meecosha" target="_blank" rel="noopener" class="tele-btn" aria-label="Telegram Channel">
-                <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <circle cx="120" cy="120" r="120" fill="url(#tggrad)" />
-                  <path
-                    d="M173 72L151.4 170.6c-1.6 7.2-6 9-12.2 5.6l-34-25.2-16.4 15.8c-1.8 1.8-3.2 3.2-6.4 3.2l2.2-32.2 58.6-52.8c2.6-2.2-.6-3.4-4-1.2l-72.4 45.6-31.2-9.8c-6.8-2.2-6.8-6.8 1.4-10.2l122-47.2c5.6-2 10.4 1.2 8.6 9.8Z"
-                    fill="#fff" />
-                  <defs>
-                    <linearGradient id="tggrad" x1="0" y1="0" x2="1" y2="1">
-                      <stop stop-color="#37B7F4" />
-                      <stop offset="1" stop-color="#1E96C8" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                My Telegram Channel
-              </a>
-              <button id="donateBtn" class="donate-btn" type="button">Send Bitcoin 🤍</button>
-            
-            </div>
+            <div class="donate-section" data-cta-target></div>
             <button id="nextBottom" class="icon-btn hidden" aria-label="Next">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -843,6 +794,31 @@
             </button>
           </nav>
           
+          <!-- Reusable CTA template (buttons only). Will be cloned into any [data-cta-target] containers above. -->
+          <template id="ctaButtonsTpl">
+            <a href="https://www.patreon.com/c/courting_death" target="_blank" rel="noopener" class="patreon-btn" aria-label="Patreon">
+              <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="20" y="20" width="52" height="216" fill="#fff"/>
+                <circle cx="156" cy="104" r="80" fill="#fff"/>
+              </svg>
+              Support and get EPUBs
+            </a>
+            <a href="https://t.me/meecosha" target="_blank" rel="noopener" class="tele-btn" aria-label="Telegram Channel">
+              <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="120" cy="120" r="120" fill="url(#tggrad)" />
+                <path d="M173 72L151.4 170.6c-1.6 7.2-6 9-12.2 5.6l-34-25.2-16.4 15.8c-1.8 1.8-3.2 3.2-6.4 3.2l2.2-32.2 58.6-52.8c2.6-2.2-.6-3.4-4-1.2l-72.4 45.6-31.2-9.8c-6.8-2.2-6.8-6.8 1.4-10.2l122-47.2c5.6-2 10.4 1.2 8.6 9.8Z" fill="#fff" />
+                <defs>
+                  <linearGradient id="tggrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop stop-color="#37B7F4" />
+                    <stop offset="1" stop-color="#1E96C8" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              My Telegram Channel
+            </a>
+            <button class="donate-btn" type="button">Send Bitcoin 🤍</button>
+          </template>
+
           <!-- Comments -->
           <div id="giscusContainer" style="margin-top:24px;"></div>
         </main>
@@ -1346,16 +1322,34 @@
   const articleEl = qs('#article');
   const scrollerEl = document.querySelector('.scroller');
 
+  // Inject reusable CTA buttons into all targets marked with [data-cta-target]
+  function hydrateCtas(){
+    const tpl = document.getElementById('ctaButtonsTpl');
+    if (!tpl) return;
+    document.querySelectorAll('[data-cta-target]').forEach((target)=>{
+      if (target.dataset.ctaHydrated === '1') return;
+      // Clear existing children (in case of stale markup) and clone template
+      target.innerHTML = '';
+      target.appendChild(tpl.content.cloneNode(true));
+      target.dataset.ctaHydrated = '1';
+    });
+  }
+
   // --- Donate: BTC modal & real QR generation ---
   const BTC_ADDRESS = '1CVVMcmEmFRBVXq31gbbBYdDUHxpEPsqw5';
 
     const donateModal = document.getElementById('donateModal');
-    const donateOpenBtn = document.getElementById('donateBtn');
     const donateCloseBtn = document.getElementById('closeDonateModal');
     function openDonate(){ donateModal.classList.add('show'); trapDonateFocus(); }
     function closeDonate(){ donateModal.classList.remove('show'); document.removeEventListener('keydown', donateEscClose); }
     function donateEscClose(e){ if(e.key==='Escape') closeDonate(); }
-    if (donateOpenBtn) donateOpenBtn.addEventListener('click', ()=>{ document.addEventListener('keydown', donateEscClose); openDonate(); });
+    // Open donate modal on any button with .donate-btn (delegated to document)
+    document.addEventListener('click', (e)=>{
+      const btn = e.target && e.target.closest && e.target.closest('.donate-btn');
+      if (!btn) return;
+      document.addEventListener('keydown', donateEscClose);
+      openDonate();
+    });
     if (donateCloseBtn) donateCloseBtn.addEventListener('click', closeDonate);
     if (donateModal) donateModal.addEventListener('click', (e)=>{ if(e.target===donateModal) closeDonate(); });
 
@@ -1809,6 +1803,8 @@
 
     // initial load
     (async function init() {
+      // Ensure CTA buttons are present in both Home and Chapter footer
+      try { hydrateCtas(); } catch(_) {}
       // Set sidebar title based on novel/repo if provided
       try {
         const h1 = document.querySelector('.sidebar h1');
@@ -1849,7 +1845,6 @@
   const homePanel = document.getElementById('homePanel');
   const startBtn = document.getElementById('startReadingBtn');
   const resumeBtn = document.getElementById('firstUnreadBtn');
-  const donateFromHome = document.getElementById('openDonateFromHome');
   const recentWrapper = document.getElementById('recentChapters');
   const recentBody = recentWrapper ? recentWrapper.querySelector('.recent-body') : null;
   const homeTitleEl = document.getElementById('homeTitle');
@@ -1892,7 +1887,6 @@
   }
   function hideHome(){ if (homePanel) homePanel.hidden = true; }
   if (startBtn) startBtn.addEventListener('click', ()=> { if (CHAPTERS.length) openChapterByIndex(0); });
-  if (donateFromHome) donateFromHome.addEventListener('click', ()=> { document.getElementById('donateBtn')?.click(); });
 
   // Track last opened chapter id for resume button
   const originalOpenChapterByIndex = openChapterByIndex; // kept for potential future wrapping
