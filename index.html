@@ -408,7 +408,8 @@
     }
 
     /* visual size of the svg glyph inside the button; keep glyph smaller than hit area */
-    .icon-btn svg { width: var(--icon-glyph-size); height: var(--icon-glyph-size); display: block; }
+  .icon-btn svg { width: var(--icon-glyph-size); height: var(--icon-glyph-size); display: block; pointer-events: none; }
+  .icon-btn svg * { pointer-events: none; }
   /* make the font-cycle button itself use the active reader font so the "F" previews the selection */
   #s-fontCycle { font-family: var(--global-font-family, 'Noto Serif', serif); font-weight: var(--global-font-weight, 400); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   /* weight-toggle removed - reclaimed space in settings rail */
