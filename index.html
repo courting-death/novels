@@ -1850,9 +1850,9 @@
   // Hide donate/comments/navigation until a chapter is opened
   document.querySelector('.donate-section')?.classList.remove('ready');
   homePanel.hidden = false;
-  // Keep cog visible but disable most settings; allow only theme, font family, column width and reset
+  // Keep cog visible but disable most settings; allow only theme, font family and reset (column width not useful on home)
   try { if (cogBtn) cogBtn.classList.remove('hidden'); } catch(_){ }
-  try { setSettingsAvailability(['s-themeBtn','s-fontCycle','s-contentInc','s-contentDec','s-reset']); } catch(_){ }
+  try { setSettingsAvailability(['s-themeBtn','s-fontCycle','s-reset']); } catch(_){ }
   // Ensure settings rail and any overlays are closed when on the home panel
   try { settingsSidebar.classList.remove('open'); settingsSidebar.setAttribute('aria-hidden','true'); document.body.classList.remove('settings-open'); overlay.classList.remove('show'); } catch(_){}
     // Determine resume button (if last read chapter stored)
