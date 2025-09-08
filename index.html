@@ -640,6 +640,9 @@
   .patrons-names { display: grid; gap: 8px; justify-items: center; }
   .patron-name { font-size: 1.05rem; font-weight: 700; color: var(--fg); }
   .patrons-banner .thanks { margin-top: 12px; font-size: .85rem; color: var(--muted); }
+  .patrons-subtext { margin-top: 6px; font-size: .78rem; color: var(--muted); }
+  /* Make the Patrons CTA use the same style as the primary button */
+  .patrons-banner .btn-primary { margin-top: 10px; }
   /* Primary CTA (neutral styling to avoid clashing, still prominent via size/weight/shadow) */
   .btn-primary {
     background: var(--surface);
@@ -654,7 +657,8 @@
     align-items:center;
     gap:8px;
     box-shadow: 0 2px 6px rgba(0,0,0,.10);
-    transition: transform .15s ease, box-shadow .15s ease, background-color .2s ease;
+  transition: transform .15s ease, box-shadow .15s ease, background-color .2s ease;
+  text-decoration: none;
   }
   .btn-primary:hover { transform: translateY(-1px); box-shadow:0 4px 10px rgba(0,0,0,.16); background: color-mix(in oklab, var(--surface), var(--fg) 6%); }
   #chapterTitle { cursor: pointer; }
@@ -780,8 +784,8 @@
                 <h3 class="recent-title">Recent Chapters</h3>
                 <div class="recent-body"></div>
               </div>
-              <p id="homeDisclaimer" class="home-disclaimer reader-intro" style="margin-top:34px;"></p>
               <div class="patrons-mount" data-patrons-target="home"></div>
+              <p id="homeDisclaimer" class="home-disclaimer reader-intro" style="margin-top:34px;"></p>
             </div>
           </section>
           <nav class="nav" id="topNav" style="display:none;"></nav> <!-- kept for structure -->
@@ -834,7 +838,8 @@
               <h3 id="patronsTitle" class="patrons-title">Immortal Ancestor Patrons</h3>
               <div class="patrons-hr" aria-hidden="true"></div>
               <div class="patrons-names" role="list"></div>
-              <p class="thanks">Thank you for supporting the translations.</p>
+              <a class="btn-primary" href="https://www.patreon.com/cw/courting_death/membership" target="_blank" rel="noopener">Become an Immortal Ancestor Patron</a>
+              <div class="patrons-subtext">Listings open until a new translation begins</div>
             </section>
           </template>
 
@@ -1925,8 +1930,7 @@
   const homeAnnoContainer = document.getElementById('homeAnnotation');
   const homeDisclaimerEl = document.getElementById('homeDisclaimer');
   const HOME_DISCLAIMER = [
-    "No MTL.",
-    "Fan-made translations by Courting Death Translations.",
+    "No MTL. Fan-made translations by Courting Death Translations.",
     "All rights to the original work belong to the respective copyright holders.",
     "Contact: courtingdeathnovels@gmail.com"
   ];
