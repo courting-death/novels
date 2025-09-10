@@ -92,7 +92,7 @@
     }
 
     /* Donate (theme-aware, scoped) */
-  .donate-section { margin: 18px 0 8px; display: flex; justify-content: center; align-items: center; gap: 10px; flex-direction: column; opacity: 0; transform: translateY(4px); transition: opacity .25s ease, transform .25s ease; }
+  .donate-section { margin: 4px 0 0; display: flex; justify-content: center; align-items: center; gap: 10px; flex-direction: column; opacity: 0; transform: translateY(4px); transition: opacity .25s ease, transform .25s ease; }
   .donate-section.ready { opacity: 1; transform: translateY(0); }
     .tele-btn, .donate-btn, .patreon-btn {
       cursor: pointer;
@@ -513,8 +513,11 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin: 10px 0 18px;
+      margin: 48px 0 18px;
     }
+    .nav-bottom { justify-content: center; }
+  .donate-wrapper { display:flex; flex-direction:column; align-items:center; gap:42px; }
+    .donate-wrapper .chapter-arrows { display:flex; gap:132px; }
 
     /* Keep navigation bars and comments within a centered UI rail.
        - width grows up to --ui-rail-w (capped by viewport)
@@ -801,21 +804,19 @@
           </section>
           <nav class="nav" id="topNav" style="display:none;"></nav> <!-- kept for structure -->
           <article id="article"></article>
-          <!-- Donate trigger -->
-          <nav class="nav" id="bottomNav">
-            <button id="prevBottom" class="icon-btn hidden" aria-label="Previous">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </button>
-            <div class="donate-section" data-cta-target></div>
-            <button id="nextBottom" class="icon-btn hidden" aria-label="Next">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
+          <!-- Donate trigger and chapter nav (arrows moved below buttons) -->
+          <nav class="nav nav-bottom" id="bottomNav">
+            <div class="donate-wrapper">
+              <div class="chapter-arrows">
+                <button id="prevBottom" class="icon-btn hidden" aria-label="Previous">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button id="nextBottom" class="icon-btn hidden" aria-label="Next">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+              <div class="donate-section" data-cta-target></div>
+            </div>
           </nav>
           
           <!-- Reusable CTA template (buttons only). Will be cloned into any [data-cta-target] containers above. -->
