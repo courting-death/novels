@@ -30,10 +30,10 @@
   --bg: #ffffff;           /* pure white */
   --fg: #1f2328;           /* near-black text */
   --muted: #6e7781;        /* neutral muted */
-  --primary: #0969da;      /* GitHub-like blue */
+  --primary: #5a5f66;      /* neutral gray accent */
   --surface: #f6f8fa;      /* light gray surface */
   --border: #d0d7de;       /* neutral border */
-  --link: #0969da;         /* link blue */
+  --link: #5a5f66;         /* neutral link */
     }
     :root[data-theme="light"] {
   --bg: #f4ecd8;           /* sepia background, less yellow */
@@ -54,13 +54,13 @@
   --link: #7ec3fa;         /* bright blue link */
     }
     :root[data-theme="black"] {
-  --bg: #0d1117;           /* GitHub dark */
+  --bg: #0d1117;           /* deep dark */
   --fg: #e6edf3;           /* light text */
   --muted: #7d8590;        /* muted gray */
-  --primary: #2f81f7;      /* accent blue */
+  --primary: #9ca3af;      /* neutral gray accent */
   --surface: #161b22;      /* dark surface */
   --border: #30363d;       /* border gray */
-  --link: #2f81f7;         /* link blue */
+  --link: #9ca3af;         /* neutral link */
     }
     
     /* ====== Layout tokens (tweak these to change spacing/sizes globally) ======
@@ -282,9 +282,9 @@
       border-color: var(--border);
     }
     .chapter-list a.active {
-      background: rgba(99,102,241,0.12);
-      border-color: var(--primary);
-      color: var(--primary);
+      background: color-mix(in oklab, var(--bg) 12%, var(--bg));
+      border-color: var(--border);
+      color: var(--fg);
       font-weight: 600;
     }
 
