@@ -519,7 +519,8 @@
     }
     .nav-bottom { justify-content: center; }
   .donate-wrapper { display:flex; flex-direction:column; align-items:center; gap:42px; }
-    .donate-wrapper .chapter-arrows { display:flex; gap:132px; }
+    .donate-wrapper .chapter-arrows { display:flex; gap:132px; opacity: 0; transform: translateY(4px); transition: opacity .25s ease, transform .25s ease; }
+    .donate-wrapper .chapter-arrows.ready { opacity: 1; transform: translateY(0); }
 
     /* Keep navigation bars and comments within a centered UI rail.
        - width grows up to --ui-rail-w (capped by viewport)
@@ -2017,6 +2018,9 @@
   hideHome();
   // Ensure all settings controls are enabled when a real chapter is open
   try { setSettingsAvailability(null); } catch(_){}
+    // Ensure bottom UI starts hidden before we render content
+    try { document.querySelector('.donate-section')?.classList.remove('ready'); } catch(_) {}
+    try { document.querySelector('.donate-wrapper .chapter-arrows')?.classList.remove('ready'); } catch(_) {}
       currentIndex = i;
   const { id, title } = CHAPTERS[i];
   titleEl.textContent = title || id;
@@ -2037,20 +2041,26 @@
   const urls = buildChapterURLs();
   const res = await fetch(urls.chapterURL(id), { cache: 'no-cache' });
         if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
-        const md = await res.text();
+  const md = await res.text();
   articleEl.innerHTML = marked.parse(md);
-  // reveal donate/telegram buttons after content paint
-  try { document.querySelector('.donate-section')?.classList.add('ready'); } catch(_) {}
-  // render comments for this chapter (deferred so it loads after content)
-  scheduleGiscusRender();
+  // After the chapter content is in place, hydrate CTAs/patrons and then render comments
+  try { hydrateCtas(); } catch(_) {}
   try { hydratePatrons(); } catch(_) {}
+  // Reveal the donate/telegram row and the bottom arrows after hydration to avoid flash
+  try { document.querySelector('.donate-section')?.classList.add('ready'); } catch(_) {}
+  try { document.querySelector('.donate-wrapper .chapter-arrows')?.classList.add('ready'); } catch(_) {}
+  // Render comments after content injected (and after minimal UI hydration)
+  scheduleGiscusRender();
         if (scrollerEl) scrollerEl.scrollTo({ top: 0, behavior: 'auto' }); // or 'smooth'
       } catch (e) {
         console.error('Failed to load chapter', id, e);
   articleEl.innerHTML = ''; // silent fail
-  try { document.querySelector('.donate-section')?.classList.add('ready'); } catch(_) {}
-  try { scheduleGiscusRender(); } catch (_) {}
+  // Even on failure, hydrate CTAs/patrons once to keep UI consistent
+  try { hydrateCtas(); } catch(_) {}
   try { hydratePatrons(); } catch(_) {}
+  try { document.querySelector('.donate-section')?.classList.add('ready'); } catch(_) {}
+  try { document.querySelector('.donate-wrapper .chapter-arrows')?.classList.add('ready'); } catch(_) {}
+  try { scheduleGiscusRender(); } catch (_) {}
       }
     }
 
@@ -2077,16 +2087,14 @@
     }
 
     // initial load
-    (async function init() {
-      // Ensure CTA buttons are present in both Home and Chapter footer
-      try { hydrateCtas(); } catch(_) {}
-  // Render patrons banner in both placements
-  try { hydratePatrons(); } catch(_) {}
+  (async function init() {
       if (isHub) {
-        try { document.body.classList.add('hub-mode'); } catch(_){ }
+  try { document.body.classList.add('hub-mode'); } catch(_){ }
         const hub = document.getElementById('hubPanel'); if (hub) hub.hidden = false;
         document.title = 'Courting Death Translations — Novels';
         try { if (typeof ym==='function') ym(103953563,'reachGoal','hub_view'); } catch(_){ }
+  // Hydrate hub CTAs only in hub mode
+  try { hydrateCtas(); } catch(_) {}
         try { await populateHubData(); } catch(_){ }
         return; // stop here in hub mode
       }
@@ -2151,6 +2159,7 @@
     try { titleEl.textContent = currentNovelLabel(); document.title = currentNovelLabel() + ' — Reader'; } catch(_){}
   // Hide donate/comments/navigation until a chapter is opened
   document.querySelector('.donate-section')?.classList.remove('ready');
+  document.querySelector('.donate-wrapper .chapter-arrows')?.classList.remove('ready');
   homePanel.hidden = false;
   // Keep cog visible but disable most settings; allow only theme, font family and reset (column width not useful on home)
   try { if (cogBtn) cogBtn.classList.remove('hidden'); } catch(_){ }
@@ -2168,6 +2177,8 @@
   // lazy load meta info once
   if (!homePanel.dataset.metaLoaded) loadNovelMeta();
   try { buildRecentChapters(); } catch(_){ }
+  // Hydrate CTAs and patrons only on home after we switch views to avoid initial flash
+  try { hydrateCtas(); } catch(_) {}
   try { hydratePatrons(); } catch(_) {}
   }
   function hideHome(){ if (homePanel) homePanel.hidden = true; }
