@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Martial Peak — Reader</title>
+  <meta name="description" content="Courting Death Translations — high-quality hand-edited fan translations with a clean fast reader. Martial Peak and more coming soon." />
+  <link rel="canonical" href="https://courting-death.github.io/novels/" />
 
   <!-- Yandex.Metrica counter (load early in head) -->
   <script>
@@ -732,10 +734,135 @@
    .recent-date.hide-narrow { display: table-cell; }
   }
 
+  /* ================= HUB (site-level landing when no query params) ================= */
+  #hubPanel { max-width: 1080px; margin: 40px auto 80px; padding: 0 var(--page-gutter); font-family: var(--global-font-family,'Noto Serif',serif); }
+  #hubPanel[hidden]{ display:none !important; }
+  .hub-hero { text-align:center; margin: 0 0 54px; }
+  .hub-brand { display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .hub-brand-row { display:flex; align-items:center; gap:18px; justify-content:center; flex-wrap:wrap; }
+  .brand-logo { width:74px; height:74px; border-radius:50%; object-fit:cover; border:2px solid var(--border); box-shadow:0 4px 14px rgba(0,0,0,.15); background: var(--surface); }
+  .hub-hero h1 { font-size: clamp(2.4rem,5.4vw,3.35rem); line-height:1.03; margin:0; font-weight:800; letter-spacing:-1.2px; }
+  .hub-hero p.lead { font-size:1.08rem; line-height:1.6; max-width:74ch; margin:14px auto 0; color: var(--muted); }
+  .hub-novels-title { font-size:1.6rem; font-weight:700; margin:0 0 28px; letter-spacing:.6px; text-align:center; }
+  .novel-grid { display:grid; gap:34px; grid-template-columns:1fr; max-width:760px; margin:0 auto 50px; }
+  .novel-card { background: var(--surface); border:1px solid var(--border); border-radius:20px; padding:24px 26px 26px; display:flex; flex-direction:column; gap:14px; position:relative; box-shadow:0 6px 20px rgba(0,0,0,.08); }
+  .novel-card.featured { border:1px solid color-mix(in oklab, var(--primary), var(--border) 35%); box-shadow:0 8px 28px -4px rgba(0,0,0,.25); }
+  .novel-card.featured:before { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(145deg, color-mix(in oklab,var(--primary),transparent 70%) 0%, transparent 55%); opacity:.5; border-radius:inherit; }
+  .novel-card h2 { font-size:1.35rem; margin:0 0 2px; font-weight:750; letter-spacing:.2px; }
+  .novel-card.featured h2 { font-size:1.55rem; letter-spacing:.3px; }
+  .novel-card p { margin:0; font-size:.86rem; line-height:1.55; }
+  .novel-card.featured p { font-size:.9rem; }
+  .novel-meta { display:flex; flex-wrap:wrap; gap:6px; font-size:.62rem; letter-spacing:.6px; text-transform:uppercase; font-weight:600; color: var(--muted); }
+  .novel-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:4px; }
+  .hub-btn { background: var(--surface); border:1px solid var(--border); color: var(--fg); padding:10px 16px; border-radius:10px; font-size:.78rem; font-weight:700; letter-spacing:.4px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 6px rgba(0,0,0,.08); transition: transform .18s ease, box-shadow .18s ease; }
+  .hub-btn.primary { background: var(--surface); border:1px solid var(--border); color: var(--fg); padding:10px 16px; border-radius:10px; font-size:.78rem; font-weight:700; letter-spacing:.4px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 6px rgba(0,0,0,.08); transition: transform .18s ease, box-shadow .18s ease; }
+  /* .hub-btn.primary { background: linear-gradient(135deg,#4f8cc9,#487fb7); color:#fff; border:none; } */
+  .hub-btn:hover { transform: translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,.18); }
+  .upcoming-wrap { max-width:760px; margin:0 auto 70px; }
+  .upcoming-title { font-size:1.1rem; font-weight:650; margin:0 0 14px; letter-spacing:.5px; text-transform:uppercase; color: var(--muted); text-align:center; }
+  .novel-card.upcoming { padding:18px 20px 20px; box-shadow:0 4px 14px rgba(0,0,0,.05); }
+  .hub-divider { height:1px; background: linear-gradient(90deg,transparent,var(--border),transparent); margin:70px 0 60px; border:0; }
+  .faq-title { font-size:1.4rem; font-weight:700; margin:0 0 20px; }
+  .faq-list { display:flex; flex-direction:column; gap:16px; }
+  .faq-list details { border:1px solid var(--border); border-radius:14px; padding:14px 16px 14px; background: var(--surface); box-shadow:0 2px 6px rgba(0,0,0,.05); }
+  .faq-list summary { cursor:pointer; font-weight:600; font-size:.9rem; outline:none; list-style:none; }
+  .faq-list summary::-webkit-details-marker { display:none; }
+  .faq-list details[open]{ background: color-mix(in oklab, var(--surface), var(--fg) 6%); }
+  .faq-list p { font-size:.78rem; line-height:1.55; margin:10px 0 0; }
+  .hub-cta-row { display:flex; flex-direction:column; gap:22px; margin:60px auto 40px; max-width:760px; align-items:center; }
+  .hub-inline-ctas { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+  .hub-disclaimer { font-size:.62rem; text-transform:uppercase; letter-spacing:.8px; color: var(--muted); text-align:center; margin:50px auto 0; max-width:80ch; line-height:1.4; }
+  body.hub-mode .app { display:none; }
+  body.hub-mode #hubPanel { display:block; }
+  @media (max-width:680px){ .novel-grid { gap:22px; } .novel-card { padding:18px 18px 20px; } }
+  @media (prefers-reduced-motion:reduce){ .hub-btn:hover { transform:none; box-shadow:0 2px 6px rgba(0,0,0,.08); } }
+
 
   </style>
 </head>
 <body>
+  <!-- Site-level Hub (shown when no ?novel / ?repo / ?chapter params) -->
+  <section id="hubPanel" hidden aria-labelledby="hubTitle">
+    <div class="hub-hero">
+      <div class="hub-brand">
+        <div class="hub-brand-row">
+          <img src="assets/logo.png" alt="Courting Death Translations logo" class="brand-logo" loading="lazy" decoding="async">
+          <h1 id="hubTitle">Courting Death Translations</h1>
+        </div>
+        <p class="lead">High‑quality hand‑edited translations of our favorite web novels</p>
+      </div>
+    </div>
+    <h2 class="hub-novels-title">Featured Novel</h2>
+    <div class="novel-grid" id="hubNovels" aria-label="Available Novels">
+      <article class="novel-card featured" data-novel="martial-peak">
+        <header>
+          <h2>Martial Peak</h2>
+          <div class="novel-meta"><span>ONGOING</span></div>
+        </header>
+  <p><strong>Martial Peak</strong> — The path to the Martial Peak is one of loneliness and solitude; an endless quest where the heights are bitterly cold. Only by growing through adversity, surviving on the brink, and remaining unyielding and unbending can one glimpse the ultimate Martial Dao.</p>
+        <p style="margin-top:-2px; font-size:.78rem; color:var(--muted);">Reader features: adjustable font & width, line spacing, hyphenation, resume where you left off, spoiler‑safe recent list.</p>
+        <div class="novel-actions">
+          <a class="btn-primary" href="?novel=martial-peak&chapter=ch0001" data-ym-goal="hub_open_martial_peak">Start Reading →</a>
+          <a class="btn-primary" href="?novel=martial-peak#recent" data-ym-goal="hub_recent_martial_peak">Recent Chapters</a>
+          <a class="patreon-btn" href="https://www.patreon.com/c/courting_death" target="_blank" rel="noopener" data-ym-goal="hub_cta_patreon">Get EPUBs</a>
+        </div>
+      </article>
+    </div>
+    <div class="upcoming-wrap">
+      <p class="upcoming-title">Upcoming</p>
+      <article class="novel-card upcoming" aria-disabled="true">
+        <header>
+          <h2 style="font-size:1rem; margin:0 0 4px;">Next Project (Community Input)</h2>
+          <div class="novel-meta"><span>PLANNING</span></div>
+        </header>
+        <p>Another title will appear here once I’m finished with Martial Peak. We’ll decide the next novel together.</p>
+        <div class="novel-actions">
+          <a class="patreon-btn" href="https://www.patreon.com/c/courting_death" target="_blank" rel="noopener" data-ym-goal="hub_cta_telegram">Access Discord</a>
+        </div>
+      </article>
+    </div>
+    <div class="hub-divider" aria-hidden="true"></div>
+    <h2 class="faq-title" id="hubFaq">FAQ</h2>
+    <div class="faq-list" aria-labelledby="hubFaq">
+      <details open>
+        <summary>Are these machine translations?</summary>
+        <p>No. Everything is hand‑edited and terminology‑consistent. If you spot an error, report it and it’ll be queued for correction.</p>
+      </details>
+      <details>
+        <summary>How fast are new chapters released?</summary>
+        <p>Chapters arrive several times a week. Pace is influenced by my time and the amount of support. Supporting via Patreon or Bitcoin helps me allocate more hours.</p>
+      </details>
+      <details>
+        <summary>How can I support the translations?</summary>
+        <p>Three main ways: <strong>Patreon</strong> (early EPUB bundles & polls), <strong>direct BTC</strong> (lowest friction), and <strong>sharing</strong> the site. Feedback & typo reports also directly improve quality.</p>
+      </details>
+      <details>
+        <summary>Will more novels be added?</summary>
+        <p>Yes. After I complete Martial Peak. Suggestions are very welcome — especially for novels that are excellent but don’t yet, and probably never will, have good translations.</p>
+      </details>
+      <details>
+        <summary>Can I read offline or download EPUBs?</summary>
+        <p>Patreon supporters get an auto-updated EPUB file, clean and reader‑ready. You can get a Demo Free EPUB on Patreon to check with your reader.</p>
+      </details>
+      <details>
+        <summary>Why this minimalist reader instead of a cluttered portal?</summary>
+        <p>I was just playing around. Not very good for SEO, but funny to me. No auto-pagination jitter, no ads, accessible controls, persistent preferences (font, width, line height, hyphenation). You get pure reading velocity.</p>
+      </details>
+      <details>
+        <summary>How accurate is terminology?</summary>
+        <p>Core terminology is kept in an evolving internal glossary to maintain consistency across the entire book. When new words appear, I prioritize clarity and flavor over literal but awkward calques. If you notice anything odd, please don’t hesitate to reach out.</p>
+      </details>
+      <details>
+        <summary>Can I mirror or redistribute chapters?</summary>
+        <p>Please link back instead. Traffic concentration helps justify time spent.</p>
+      </details>
+    </div>
+    <div class="hub-divider" aria-hidden="true"></div>
+    <div class="hub-cta-row">
+  <div class="hub-inline-ctas" data-cta-target></div>
+    </div>
+    <p class="hub-disclaimer">Fan-made translations. All rights to original works remain with their respective copyright holders. <br> Contact: courtingdeathnovels@gmail.com</p>
+  </section>
   <div class="app">
     <aside class="sidebar" id="sidebar">
       <h1>Martial Peak</h1>
@@ -1375,6 +1502,7 @@
   // Inject Patrons banner into all [data-patrons-target] and populate from novel repo's Patrons.md
   async function hydratePatrons(){
     try {
+  if (typeof isHub !== 'undefined' && isHub) return; // skip on hub landing
       const tpl = document.getElementById('patronsTpl');
       if (!tpl) return;
       // Determine current view
@@ -1592,6 +1720,43 @@
     const qpNovel  = getParam('novel');
     const qpRepo   = getParam('repo');
     const qpBranch = getParam('branch') || 'main';
+    const isHub = !qpNovel && !qpRepo && !getParam('chapter');
+
+    async function populateHubData(){
+      try {
+        const res = await fetch('chapters/chapters.json', { cache: 'no-cache' });
+        if(!res.ok) return;
+        const data = await res.json();
+        if(!Array.isArray(data) || !data.length) return;
+        const count = data.length;
+        let latest = null;
+        for (const c of data){ if (c.updated){ const d = new Date(c.updated); if(!isNaN(+d) && (!latest || d>latest)) latest = d; } }
+        const countEl = document.querySelector('[data-hub-count]'); if (countEl) countEl.textContent = count + ' chapters';
+        const updEl = document.querySelector('[data-hub-updated]'); if (updEl && latest){ const y=latest.getFullYear(); const m=String(latest.getMonth()+1).padStart(2,'0'); const da=String(latest.getDate()).padStart(2,'0'); updEl.textContent = 'Updated ' + y+'-'+m+'-'+da; }
+        injectHubJSONLD(count, latest);
+      } catch(_) { }
+    }
+    function injectHubJSONLD(count, latestDate){
+      try {
+        const base = 'https://courting-death.github.io/novels';
+        const latestISO = latestDate ? latestDate.toISOString().split('T')[0] : undefined;
+        const jsons = [
+          { '@context':'https://schema.org', '@type':'ItemList', name:'Translated Novels', itemListElement:[{ '@type':'ListItem', position:1, url: base + '/?novel=martial-peak', name:'Martial Peak', description:'Martial cultivation saga – spatial battles, alchemy, sect intrigue, cosmic escalation.' }]},
+          { '@context':'https://schema.org', '@type':'Book', name:'Martial Peak', inLanguage:'en', bookFormat:'EBook', author:{ '@type':'Organization', name:'Courting Death Translations' }, workExample: base + '/?novel=martial-peak', url: base + '/?novel=martial-peak', numberOfPages: count || undefined, dateModified: latestISO },
+          { '@context':'https://schema.org', '@type':'FAQPage', mainEntity:[
+            { '@type':'Question', name:'Are these machine translations?', acceptedAnswer:{ '@type':'Answer', text:'No. Everything is hand-edited and terminology-consistent through iterative passes.' }},
+            { '@type':'Question', name:'How fast are new Martial Peak chapters released?', acceptedAnswer:{ '@type':'Answer', text:'Chapters arrive in focused batches several times a week; support influences pacing.' }},
+            { '@type':'Question', name:'How can I support?', acceptedAnswer:{ '@type':'Answer', text:'Patreon (early EPUBs & polls), Bitcoin donations, sharing the site, feedback & typo reports.' }},
+            { '@type':'Question', name:'Will more novels be added?', acceptedAnswer:{ '@type':'Answer', text:'Yes. Additional titles selected for terminology depth; community polls shape the queue.' }},
+            { '@type':'Question', name:'Can I read offline or download EPUBs?', acceptedAnswer:{ '@type':'Answer', text:'Patreon supporters receive periodic EPUB bundles; broader offline options considered later.' }},
+            { '@type':'Question', name:'Why this minimalist reader?', acceptedAnswer:{ '@type':'Answer', text:'Focus, speed, accessibility, no pagination jitter, persistent preferences.' }},
+            { '@type':'Question', name:'How accurate is terminology?', acceptedAnswer:{ '@type':'Answer', text:'Core realm, artifact, alchemy and technique terms sit in an evolving internal glossary.' }},
+            { '@type':'Question', name:'Can I redistribute chapters?', acceptedAnswer:{ '@type':'Answer', text:'Please link back instead of mirroring; personal offline use is fine.' }}
+          ]}
+        ];
+        jsons.forEach(obj=>{ const s=document.createElement('script'); s.type='application/ld+json'; s.textContent=JSON.stringify(obj); document.head.appendChild(s); });
+      } catch(_){ }
+    }
 
     function resolveRepoRef() {
       if (qpRepo) {
@@ -1917,6 +2082,14 @@
       try { hydrateCtas(); } catch(_) {}
   // Render patrons banner in both placements
   try { hydratePatrons(); } catch(_) {}
+      if (isHub) {
+        try { document.body.classList.add('hub-mode'); } catch(_){ }
+        const hub = document.getElementById('hubPanel'); if (hub) hub.hidden = false;
+        document.title = 'Courting Death Translations — Novels';
+        try { if (typeof ym==='function') ym(103953563,'reachGoal','hub_view'); } catch(_){ }
+        try { await populateHubData(); } catch(_){ }
+        return; // stop here in hub mode
+      }
       // Set sidebar title based on novel/repo if provided
       try {
         const h1 = document.querySelector('.sidebar h1');
