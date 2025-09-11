@@ -803,7 +803,7 @@
         <p style="margin-top:-2px; font-size:.78rem; color:var(--muted);">Reader features: adjustable font & width, line spacing, hyphenation, resume where you left off, spoiler‑safe recent list.</p>
         <div class="novel-actions">
           <a class="btn-primary" href="?novel=martial-peak&chapter=ch0001" data-ym-goal="hub_open_martial_peak">Start Reading →</a>
-          <a class="btn-primary" href="?novel=martial-peak#recent" data-ym-goal="hub_recent_martial_peak">Recent Chapters</a>
+          <a class="btn-primary" href="?novel=martial-peak" data-ym-goal="hub_recent_martial_peak">Recent Chapters</a>
           <a class="patreon-btn" href="https://www.patreon.com/c/courting_death" target="_blank" rel="noopener" data-ym-goal="hub_cta_patreon">Get EPUBs</a>
         </div>
       </article>
@@ -2179,18 +2179,32 @@
     try { const id = e.detail && e.detail.id; if (id) localStorage.setItem('mp_lastChapterId', id); } catch(_){}
   });
 
-  // Clickable header title -> go home (clear chapter param & show home panel)
+  // Clickable header title helpers
+  function goHub(){
+    try { if (typeof ym==='function') ym(103953563,'reachGoal','header_title_to_hub'); } catch(_){ }
+    // Clearing search triggers a navigation to the same path without query params.
+    if (window.location.search || window.location.hash) {
+      window.location.search = '';
+      window.location.hash = '';
+    } else {
+      // Fallback: reload path as-is
+      window.location.href = window.location.pathname;
+    }
+  }
   function goHome(){
     try { setParam('chapter', null); } catch(_){}
     currentIndex = -1;
     // clear content & comments
-    try { articleEl.innerHTML = ''; document.getElementById('giscusContainer').innerHTML=''; } catch(_){}
+    try { articleEl.innerHTML = ''; document.getElementById('giscusContainer').innerHTML=''; } catch(_){ }
     // hide nav buttons
     Object.values(navEls).forEach(btn=> btn && btn.classList.add('hidden'));
     showHome();
-  try { hydratePatrons(); } catch(_) {}
+    try { hydratePatrons(); } catch(_) {}
   }
-  if (titleEl) titleEl.addEventListener('click', ()=>{ goHome(); });
+  if (titleEl) titleEl.addEventListener('click', () => {
+    // From novel home (no chapter) → go hub; otherwise → go in-novel home
+    if (!getParam('chapter') && (qpNovel || qpRepo)) goHub(); else goHome();
+  });
 
   // ====== Novel meta loader ======
   async function loadNovelMeta(){
