@@ -354,6 +354,10 @@
       background: var(--surface);
       border-bottom: 1px solid var(--border);
     }
+  /* Ensure the chapter title can take remaining space without being clipped */
+  header.site-header #chapterTitle { flex: 1 1 auto; min-width: 0; }
+  /* In the header, hidden icon buttons should not reserve space */
+  header.site-header .tools .icon-btn.hidden { display: none !important; }
   /* Reading progress bar glued to header bottom */
   .header-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; pointer-events: none; }
   .header-progress .bar { width: 0%; height: 100%; background: color-mix(in oklab, var(--primary), var(--fg) 20%); transition: width .12s linear; will-change: width; }
