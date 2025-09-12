@@ -354,6 +354,9 @@
       background: var(--surface);
       border-bottom: 1px solid var(--border);
     }
+  /* Reading progress bar glued to header bottom */
+  .header-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; pointer-events: none; }
+  .header-progress .bar { width: 0%; height: 100%; background: color-mix(in oklab, var(--primary), var(--fg) 20%); transition: width .12s linear; will-change: width; }
 
     @media (min-width: 901px) {
       .site-header.hide-on-scroll {
@@ -910,6 +913,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09A1.65 1.65 0 0 0 11 3.09V3a2 2 0 0 1 4 0v.09c.38.16.7.46 1 1.51a1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82c.16.38.46.7 1.51 1H21a2 2 0 0 1 0 4h-.09c-.16.38-.46.7-1.51 1z"></path></svg>
           </button>
         </div>
+  <div class="header-progress" aria-hidden="true"><div class="bar" id="progressBar"></div></div>
       </header>
 
       <div class="scroller">
@@ -1489,6 +1493,29 @@
   const chapterSearchEl = qs('#chapterSearch');
   const articleEl = qs('#article');
   const scrollerEl = document.querySelector('.scroller');
+  const progressBar = document.getElementById('progressBar');
+
+  // Update reading progress based on scroller position over the article
+  function updateProgress() {
+    if (!progressBar) return;
+    // If home or no article content, reset
+    if (!articleEl || !articleEl.firstChild) { progressBar.style.width = '0%'; return; }
+    const scrollNode = scrollerEl || document.documentElement;
+    const viewportH = scrollerEl ? scrollerEl.clientHeight : window.innerHeight;
+    const scrollTop = scrollerEl ? scrollerEl.scrollTop : (window.pageYOffset || document.documentElement.scrollTop || 0);
+    // Compute article's offsetTop within the scroll container
+    function offsetWithin(el, ancestor) {
+      let top = 0, node = el;
+      while (node && node !== ancestor) { top += (node.offsetTop || 0); node = node.offsetParent; }
+      return top;
+    }
+    const start = offsetWithin(articleEl, scrollerEl || document.body);
+    const artH = Math.max(articleEl.scrollHeight || 0, articleEl.offsetHeight || 0);
+    const denom = Math.max(1, artH - viewportH);
+    const raw = scrollTop - start;
+    const frac = Math.max(0, Math.min(1, raw / denom));
+    progressBar.style.width = (frac * 100).toFixed(2) + '%';
+  }
 
   // Inject reusable CTA buttons into all targets marked with [data-cta-target]
   function hydrateCtas(){
@@ -2054,6 +2081,7 @@
   try { document.querySelector('.donate-wrapper .chapter-arrows')?.classList.add('ready'); } catch(_) {}
   // Render comments after content injected (and after minimal UI hydration)
   scheduleGiscusRender();
+  try { requestAnimationFrame(updateProgress); } catch(_) {}
         if (scrollerEl) scrollerEl.scrollTo({ top: 0, behavior: 'auto' }); // or 'smooth'
       } catch (e) {
         console.error('Failed to load chapter', id, e);
@@ -2064,6 +2092,7 @@
   try { document.querySelector('.donate-section')?.classList.add('ready'); } catch(_) {}
   try { document.querySelector('.donate-wrapper .chapter-arrows')?.classList.add('ready'); } catch(_) {}
   try { scheduleGiscusRender(); } catch (_) {}
+  try { requestAnimationFrame(updateProgress); } catch(_) {}
       }
     }
 
@@ -2163,6 +2192,8 @@
   // Hide donate/comments/navigation until a chapter is opened
   document.querySelector('.donate-section')?.classList.remove('ready');
   document.querySelector('.donate-wrapper .chapter-arrows')?.classList.remove('ready');
+  // Reset progress on home
+  try { if (progressBar) progressBar.style.width = '0%'; } catch(_) {}
   homePanel.hidden = false;
   // Keep cog visible but disable most settings; allow only theme, font family and reset (column width not useful on home)
   try { if (cogBtn) cogBtn.classList.remove('hidden'); } catch(_){ }
@@ -2184,6 +2215,9 @@
   try { hydrateCtas(); } catch(_) {}
   try { hydratePatrons(); } catch(_) {}
   }
+  // progress listeners
+  if (scrollerEl) scrollerEl.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress, { passive: true });
   function hideHome(){ if (homePanel) homePanel.hidden = true; }
   if (startBtn) startBtn.addEventListener('click', ()=> { if (CHAPTERS.length) openChapterByIndex(0); });
 
