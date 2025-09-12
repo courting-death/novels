@@ -823,7 +823,8 @@
   <p><strong>Martial Peak</strong> — The path to the Martial Peak is one of loneliness and solitude; an endless quest where the heights are bitterly cold. Only by growing through adversity, surviving on the brink, and remaining unyielding and unbending can one glimpse the ultimate Martial Dao.</p>
         <p style="margin-top:-2px; font-size:.78rem; color:var(--muted);">Reader features: adjustable font & width, line spacing, hyphenation, resume where you left off, spoiler‑safe recent list.</p>
         <div class="novel-actions">
-          <a class="btn-primary" href="?novel=martial-peak&chapter=ch0001" data-ym-goal="hub_open_martial_peak">Start Reading →</a>
+          <a class="btn-primary" href="?novel=martial-peak&chapter=ch0001" data-ym-goal="hub_open_martial_peak">Start Chapter 1 →</a>
+          <a id="hubResumeBtn" class="btn-primary" href="#" style="display:none;" data-ym-goal="hub_resume_martial_peak">Resume Reading →</a>
           <a class="btn-primary" href="?novel=martial-peak" data-ym-goal="hub_recent_martial_peak">About the book</a>
           <a class="patreon-btn" href="https://www.patreon.com/c/courting_death" target="_blank" rel="noopener" data-ym-goal="hub_cta_patreon">Get EPUBs</a>
         </div>
@@ -2146,6 +2147,15 @@
   // Hydrate hub CTAs only in hub mode
   try { hydrateCtas(); } catch(_) {}
         try { await populateHubData(); } catch(_){ }
+        // If the user has a last-read chapter, surface Resume on the hub featured card
+        try {
+          const last = localStorage.getItem('mp_lastChapterId');
+          const hubResume = document.getElementById('hubResumeBtn');
+          if (hubResume && last) {
+            hubResume.href = `?novel=martial-peak&chapter=${encodeURIComponent(last)}`;
+            hubResume.style.display = 'inline-flex';
+          }
+        } catch(_) {}
         return; // stop here in hub mode
       }
   // Sidebar title removed; no-op retained for structure
