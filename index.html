@@ -824,7 +824,7 @@
         <p style="margin-top:-2px; font-size:.78rem; color:var(--muted);">Reader features: adjustable font & width, line spacing, hyphenation, resume where you left off, spoiler‑safe recent list.</p>
         <div class="novel-actions">
           <a class="btn-primary" href="?novel=martial-peak&chapter=ch0001" data-ym-goal="hub_open_martial_peak">Start Reading →</a>
-          <a class="btn-primary" href="?novel=martial-peak" data-ym-goal="hub_recent_martial_peak">Recent Chapters</a>
+          <a class="btn-primary" href="?novel=martial-peak" data-ym-goal="hub_recent_martial_peak">About the book</a>
           <a class="patreon-btn" href="https://www.patreon.com/c/courting_death" target="_blank" rel="noopener" data-ym-goal="hub_cta_patreon">Get EPUBs</a>
         </div>
       </article>
@@ -885,7 +885,6 @@
   </section>
   <div class="app">
     <aside class="sidebar" id="sidebar">
-      <h1>Martial Peak</h1>
       <div class="chapter-search-wrap">
         <input id="chapterSearch" class="chapter-search" type="text" placeholder="Search chapters…" aria-label="Search chapters">
         <button id="chapterSearchClear" class="chapter-search-clear" aria-label="Clear search">✕</button>
@@ -2149,11 +2148,7 @@
         try { await populateHubData(); } catch(_){ }
         return; // stop here in hub mode
       }
-      // Set sidebar title based on novel/repo if provided
-      try {
-        const h1 = document.querySelector('.sidebar h1');
-        if (h1) h1.textContent = currentNovelLabel();
-      } catch(e) { /* noop */ }
+  // Sidebar title removed; no-op retained for structure
       await loadIndex();
       const q = getParam('chapter');
   if (q) openChapterById(q);
