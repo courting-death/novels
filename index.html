@@ -351,14 +351,22 @@
       gap: 12px;
       padding: 10px 14px;
       height: var(--header-h);     /* ← explicit height */
-      background: var(--surface);
+      /* Progress-aware background: left side fills as you read */
+      --read-progress: 0%;
+      background:
+        linear-gradient(to right,
+          /* very light tint of the surface so it’s unobtrusive */
+          color-mix(in oklab, var(--surface) 94%, var(--primary) 6%) 0%,
+          color-mix(in oklab, var(--surface) 94%, var(--primary) 6%) var(--read-progress),
+          var(--surface) var(--read-progress),
+          var(--surface) 100%
+        );
       border-bottom: 1px solid var(--border);
     }
   /* Ensure the chapter title can take remaining space without being clipped */
   header.site-header #chapterTitle { flex: 1 1 auto; min-width: 0; }
   /* In the header, hidden icon buttons should not reserve space */
   header.site-header .tools .icon-btn.hidden { display: none !important; }
-  /* Reading progress bar glued to header bottom */
   .header-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; pointer-events: none; }
   .header-progress .bar { width: 0%; height: 100%; background: color-mix(in oklab, var(--primary), var(--fg) 20%); transition: width .12s linear; will-change: width; }
 
@@ -918,7 +926,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09A1.65 1.65 0 0 0 11 3.09V3a2 2 0 0 1 4 0v.09c.38.16.7.46 1 1.51a1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82c.16.38.46.7 1.51 1H21a2 2 0 0 1 0 4h-.09c-.16.38-.46.7-1.51 1z"></path></svg>
           </button>
         </div>
-  <div class="header-progress" aria-hidden="true"><div class="bar" id="progressBar"></div></div>
+  
       </header>
 
       <div class="scroller">
@@ -1498,13 +1506,13 @@
   const chapterSearchEl = qs('#chapterSearch');
   const articleEl = qs('#article');
   const scrollerEl = document.querySelector('.scroller');
-  const progressBar = document.getElementById('progressBar');
+  const headerEl = document.querySelector('header.site-header');
 
   // Update reading progress based on scroller position over the article
   function updateProgress() {
-    if (!progressBar) return;
-    // If home or no article content, reset
-    if (!articleEl || !articleEl.firstChild) { progressBar.style.width = '0%'; return; }
+  if (!headerEl) return;
+  // If home or no article content, reset
+  if (!articleEl || !articleEl.firstChild) { headerEl.style.setProperty('--read-progress','0%'); return; }
     const scrollNode = scrollerEl || document.documentElement;
     const viewportH = scrollerEl ? scrollerEl.clientHeight : window.innerHeight;
     const scrollTop = scrollerEl ? scrollerEl.scrollTop : (window.pageYOffset || document.documentElement.scrollTop || 0);
@@ -1519,7 +1527,7 @@
     const denom = Math.max(1, artH - viewportH);
     const raw = scrollTop - start;
     const frac = Math.max(0, Math.min(1, raw / denom));
-    progressBar.style.width = (frac * 100).toFixed(2) + '%';
+  headerEl.style.setProperty('--read-progress', (frac * 100).toFixed(2) + '%');
   }
 
   // Inject reusable CTA buttons into all targets marked with [data-cta-target]
@@ -2213,7 +2221,7 @@
   document.querySelector('.donate-section')?.classList.remove('ready');
   document.querySelector('.donate-wrapper .chapter-arrows')?.classList.remove('ready');
   // Reset progress on home
-  try { if (progressBar) progressBar.style.width = '0%'; } catch(_) {}
+  try { if (headerEl) headerEl.style.setProperty('--read-progress','0%'); } catch(_) {}
   homePanel.hidden = false;
   // Keep cog visible but disable most settings; allow only theme, font family and reset (column width not useful on home)
   try { if (cogBtn) cogBtn.classList.remove('hidden'); } catch(_){ }
