@@ -685,7 +685,8 @@
   text-decoration: none;
   }
   .btn-primary:hover { transform: translateY(-1px); box-shadow:0 4px 10px rgba(0,0,0,.16); background: color-mix(in oklab, var(--surface), var(--fg) 6%); }
-  #chapterTitle { cursor: pointer; }
+  #chapterTitle { cursor: default; }
+  header.site-header #chapterTitle a { color: var(--link); text-decoration: underline; }
   .btn-secondary {
     background: var(--surface);
     color: var(--fg);
@@ -2053,7 +2054,13 @@
     try { document.querySelector('.donate-wrapper .chapter-arrows')?.classList.remove('ready'); } catch(_) {}
       currentIndex = i;
   const { id, title } = CHAPTERS[i];
-  titleEl.textContent = title || id;
+  try {
+    const base = new URL(window.location.href);
+    base.searchParams.delete('chapter');
+    const novelHref = `${base.pathname}?${base.searchParams.toString()}`;
+    const safeTitle = (title || id).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    titleEl.innerHTML = `<a href="${novelHref}">${currentNovelLabel()}</a> / ${safeTitle}`;
+  } catch(_) { titleEl.textContent = title || id; }
   document.title = (title || id) + ' — ' + currentNovelLabel() + ' Reader';
   try { localStorage.setItem('mp_lastChapterId', id); } catch(_){}
   try { document.dispatchEvent(new CustomEvent('chapter:opened', { detail: { id } })); } catch(_){}
@@ -2188,7 +2195,16 @@
   function showHome(){
     if (!homePanel) return;
     // Set header title to novel label (consistent with sidebar)
-    try { titleEl.textContent = currentNovelLabel(); document.title = currentNovelLabel() + ' — Reader'; } catch(_){}
+    try {
+      if (titleEl) {
+        // Build a hub link that works both on GitHub Pages and localhost.
+        // If current path ends with '/novels/index.html' or '/novels/', use that base; otherwise use current path without query.
+        const loc = new URL(window.location.href);
+        const hubHref = loc.origin + (loc.pathname.endsWith('/index.html') ? loc.pathname.replace(/index\.html$/, '') : loc.pathname);
+        titleEl.innerHTML = `<a href="${hubHref}">All novels</a> / ${currentNovelLabel()}`;
+      }
+      document.title = currentNovelLabel() + ' — Reader';
+    } catch(_){ }
   // Hide donate/comments/navigation until a chapter is opened
   document.querySelector('.donate-section')?.classList.remove('ready');
   document.querySelector('.donate-wrapper .chapter-arrows')?.classList.remove('ready');
@@ -2249,10 +2265,7 @@
     showHome();
     try { hydratePatrons(); } catch(_) {}
   }
-  if (titleEl) titleEl.addEventListener('click', () => {
-    // From novel home (no chapter) → go hub; otherwise → go in-novel home
-    if (!getParam('chapter') && (qpNovel || qpRepo)) goHub(); else goHome();
-  });
+  // Breadcrumbs will be clickable; no generic click handler on the title element
 
   // ====== Novel meta loader ======
   async function loadNovelMeta(){
