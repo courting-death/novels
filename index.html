@@ -341,6 +341,13 @@
       scrollbar-gutter: stable;         /* keeps a gutter so layout doesn’t jump */
       scroll-padding-top: var(--header-h);  /* anchors don’t hide under header */
     }
+    /* Suppress focus ring on the scroller and nearby containers (Edge sometimes paints it) */
+    .scroller:focus,
+    .scroller:focus-visible,
+    .reader:focus,
+    .reader:focus-visible,
+    #article:focus,
+    #article:focus-visible { outline: none !important; box-shadow: none !important; }
 
     header.site-header {
       position: sticky;
@@ -521,8 +528,10 @@
       box-sizing: border-box;
       max-width: 100%;                  /* allow UI to use full column width */
       margin: 0 auto;
-      /* restore comfortable side gutter on mobile, honoring safe areas */
+      outline: none; /* avoid showing a ring when we focus for keyboard scrolling */
       padding: 0px max(var(--page-gutter), env(safe-area-inset-left)) 40px max(var(--page-gutter), env(safe-area-inset-right));
+    /* Never show a focus outline on the scroller, even with keyboard */
+    .scroller:focus, .scroller:focus-visible { outline: none !important; box-shadow: none !important; }
     }
     @media (min-width: 901px){
       main.reader{ padding: 0px 24px 56px; }
@@ -931,7 +940,7 @@
   
       </header>
 
-      <div class="scroller">
+      <div class="scroller" tabindex="-1" aria-label="Chapter content">
         <main class="reader">
           <section id="homePanel" aria-labelledby="homeTitle" hidden>
             <div class="home-hero" id="homeHero">
@@ -1509,6 +1518,11 @@
   const articleEl = qs('#article');
   const scrollerEl = document.querySelector('.scroller');
   const headerEl = document.querySelector('header.site-header');
+
+  // We no longer programmatically focus the scroller to avoid Edge focus outlines.
+  // Key routing below handles PgUp/PgDn/Arrows without needing focus.
+  function focusScrollerIfNeeded() { /* no-op */ }
+  function reinforceScrollerFocus() { /* no-op */ }
 
   // Update reading progress based on scroller position over the article
   function updateProgress() {
@@ -2103,7 +2117,10 @@
   // Render comments after content injected (and after minimal UI hydration)
   scheduleGiscusRender();
   try { requestAnimationFrame(updateProgress); } catch(_) {}
-        if (scrollerEl) scrollerEl.scrollTo({ top: 0, behavior: 'auto' }); // or 'smooth'
+        if (scrollerEl) {
+          scrollerEl.scrollTo({ top: 0, behavior: 'auto' }); // or 'smooth'
+          // focus suppressed to avoid Edge focus outlines; key routing handles scrolling
+        }
       } catch (e) {
         console.error('Failed to load chapter', id, e);
   articleEl.innerHTML = ''; // silent fail
@@ -2440,6 +2457,44 @@
     });
   })();
 
+  </script>
+  <script>
+  // Route PageUp/PageDown/Home/End to the main scroller when focus isn't in an editor,
+  // and only when not inside the scroller or when overlays/modals aren't open.
+  (function() {
+    const scroller = document.querySelector('.scroller');
+    if (!scroller) return;
+    function isEditable(el){
+      if (!el) return false;
+      const tag = (el.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+      if (el.isContentEditable) return true;
+      return false;
+    }
+    function overlayOpen(){
+      return !!document.querySelector('.donate-backdrop.show, .overlay.show');
+    }
+    window.addEventListener('keydown', (e) => {
+      const k = e.key;
+      const active = document.activeElement;
+      if (overlayOpen()) return; // don't scroll background when modal/overlay is open
+      if (isEditable(active)) return;
+      const insideScroller = active && scroller.contains(active);
+      if (k === 'PageDown') {
+        if (!insideScroller) { e.preventDefault(); scroller.scrollBy({ top: scroller.clientHeight * 0.9, behavior: 'auto' }); }
+      } else if (k === 'PageUp') {
+        if (!insideScroller) { e.preventDefault(); scroller.scrollBy({ top: -scroller.clientHeight * 0.9, behavior: 'auto' }); }
+      } else if (k === 'End') {
+        if (!insideScroller) { e.preventDefault(); scroller.scrollTo({ top: scroller.scrollHeight, behavior: 'auto' }); }
+      } else if (k === 'Home') {
+        if (!insideScroller) { e.preventDefault(); scroller.scrollTo({ top: 0, behavior: 'auto' }); }
+      } else if (k === 'ArrowDown') {
+        if (!insideScroller) { e.preventDefault(); scroller.scrollBy({ top: 48, behavior: 'auto' }); }
+      } else if (k === 'ArrowUp') {
+        if (!insideScroller) { e.preventDefault(); scroller.scrollBy({ top: -48, behavior: 'auto' }); }
+      }
+    }, { passive: false });
+  })();
   </script>
 </body>
 </html>
