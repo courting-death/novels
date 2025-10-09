@@ -2479,6 +2479,8 @@
       const active = document.activeElement;
       if (overlayOpen()) return; // don't scroll background when modal/overlay is open
       if (isEditable(active)) return;
+      // Ignore if any modifier is held or if the key is auto-repeating
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.repeat) return;
       const insideScroller = active && scroller.contains(active);
       if (k === 'PageDown') {
         if (!insideScroller) { e.preventDefault(); scroller.scrollBy({ top: scroller.clientHeight * 0.9, behavior: 'auto' }); }
@@ -2492,6 +2494,24 @@
         if (!insideScroller) { e.preventDefault(); scroller.scrollBy({ top: 48, behavior: 'auto' }); }
       } else if (k === 'ArrowUp') {
         if (!insideScroller) { e.preventDefault(); scroller.scrollBy({ top: -48, behavior: 'auto' }); }
+      } else if (k === 'ArrowRight') {
+        // Next chapter
+        if (typeof currentIndex === 'number' && Array.isArray(CHAPTERS)) {
+          const next = currentIndex + 1;
+          if (next >= 0 && next < CHAPTERS.length) {
+            e.preventDefault();
+            try { openChapterByIndex(next); } catch (_) {}
+          }
+        }
+      } else if (k === 'ArrowLeft') {
+        // Previous chapter
+        if (typeof currentIndex === 'number' && Array.isArray(CHAPTERS)) {
+          const prev = currentIndex - 1;
+          if (prev >= 0 && prev < CHAPTERS.length) {
+            e.preventDefault();
+            try { openChapterByIndex(prev); } catch (_) {}
+          }
+        }
       }
     }, { passive: false });
   })();
